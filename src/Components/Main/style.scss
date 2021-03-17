@@ -1,0 +1,29 @@
+@import './sidebar.scss';
+@import './Dashboard/style.scss';
+
+.main {
+  background-color: #fcfcfe;
+  display: flex;
+  &__width--sidebar-big,
+  &__width--sidebar-smell,
+  &__width--dashboard-smell,
+  &__width--dashboard-big {
+    transition: 0.2s ease-in-out;
+  }
+
+  &__width--sidebar-big {
+    width: 18%;
+    margin-right: 1.5rem;
+  }
+  &__width--sidebar-smell {
+    width: 7%;
+    margin-right: 1.5rem;
+  }
+
+  &__width--dashboard-smell {
+    width: calc(100% - 18%);
+  }
+  &__width--dashboard-big {
+    width: calc(100% - 7%);
+  }
+}

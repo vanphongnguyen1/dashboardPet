@@ -1,0 +1,39 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    outline: none;
+}
+html {
+    font-size: 10px;
+}
+body {
+    font-size: 1.4rem;
+    font-family: 'Roboto', sans-serif;
+}
+a {
+    text-decoration: none;
+    color: inherit;
+
+    &:hover,
+    &:focus {
+      text-decoration: none;
+      color: inherit;
+    }
+}
+input, button, textarea {
+    font-family: 'Roboto', sans-serif;
+}
+ul {
+    margin: 0;
+    padding: 0
+}
+h1, h2, h3, h4, h5, h6, p {
+    margin: 0;
+    padding: 0;
+    line-height: inherit
+}
+img {
+    max-width: 100%;
+    display: block;
+}

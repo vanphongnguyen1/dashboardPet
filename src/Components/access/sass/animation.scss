@@ -1,0 +1,12 @@
+@keyframes show-pupo {
+  0% {
+    opacity: 0;
+    visibility: hidden;
+    transform: scale(0);
+  }
+  100% {
+    opacity: 0.5;
+    visibility: inherit;
+    transform: scale(1);
+  }
+}

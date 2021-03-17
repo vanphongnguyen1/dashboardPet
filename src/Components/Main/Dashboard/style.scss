@@ -1,0 +1,54 @@
+@import './rootPaper.scss';
+@import './pendingOrder.scss';
+@import './showReviews.scss';
+@import './showcustomer.scss';
+
+.dashboard {
+  padding-top: 2rem;
+  padding-right: 2rem;
+  &__row {
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+  }
+  &__box {
+    width: calc(50% - 0.5rem);
+  }
+
+  .box-half {
+    width: calc(50% - 0.5rem);
+  }
+  .box-big {
+    width: 100%;
+  }
+}
+
+
+@media (max-width: 1024px) {
+  .dashboard {
+    &__box {
+      width: calc(50% - 0.2rem);
+    }
+    .box-md-5 {
+      width: calc(100% * 5 / 12 - 0.2rem);
+    }
+
+    .box-md-7 {
+      width: calc(100% * 7 / 12 - 0.2rem);
+    }
+    .box-half {
+      width: 100%;
+    }
+  }
+}
+
+@media (max-width: 991px) {
+  .dashboard {
+    .box-sm-12 {
+      width: 100%;
+    }
+    .box-half {
+      width: calc(50% - 0.5rem);
+    }
+  }
+}

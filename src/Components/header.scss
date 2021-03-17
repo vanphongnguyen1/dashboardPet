@@ -1,0 +1,82 @@
+.header {
+  height: 5rem;
+  border: 1px solid #e0e0e3;
+  padding: 0 3rem;
+
+  &__box {
+    height: 100%;
+    display: flex;
+    justify-content: space-between;
+  }
+
+  &__sidebar {
+    border-radius: 50%;
+    padding: 1.5rem;
+
+    position: relative;
+    cursor: pointer;
+    transition: all 0.3s ease-in-out;
+
+    &:hover {
+      background-color: rgba(0, 0, 0, 0.04);
+    }
+
+    &:hover &--sub-text {
+      opacity: 0.5;
+      visibility: inherit;
+      animation: show-pupo 0.3s;
+    }
+
+    &:active::before {
+      @include background-action;
+      border-radius: 50%;
+    }
+
+    &--icon {
+      font-size: 2.2rem;
+      color: #999;
+      text-align: center;
+      transition: all 0.3s ease-in-out;
+      line-height: 2rem;
+    }
+
+    &--sub-text {
+      position: absolute;
+      left: -15px;
+      top: 110%;
+      width: 160%;
+
+      display: inline-block;
+      transform-origin: 50% top;
+      opacity: 0;
+      visibility: hidden;
+    }
+  }
+
+  &__user {
+    position: relative;
+    line-height: 5rem;
+    border-radius: 1rem;
+    padding: 0 1.2rem;
+
+    margin: 1px 0px;
+    cursor: pointer;
+    transition: all 0.3s ease-in-out;
+
+    &:hover {
+      background-color: rgba(0, 0, 0, 0.04);
+    }
+
+    &:active::before {
+      @include background-action;
+      border-radius: 1rem;
+    }
+
+    &--username {
+      display: inline-block;
+      font-size: 1.8rem;
+      font-weight: 500;
+      color: #999;
+    }
+  }
+}
