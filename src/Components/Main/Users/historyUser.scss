@@ -1,0 +1,40 @@
+.history {
+  background: #fff;
+  border: 1px solid #E0E0E3;
+  border-radius: 1rem;
+  overflow: hidden;
+  padding: 1rem;
+
+  &__title {
+    font-size: 2rem;
+    font-weight: 500;
+    text-transform: capitalize;
+    margin-bottom: 1.5rem;
+    margin-left: 1.5rem;
+  }
+
+  &__box {
+    padding: 0 1.5rem;
+    margin-bottom: 2rem;
+    display: flex;
+
+    &--icon {
+      margin-right: 2rem;
+      font-size: 1.8rem;
+      color: #C5C5C5;
+    }
+  }
+
+  &__box-text {
+    &--text {
+      display: block;
+      font-size: 1.6rem;
+      line-height: 1.4rem;
+    }
+
+    &--date {
+      display: block;
+      font-size: 1.4rem;
+    }
+  }
+}

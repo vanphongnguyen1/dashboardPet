@@ -1,0 +1,104 @@
+.box-btn {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  margin-top: 2.5rem;
+  margin-bottom: 1.5rem;
+
+  &--link {
+    margin-left: 1rem;
+    transition: all 0.3s ease-in-out;
+
+    &:hover {
+      color: #4F3CC9;
+      background-color: rgba(#000000, .03);
+    }
+  }
+}
+
+.btn {
+  &:hover {
+    color: #4F3CC9;
+  }
+
+  &__create {
+    padding: 0.7rem 1.2rem;
+    color: #4F3CC9;
+
+    &--icon {
+      margin-right: 0.5rem;
+    }
+
+    &--text {
+      font-weight: 500;
+      text-transform: uppercase;
+    }
+  }
+
+  &__delete {
+    position: relative;
+    overflow: hidden;
+    color: #F44336;
+
+    padding: 0.5rem 1rem;
+    border-radius: 5rem;
+    cursor: pointer;
+    transition: all 0.3s ease-in-out;
+
+    &:hover {
+      background-color: rgba(#F44336, .1);
+    }
+
+    &:hover:active::after {
+      @include background-action;
+      background-color: rgba(#F44336, .2);
+    }
+
+    &--icon {
+      font-size: 1.5rem;
+      margin-right: 0.6rem;
+    }
+
+    &--text {
+      font-size: 1.2rem;
+      text-transform: uppercase;
+      font-weight: 500;
+    }
+  }
+
+  &__save {
+    padding: 0.5rem 1.5rem;
+    border-radius: 5rem;
+    display: flex;
+    align-items: center;
+
+    background: #4f3cc9;
+    color: #fff;
+    cursor: pointer;
+
+    transition: all 0.3s ease-in-out;
+    position: relative;
+    overflow: hidden;
+
+    &:hover {
+      background-color: #2c1d8b;
+      box-shadow: 1px 1px 4px 2px #ccc;
+    }
+
+    &:active:after {
+      @include background-action;
+      background-color: rgba(#1e1458, .3);
+    }
+
+    &--icon {
+      font-size: 1.8rem;
+      margin-right: 0.6rem;
+    }
+
+    &--text {
+      font-size: 1.3rem;
+      font-weight: 500;
+      text-transform: uppercase;
+    }
+  }
+}

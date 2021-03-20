@@ -1,9 +1,12 @@
 @import './sidebar.scss';
 @import './Dashboard/style.scss';
+@import './Users/style.scss';
 
 .main {
   background-color: #fcfcfe;
   display: flex;
+  padding-right: 2rem;
+
   &__width--sidebar-big,
   &__width--sidebar-smell,
   &__width--dashboard-smell,
@@ -26,4 +29,10 @@
   &__width--dashboard-big {
     width: calc(100% - 7%);
   }
+}
+
+.translateY-ux {
+  transform: translateY(0);
+  opacity: 1;
+  visibility: visible;
 }

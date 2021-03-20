@@ -1,3 +1,23 @@
 .active-rotatez {
   transform: rotateZ(180deg);
 }
+
+.icon-edit {
+  color: #1890FF;
+  font-size: 1.7rem;
+  cursor: pointer;
+  padding: 0 1.5rem;
+  border-radius: 5rem;
+  position: relative;
+  overflow: hidden;
+  transition: all 0.3s ease-in-out;
+
+  &:hover {
+    background-color: rgba(#1890FF, .05);
+  }
+
+  &:hover:active::after {
+    @include background-action;
+    background-color: rgba(#1890FF, .2);
+  }
+}

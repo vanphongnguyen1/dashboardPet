@@ -1,0 +1,52 @@
+.box-delete {
+  padding: 1.5rem 2rem;
+  background-color: #E9E7F8;
+  transform: translateY(75px);
+
+  opacity: 0;
+  visibility: hidden;
+  transition: all 0.3s ease-in-out;
+
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 5.2rem;
+
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  &__title {
+    display: flex;
+    align-items: center;
+
+    &--icon {
+      position: relative;
+      font-size: 1.5rem;
+      margin-right: 0.6rem;
+      color: #6B6A72;
+
+      padding: 1rem;
+      border-radius: 50%;
+      line-height: 1rem;
+
+      overflow: hidden;
+      cursor: pointer;
+      transition: all 0.3s ease-in-out;
+
+      &:hover {
+        background-color: rgba(#000000, .05);
+      }
+
+      &:hover:active::after {
+        @include background-action;
+      }
+    }
+
+    &--text {
+      color: #633CCC;
+      font-size: 1.5rem;
+    }
+  }
+}
