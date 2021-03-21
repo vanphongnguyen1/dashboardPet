@@ -1,6 +1,6 @@
 export const Create = () => {
   return (
-    <span className="btn btn__create">
+    <span className="btn__create">
       <span className="btn__create--icon fas fa-plus" />
       <span className="btn__create--text">Create</span>
     </span>

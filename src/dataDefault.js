@@ -1,35 +1,45 @@
+export const DASHBOARD = 'Dashboard'
+export const ORDERS = 'Orders'
+export const CUSTOMERS = 'Customers'
+export const PRODUCTPORFOLIO = 'Product portfolio'
+export const PRODUCTS = 'Products'
+export const COMMENTS = 'Comments'
+export const SETTING = 'Setting'
+export const LOGOUT = 'Logout'
+export const CREACT = 'creact'
+export const EDIT = 'edit'
 
 export const MENU = [
   {
     icon: 'fas fa-th-large',
-    title: 'Dashboard'
+    title: DASHBOARD
   },
   {
     icon: 'fas fa-shopping-cart',
-    title: 'Orders'
+    title: ORDERS
   },
   {
     icon: 'fas fa-user-friends',
-    title: 'Customers'
+    title: CUSTOMERS
   },
   {
     icon: 'fas fa-book',
-    title: 'product portfolio'
+    title: PRODUCTPORFOLIO
   },
   {
     icon: 'fas fa-tags',
-    title: 'Products'
+    title: PRODUCTS
   },
   {
     icon: 'fas fa-comment-alt-lines',
-    title: 'New Comments'
+    title: COMMENTS
   },
   {
     icon: 'fas fa-cog',
-    title: 'Setting'
+    title: SETTING
   },
   {
     icon: 'fas fa-sign-out-alt',
-    title: 'Logout'
+    title: LOGOUT
   },
 ]

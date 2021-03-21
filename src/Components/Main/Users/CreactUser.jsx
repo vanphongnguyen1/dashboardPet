@@ -1,18 +1,15 @@
 // import { useState } from 'react'
 import FormUser from './FormUser'
-import HistoryUser from './HistoryUser'
+// import HistoryUser from './HistoryUser'
 
-const EditUser = () => {
+const CreactUser = () => {
 
   return (
     <>
       <div className="edit-user">
         <div className="box-row">
-          <div className="box-8">
+          <div className="box-6">
             <FormUser />
-          </div>
-          <div className="box-4">
-            <HistoryUser />
           </div>
         </div>
       </div>
@@ -20,4 +17,4 @@ const EditUser = () => {
   )
 }
 
-export default EditUser
+export default CreactUser

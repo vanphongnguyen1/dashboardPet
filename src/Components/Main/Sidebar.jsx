@@ -3,6 +3,7 @@ import { useContext } from 'react'
 import { ContextTasks } from '../Context'
 import { MENU } from '../../dataDefault'
 import PupoSubText from '../PopuSubText'
+import { NavLink } from 'react-router-dom'
 
 const Sidebar = () => {
   const valueContext = useContext(ContextTasks)
@@ -15,7 +16,12 @@ const Sidebar = () => {
           MENU.map((item, index) => {
             return (
               <li className="sidebar__item" key={index}>
-                <a href="#a" className="sidebar__link">
+                <NavLink
+                  to={`/${item.title.toLowerCase()}`}
+                  activeClassName="active-nav"
+                  className="sidebar__link"
+                  exact
+                >
                   <span className={`sidebar__link--icon ${item.icon}`} />
                   {
                     !unOutLine ? (
@@ -28,7 +34,7 @@ const Sidebar = () => {
                       </span>
                     )
                   }
-                </a>
+                </NavLink>
               </li>
             )
           })

@@ -4,6 +4,8 @@
 @import './showcustomer.scss';
 
 .dashboard {
+  margin: 3rem 0;
+
   &__row {
     display: flex;
     justify-content: space-between;

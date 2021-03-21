@@ -2,28 +2,33 @@
   display: flex;
   align-items: center;
   justify-content: flex-end;
-  margin-top: 2.5rem;
-  margin-bottom: 1.5rem;
+  margin-top: 3rem;
+  margin-bottom: 0.5rem;
 
   &--link {
     margin-left: 1rem;
     transition: all 0.3s ease-in-out;
-
-    &:hover {
-      color: #4F3CC9;
-      background-color: rgba(#000000, .03);
-    }
   }
 }
 
 .btn {
-  &:hover {
-    color: #4F3CC9;
-  }
-
   &__create {
-    padding: 0.7rem 1.2rem;
+    padding: 1rem 1.2rem;
     color: #4F3CC9;
+    position: relative;
+    border-radius: 0.5rem;
+
+    overflow: hidden;
+    transition: all 0.3s ease-in-out;
+    display: inline-block;
+
+    &:hover {
+      background-color: rgba(0, 0, 0, 0.04);
+    }
+
+    &:hover:active::after {
+      @include background-action;
+    }
 
     &--icon {
       margin-right: 0.5rem;

@@ -1,26 +1,48 @@
 import { useContext } from 'react'
 import Sidebar from './Sidebar'
-// import Dashboard from './Dashboard/index'
-// import Users from './Users'
-import EditUser from './Users/EditUser'
+import ScrollToTop from '../../Components/ScrollToTop'
 import { ContextTasks } from '../Context'
+import {
+  BrowserRouter as Router,
+  Switch,
+  Route
+} from "react-router-dom"
+import { routes } from '../../routers'
 
 const Main = () => {
   const valueContext = useContext(ContextTasks)
   const { unOutLine } = valueContext
 
   return (
-    <div className="main">
-      <div className={!unOutLine ?"main__width--sidebar-big" : 'main__width--sidebar-smell'}>
-        <Sidebar />
-      </div>
+    <Router>
+      <ScrollToTop />
 
-      <div className={!unOutLine ? "main__width--dashboard-smell" : 'main__width--dashboard-big'}>
-        {/* <Dashboard /> */}
-        {/* <Users /> */}
-        <EditUser />
+      <div className="main">
+        <div className={!unOutLine ?"main__width--sidebar-big" : 'main__width--sidebar-smell'}>
+          <Sidebar />
+        </div>
+
+        <div className={!unOutLine ? "main__width--dashboard-smell" : 'main__width--dashboard-big'}>
+          {/* <Dashboard /> */}
+          {/* <Users /> */}
+          {/* <EditUser /> */}
+          {/* <CreactUser /> */}
+          <Switch>
+            {
+              routes.map((item, index) => {
+                return <Route
+                  path={item.path}
+                  exact={item.exact}
+                  component={item.main}
+                  key={index}
+                />
+              })
+            }
+          </Switch>
+        </div>
       </div>
-    </div>
+    </Router>
+
   )
 }
 
