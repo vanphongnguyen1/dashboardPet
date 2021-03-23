@@ -5,11 +5,11 @@ import CreactUser from './Components/Main/Users/CreactUser'
 import EditUser from './Components/Main/Users/EditUser'
 
 export const routes = [
-  {
-    path: '/',
-    exact: true,
-    main: ({ match }) => <Dashboard match={match}/>
-  },
+  // {
+  //   path: '/',
+  //   exact: true,
+  //   main: ({ match }) => <Dashboard match={match}/>
+  // },
   {
     path: '/dashboard',
     exact: true,

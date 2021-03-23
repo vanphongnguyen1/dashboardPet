@@ -43,7 +43,7 @@
 
           top: 50%;
           transform: translateY(-50%);
-          left: 3%;
+          left: 1rem;
           color: #707070;
           transition: all 0.25s ease-in-out;
 
@@ -51,13 +51,17 @@
 
         &__input {
           width: 100%;
-          border: none;
-          border-bottom: 1px solid #8E8E8E;
-          border-radius: 1rem 1rem 0 0;
+          font-weight: 500;
+          font-size: 1.6rem;
 
           padding: 3px 1rem;
           padding-top: 2.5rem;
           background-color: #F5F5F5;
+
+          border: none;
+          border-bottom: 1px solid #8E8E8E;
+          border-radius: 1rem 1rem 0 0;
+
           transition: all 0.3s ease-in-out;
           cursor: pointer;
 
@@ -99,7 +103,7 @@
         }
 
         .label-input-value {
-          padding-top: 0.7rem;
+          padding-top: 0.5rem;
           top: 0;
           transform: translateY(0);
           font-size: 1.2rem;

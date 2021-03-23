@@ -1,25 +1,27 @@
 import { useState, useEffect } from 'react'
 import { Table, Space } from 'antd'
 import { EditOutlined } from '@ant-design/icons'
-import axios from 'axios'
-import { url } from '../../../url'
+// import axios from 'axios'
+// import { url } from '../../../url'
 import { Create } from '../../Btn'
 import BoxItemDele from '../../BoxItemDele'
 import { CUSTOMERS, EDIT, CREACT} from '../../../dataDefault'
 import { useGetColumnSearchProps } from '../../access/logic/searchColumn'
 import { Link } from 'react-router-dom'
+import { useDispatch, useSelector } from 'react-redux'
+import { fetchUsers } from '../../../features/Users/userSlice'
 
 const Users = () => {
   const init = [];
-  const [data, setData] = useState(init)
-  const [selectedRowKeys, setSelectedRowKeys] = useState([])
+  // const [data, setData] = useState(init)
+  const [selectedRowKeys, setSelectedRowKeys] = useState(init)
+
+  const dispatch = useDispatch()
+  const dataUsers = useSelector(state => state.users)
 
   useEffect(() => {
-    axios.get(`${url}/users`).then(response => {
-      const { data } = response.data
-      setData(data)
-    })
-  }, [])
+    dispatch(fetchUsers())
+  }, [dispatch])
 
   const onSelectChange = (index, item) => {
     setSelectedRowKeys(item)
@@ -148,10 +150,10 @@ const Users = () => {
         rowKey="id"
         rowSelection={{...rowSelection}}
         columns={columns}
-        dataSource={data}
+        dataSource={Array.isArray(dataUsers.list) ? dataUsers.list : [dataUsers.list]}
         onRow={(record, rowIndex) => {
           return {
-            onClick: () => onClickRow(record)
+            onClick: () => dispatch(fetchUsers(record.id))
           }
         }}
         />

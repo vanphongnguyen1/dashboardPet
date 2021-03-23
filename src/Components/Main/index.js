@@ -5,7 +5,8 @@ import { ContextTasks } from '../Context'
 import {
   BrowserRouter as Router,
   Switch,
-  Route
+  Route,
+  Redirect
 } from "react-router-dom"
 import { routes } from '../../routers'
 
@@ -28,6 +29,7 @@ const Main = () => {
           {/* <EditUser /> */}
           {/* <CreactUser /> */}
           <Switch>
+            <Redirect exact from="/" to="/dashboard" />
             {
               routes.map((item, index) => {
                 return <Route

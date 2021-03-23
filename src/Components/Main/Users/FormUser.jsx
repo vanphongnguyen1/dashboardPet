@@ -1,8 +1,10 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { Delete, Save } from '../../Btn'
+import { useSelector } from 'react-redux'
+
 
 const FormUser = () => {
-  // const { user } = props
+  const data = useSelector(state => state.users.list)
 
   const init = {
     name: {
@@ -32,11 +34,29 @@ const FormUser = () => {
     }
   }
 
-  // if (init) {
-  //   console.log('aaa')
-  // } else
-
   const [state, setState] = useState(init)
+
+  useEffect(() => {
+    setState({
+      ...state,
+      name: {
+        ...state.name,
+        value: data.name
+      },
+      email: {
+        ...state.email,
+        value: data.email
+      },
+      phone: {
+        ...state.phone,
+        value: data.phone
+      },
+      address: {
+        ...state.address,
+        value: data.address
+      },
+    })
+  }, [data])
 
   const handleOnBlur = e => {
     const ele = e.target
@@ -77,8 +97,6 @@ const FormUser = () => {
       }
     })
   }
-
-  console.log(state)
 
   return (
     <div className="info-user">
@@ -131,7 +149,7 @@ const FormUser = () => {
                 ? 'group__input valide-input'
                 : 'group__input'
               }
-              value={ state.email.value.trim() }
+              value={ state.email.value }
               onBlur={handleOnBlur}
               onChange={handleOnChange}
             />
