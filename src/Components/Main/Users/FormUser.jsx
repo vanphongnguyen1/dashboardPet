@@ -1,29 +1,30 @@
-import { useState, useEffect } from 'react'
+import { useState } from 'react'
 import { Delete, Save } from '../../Btn'
 import { useSelector } from 'react-redux'
-
+import { customAxiosApi } from '../../../customAxiosApi'
+import { REGEX } from '../../../dataDefault'
 
 const FormUser = () => {
-  const data = useSelector(state => state.users.list)
+  const data = useSelector(state => state.users)
 
   const init = {
     name: {
-      value: '',
+      value: data.loading === 'success' ? data.list.name : '',
       isInputValida: false,
       errorMessage: ''
     },
     email: {
-      value: '',
+      value: data.loading === 'success' ? data.list.email : '',
       isInputValida: false,
       errorMessage: ''
     },
     phone: {
-      value: '',
+      value: data.loading === 'success' ? data.list.phone : '',
       isInputValida: false,
       errorMessage: ''
     },
     address: {
-      value: '',
+      value: data.loading === 'success' ? data.list.address : '',
       isInputValida: false,
       errorMessage: ''
     },
@@ -31,32 +32,18 @@ const FormUser = () => {
       value: '',
       isInputValida: false,
       errorMessage: ''
+    },
+    confirmPassword: {
+      value: '',
+      isInputValida: false,
+      errorMessage: ''
+    },
+    role: {
+      value: 0
     }
   }
 
   const [state, setState] = useState(init)
-
-  useEffect(() => {
-    setState({
-      ...state,
-      name: {
-        ...state.name,
-        value: data.name
-      },
-      email: {
-        ...state.email,
-        value: data.email
-      },
-      phone: {
-        ...state.phone,
-        value: data.phone
-      },
-      address: {
-        ...state.address,
-        value: data.address
-      },
-    })
-  }, [data])
 
   const handleOnBlur = e => {
     const ele = e.target
@@ -71,7 +58,6 @@ const FormUser = () => {
           errorMessage: ''
         }
       })
-
     } else {
       setState({
         ...state,
@@ -98,9 +84,71 @@ const FormUser = () => {
     })
   }
 
+  const handleSubmit = () => {
+    if ( !REGEX.EMAIL.test(state.email.value) ) {
+      setState({
+        ...state,
+        email: {
+          ...state.email,
+          errorMessage: 'Bạn nhập sai Email !',
+          isInputValida: true,
+        }
+      })
+
+      return
+    }
+
+    if ( !REGEX.PHONE.test(state.phone.value) ) {
+      setState({
+        ...state,
+        phone: {
+          ...state.phone,
+          errorMessage: 'Số điện thoại gồm 10 số và đầu là 09|03|08|05|07',
+          isInputValida: true,
+        }
+      })
+
+      return
+    }
+
+    if ( !(state.confirmPassword.value === state.password.value) ) {
+      setState({
+        ...state,
+        confirmPassword: {
+          ...state.confirmPassword,
+          errorMessage: 'Bạn nhập sai mật khẩu',
+          isInputValida: true,
+        }
+      })
+
+      return
+    }
+
+    // for ( let key in state) {
+    //   if (key.isInputValida) return
+    // }
+
+    console.log(state)
+
+    // customAxiosApi.post('/users', {
+    //   name: 'Fred',
+    //   email: 'vanpoasn@gmail.com',
+    //   phone: '033451321',
+    //   address: 'Ca Mau',
+    //   password: '123',
+    //   role: 0
+    // })
+    // .then(function (response) {
+    //   console.log(response);
+    // })
+    // .catch(function (error) {
+    //   console.log(error);
+    // })
+  }
+
   return (
     <div className="info-user">
-      <form action="" className="info-user__form">
+      <form className="info-user__form" onSubmit={ handleSubmit }>
         <div className="identity">
           <p className="identity__title">identity</p>
 
@@ -108,10 +156,14 @@ const FormUser = () => {
             <input
               type="text"
               name="name"
-              className={ state.name.isInputValida
-                ? 'group__input valide-input'
-                : 'group__input'
-              }
+              className={`
+                group__input
+                ${
+                  state.name.isInputValida
+                  ? 'valide-input'
+                  : ''
+                }
+              `}
               value={ state.name.value }
               onBlur={handleOnBlur}
               onChange={handleOnChange}
@@ -119,16 +171,20 @@ const FormUser = () => {
 
             <label
               htmlFor=""
-              className={
-                state.name.value
-                ? 'group__label label-input-value'
-                : state.name.isInputValida
-                ? 'group__label valide-label'
-                : 'group__label'
-              }
+              className={`
+                group__label
+                ${
+                  state.name.value
+                  ? 'label-input-value'
+                  : state.name.isInputValida
+                  ? 'valide-label'
+                  : ''
+                }
+              `}
             >
               UserName *
             </label>
+
             {
               state.name.isInputValida ? (
                 <span className="group__valide" >
@@ -138,17 +194,20 @@ const FormUser = () => {
                 <span className="pseudo-input" />
               )
             }
-
           </div>
 
           <div className="group">
             <input
               type="text"
               name="email"
-              className={ state.email.isInputValida
-                ? 'group__input valide-input'
-                : 'group__input'
-              }
+              className={`
+                group__input
+                ${
+                  state.email.isInputValida
+                  ? 'valide-input'
+                  : ''
+                }
+              `}
               value={ state.email.value }
               onBlur={handleOnBlur}
               onChange={handleOnChange}
@@ -156,13 +215,18 @@ const FormUser = () => {
 
             <label
               htmlFor=""
-              className={
-                state.email.value
-                ? 'group__label label-input-value'
-                : state.email.isInputValida
-                ? 'group__label valide-label'
-                : 'group__label'
-              }
+              className={`
+                group__label
+                ${
+                  state.email.value && state.email.isInputValida
+                  ? 'label-input-value valide-label'
+                  : state.email.value
+                  ? 'label-input-value'
+                  : state.email.isInputValida
+                  ? 'valide-label'
+                  : ''
+                }
+              `}
             >
               Email *
             </label>
@@ -182,10 +246,14 @@ const FormUser = () => {
             <input
               type="text"
               name="phone"
-              className={ state.phone.isInputValida
-                ? 'group__input valide-input'
-                : 'group__input'
-              }
+              className={`
+                group__input
+                ${
+                  state.phone.isInputValida
+                  ? 'valide-input'
+                  : ''
+                }
+              `}
               value={ state.phone.value }
               onBlur={handleOnBlur}
               onChange={handleOnChange}
@@ -193,16 +261,22 @@ const FormUser = () => {
 
             <label
               htmlFor=""
-              className={
-                state.phone.value
-                ? 'group__label label-input-value'
-                : state.phone.isInputValida
-                ? 'group__label valide-label'
-                : 'group__label'
-              }
+              className={`
+                group__label
+                ${
+                  state.phone.value && state.phone.isInputValida
+                  ? 'label-input-value valide-label'
+                  : state.phone.value
+                  ? 'label-input-value'
+                  : state.phone.isInputValida
+                  ? 'valide-label'
+                  : ''
+                }
+              `}
             >
               Phone Number *
             </label>
+
             {
               state.phone.isInputValida ? (
                 <span className="group__valide" >
@@ -212,7 +286,6 @@ const FormUser = () => {
                 <span className="pseudo-input" />
               )
             }
-
           </div>
         </div>
 
@@ -223,10 +296,14 @@ const FormUser = () => {
             <input
               type="text"
               name="address"
-              className={ state.address.isInputValida
-                ? 'group__input valide-input'
-                : 'group__input'
-              }
+              className={`
+                group__input
+                ${
+                  state.address.isInputValida
+                  ? 'valide-input'
+                  : ''
+                }
+              `}
               value={ state.address.value }
               onBlur={handleOnBlur}
               onChange={handleOnChange}
@@ -234,16 +311,20 @@ const FormUser = () => {
 
             <label
               htmlFor=""
-              className={
-                state.address.value
-                ? 'group__label label-input-value'
-                : state.address.isInputValida
-                ? 'group__label valide-label'
-                : 'group__label'
-              }
+              className={`
+                group__label
+                ${
+                  state.address.value
+                  ? 'label-input-value'
+                  : state.address.isInputValida
+                  ? 'valide-label'
+                  : ''
+                }
+              `}
             >
               Street Address *
             </label>
+
             {
               state.address.isInputValida ? (
                 <span className="group__valide" >
@@ -253,7 +334,6 @@ const FormUser = () => {
                 <span className="pseudo-input" />
               )
             }
-
           </div>
         </div>
 
@@ -264,35 +344,94 @@ const FormUser = () => {
             <input
               type="password"
               name="password"
-              className='group__input'
+              className={`
+                group__input
+                ${
+                  state.password.isInputValida
+                  ? 'valide-input'
+                  : ''
+                }
+              `}
               value={ state.password.value }
               onChange={handleOnChange}
             />
 
             <label
               htmlFor=""
-              className={
-                state.password.value
-                ? 'group__label label-input-value'
-                : 'group__label'
-              }
+              className={`
+                group__label
+                ${
+                  state.password.value
+                  ? 'label-input-value'
+                  : state.password.isInputValida
+                  ? 'valide-label'
+                  : ''
+                }
+              `}
             >
               New password
             </label>
 
-            <span className="pseudo-input" />
+            {
+              state.password.isInputValida ? (
+                <span className="group__valide" >
+                  { state.password.errorMessage}
+                </span>
+              ) : (
+                <span className="pseudo-input" />
+              )
+            }
           </div>
 
           <div className="group">
-            <input type="text" className="group__input"/>
-            <label htmlFor="" className="group__label">Confirm password</label>
-            <span className="pseudo-input" />
+            <input
+              type="password"
+              name="confirmPassword"
+              value={state.confirmPassword.value}
+              className={`
+                group__input
+                ${
+                  state.confirmPassword.isInputValida
+                  ? 'valide-input'
+                  : ''
+                }
+              `}
+              onChange={handleOnChange}
+            />
+
+            <label
+              htmlFor=""
+              className={`
+                group__label
+                ${
+                  state.confirmPassword.value && state.confirmPassword.isInputValida
+                  ? 'label-input-value valide-label'
+                  : state.confirmPassword.value
+                  ? 'label-input-value'
+                  : state.confirmPassword.isInputValida
+                  ? 'valide-label'
+                  : ''
+                }
+              `}
+            >
+              Confirm password
+            </label>
+
+            {
+              state.confirmPassword.isInputValida ? (
+                <span className="group__valide" >
+                  { state.confirmPassword.errorMessage}
+                </span>
+              ) : (
+                <span className="pseudo-input" />
+              )
+            }
           </div>
         </div>
 
         <div className="box-submit">
           <div className="box-row">
-            <div className="box-submit__save">
+            <div className="box-submit__save" onClick={ handleSubmit }>
               <Save />
             </div>
             <div className="box-submit__delete">

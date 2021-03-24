@@ -4,10 +4,21 @@ import { ContextTasks } from '../Context'
 import { MENU } from '../../dataDefault'
 import PupoSubText from '../PopuSubText'
 import { NavLink } from 'react-router-dom'
+import { useDispatch } from 'react-redux'
+import { fetchData } from '../../features/Users/userSlice'
 
 const Sidebar = () => {
+  const dispatch = useDispatch()
   const valueContext = useContext(ContextTasks)
   const { unOutLine } = valueContext
+
+  // useEffect(() => {
+
+  // }, [dispatch])
+
+  const handleNavLink = text => {
+    dispatch(fetchData(text))
+  }
 
   return (
     <div className="sidebar">
@@ -21,6 +32,7 @@ const Sidebar = () => {
                   activeClassName="active-nav"
                   className="sidebar__link"
                   exact
+                  onClick={ () => handleNavLink(item.title.toLowerCase()) }
                 >
                   <span className={`sidebar__link--icon ${item.icon}`} />
                   {

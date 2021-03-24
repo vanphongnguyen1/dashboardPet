@@ -16,17 +16,17 @@ export const routes = [
     main: ({ match }) => <Dashboard match={match}/>
   },
   {
-    path: '/customers',
+    path: '/users',
     exact: true,
     main: ({ match }) => <Users match={match}/>
   },
   {
-    path: '/customers/creact',
+    path: '/users/creact',
     exact: true,
     main: ({ match }) => <CreactUser match={match}/>
   },
   {
-    path: '/customers/edit',
+    path: '/users/edit',
     exact: true,
     main: ({ match }) => <EditUser match={match}/>
   },

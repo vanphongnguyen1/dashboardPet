@@ -1,6 +1,6 @@
 export const DASHBOARD = 'Dashboard'
 export const ORDERS = 'Orders'
-export const CUSTOMERS = 'Customers'
+export const CUSTOMERS = 'Users'
 export const PRODUCTPORFOLIO = 'Product portfolio'
 export const PRODUCTS = 'Products'
 export const COMMENTS = 'Comments'
@@ -8,6 +8,11 @@ export const SETTING = 'Setting'
 export const LOGOUT = 'Logout'
 export const CREACT = 'creact'
 export const EDIT = 'edit'
+
+export const REGEX = {
+  EMAIL: /^[a-zA-Z0-9]+@+[a-zA-Z0-9]+.+[A-z]/,
+  PHONE: /(09|03|08|05|07)+([0-9]{8})\b/,
+}
 
 export const MENU = [
   {
