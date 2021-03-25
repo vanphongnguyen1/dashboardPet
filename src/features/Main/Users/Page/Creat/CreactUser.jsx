@@ -1,15 +1,15 @@
 // import { useState } from 'react'
-import FormUser from './FormUser'
+import FormUser from '../Form/FormUser'
 // import HistoryUser from './HistoryUser'
 
-const CreactUser = () => {
+const CreactUser = ({ match }) => {
 
   return (
     <>
       <div className="edit-user">
         <div className="box-row">
           <div className="box-6">
-            <FormUser />
+            <FormUser url={match.url}/>
           </div>
         </div>
       </div>

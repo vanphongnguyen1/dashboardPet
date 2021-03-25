@@ -2,7 +2,7 @@ import RootPaper from './RootPaper'
 import PendingOrder from './PendingOrder'
 import ShowReviews from './ShowReviews'
 import ShowCustomers from './ShowCustomers'
-import { Tablet } from '../../responsive'
+import { Tablet } from '../../../Components/responsive'
 
 const Dashboard = () => {
   return (

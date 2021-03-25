@@ -1,8 +1,8 @@
 import React from 'react'
-import Dashboard from './Components/Main/Dashboard'
-import Users from './Components/Main/Users'
-import CreactUser from './Components/Main/Users/CreactUser'
-import EditUser from './Components/Main/Users/EditUser'
+import Dashboard from './features/Main/Dashboard'
+import Users from './features/Main/Users/Page'
+import CreactUser from './features/Main/Users/Page/Creat/CreactUser'
+import EditUser from './features/Main/Users/Page/Edit/EditUser'
 
 export const routes = [
   // {
@@ -21,7 +21,7 @@ export const routes = [
     main: ({ match }) => <Users match={match}/>
   },
   {
-    path: '/users/creact',
+    path: '/users/creat',
     exact: true,
     main: ({ match }) => <CreactUser match={match}/>
   },

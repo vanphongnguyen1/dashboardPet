@@ -1,4 +1,4 @@
-import Avarta from '../../Avarta'
+import Avarta from '../../../Components/Avarta'
 
 const ShowCustomers = () => {
   return (

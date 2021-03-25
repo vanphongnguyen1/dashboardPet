@@ -1,20 +1,27 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { Table, Space } from 'antd'
 import { EditOutlined } from '@ant-design/icons'
-import { Create } from '../../Btn'
-import BoxItemDele from '../../BoxItemDele'
-import { CUSTOMERS, EDIT, CREACT} from '../../../dataDefault'
-import { useGetColumnSearchProps } from '../../access/logic/searchColumn'
+import { Create } from '../../../../Components/Btn'
+import BoxItemDele from '../../../../Components/BoxItemDele'
+import { CUSTOMERS, EDIT, CREACT} from '../../../../dataDefault'
+import { useGetColumnSearchProps } from '../../../../Components/access/logic/searchColumn'
 import { Link } from 'react-router-dom'
 import { useSelector, useDispatch } from 'react-redux'
-import { fetchData } from '../../../features/Users/userSlice'
+import { fetchUsers } from '../userSlice'
+import Loading from '../../../../Components/Loading'
+import { customAxiosApi }  from '../../../../customAxiosApi'
 
 const Users = ({ match }) => {
-  const init = []
+
   const url = match.url.slice(1)
   const dispatch = useDispatch()
+  const isLoading = useSelector(state => state.users)
 
-  const [selectedRowKeys, setSelectedRowKeys] = useState(init)
+  useEffect(() => {
+    dispatch(fetchUsers(url))
+  }, [dispatch, url])
+
+  const [selectedRowKeys, setSelectedRowKeys] = useState([])
   const dataUsers = useSelector(state => state.users)
 
   const onSelectChange = (index, item) => {
@@ -23,7 +30,7 @@ const Users = ({ match }) => {
 
   const rowSelection = {
     onChange: onSelectChange,
-  };
+  }
 
   const columns = [
     {
@@ -117,37 +124,59 @@ const Users = ({ match }) => {
     },
   ]
 
+  const handleDeleteSelect = () => {
+    selectedRowKeys.forEach(item => {
+      customAxiosApi.delete(`${url}/${item.id}`)
+      .then(response => {
+        console.log(response.data)
+      })
+    })
+
+    dispatch(fetchUsers(url))
+  }
+
   return (
-    <div className="users">
-      <div className="box-btn">
-        <Link
-          to={`/${CUSTOMERS.toLowerCase()}/${CREACT.toLowerCase()}`}
-          className="box-btn--link"
-        >
-          <Create />
-        </Link>
+    <>
+      {
+        isLoading.loading === 'success'
+          ? (
+            <div className="users">
+              <div className="box-btn">
+                <Link
+                  to={`/${CUSTOMERS.toLowerCase()}/${CREACT.toLowerCase()}`}
+                  className="box-btn--link"
+                >
+                  <Create />
+                </Link>
 
-        <Link
-          to={`/${CUSTOMERS.toLowerCase()}/${CREACT.toLowerCase()}`}
-          className="box-btn--link"
-        >
-          <Create />
-        </Link>
-      </div>
+                <Link
+                  to={`/${CUSTOMERS.toLowerCase()}/${CREACT.toLowerCase()}`}
+                  className="box-btn--link"
+                >
+                  <Create />
+                </Link>
+              </div>
 
-      <BoxItemDele items = {selectedRowKeys}/>
-      <Table
-        rowKey="id"
-        rowSelection={{...rowSelection}}
-        columns={columns}
-        dataSource={ dataUsers.list }
-        onRow={(record, rowIndex) => {
-          return {
-            onClick: () => dispatch(fetchData(`${url}/${record.id}`))
-          }
-        }}
-      />
-    </div>
+              <BoxItemDele
+                items={selectedRowKeys}
+                onClick={handleDeleteSelect}
+              />
+
+              <Table
+                rowKey="id"
+                rowSelection={rowSelection}
+                columns={columns}
+                dataSource={ dataUsers.list }
+                onRow={(record, rowIndex) => {
+                  return {
+                    onClick: () => dispatch(fetchUsers(`${url}/${record.id}`))
+                  }
+                }}
+              />
+            </div>
+          ) : <Loading />
+      }
+    </>
   )
 }
 

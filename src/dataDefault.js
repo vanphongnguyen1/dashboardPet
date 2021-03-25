@@ -6,7 +6,7 @@ export const PRODUCTS = 'Products'
 export const COMMENTS = 'Comments'
 export const SETTING = 'Setting'
 export const LOGOUT = 'Logout'
-export const CREACT = 'creact'
+export const CREACT = 'creat'
 export const EDIT = 'edit'
 
 export const REGEX = {
