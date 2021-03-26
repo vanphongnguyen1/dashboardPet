@@ -8,7 +8,7 @@ const CreactUser = ({ match }) => {
     <>
       <div className="edit-user">
         <div className="box-row">
-          <div className="box-6">
+          <div className="box-6 box-md-10 box-sm-12">
             <FormUser url={match.url}/>
           </div>
         </div>

@@ -1,26 +1,33 @@
 import { useState } from 'react'
+import { TITLE_MENU, EDIT, CREAT } from '../../../../../dataDefault'
 import { Delete, Save } from '../../../../../Components/Btn'
-import { useSelector } from 'react-redux'
+import { useSelector, useDispatch } from 'react-redux'
+import { defaultUsers } from '../../asyncThunk/userSlice'
 import { customAxiosApi } from '../../../../../customAxiosApi'
 import { REGEX } from '../../../../../dataDefault'
 import { Input } from '../../../../../Components/Form/Input'
 import { Lable } from '../../../../../Components/Form/Lable'
 import { ValidaError } from '../../../../../Components/Form/ValidaError'
 import { openMessage } from '../../../../../Components/openMessage'
-import { Link } from 'react-router-dom'
+import DelayLink from '../../../../../Components/DelayLink'
 
 const FormUser = ({ url }) => {
-  const dataStore = useSelector(state => state.users)
+  const dispatch = useDispatch()
+  const dataUsers = useSelector(state => state.users)
+  const textUsers = TITLE_MENU.USERS.toLowerCase()
+
   const urlConvert = url.split('/')
+  const isRequitEdit = urlConvert[urlConvert.length - 1] === EDIT
+  const isRequitCreat = urlConvert[urlConvert.length - 1] === CREAT
 
   const initialValue = {
-    name: dataStore.loading === 'success' ? dataStore.list.name : '',
-    email: dataStore.loading === 'success' ? dataStore.list.email : '',
-    phone: dataStore.loading === 'success' ? dataStore.list.phone : '',
-    address: dataStore.loading === 'success' ? dataStore.list.address : '',
-    password: dataStore.loading === 'success' ? dataStore.list.password : '',
+    name: isRequitEdit ? dataUsers.list.name : '',
+    email: isRequitEdit ? dataUsers.list.email : '',
+    phone: isRequitEdit ? dataUsers.list.phone : '',
+    address: isRequitEdit ? dataUsers.list.address : '',
+    password: isRequitEdit ? dataUsers.list.password : '',
     confirmPassword: '',
-    role: dataStore.loading === 'success' ? dataStore.list.role : 0,
+    role: isRequitEdit ? dataUsers.list.role : '0',
   }
 
   const initialErMes = {
@@ -71,16 +78,13 @@ const FormUser = ({ url }) => {
       newValidate.phone = 'Số điện thoại gồm 10 số và đầu là 09|03|08|05|07'
     }
 
-    if (
-      urlConvert[urlConvert.length - 1] === 'creat'
-      && !(state.confirmPassword === state.password)
-    ) {
+    if (isRequitCreat && !(state.confirmPassword === state.password)) {
       newValidate.confirmPassword = 'Bạn nhập sai Mật khẩu'
     }
 
-    if (urlConvert[urlConvert.length - 1] === 'creat') {
+    if (isRequitCreat) {
       for (let key in state) {
-        if (!state[key] && key !== 'address') {
+        if (!state[key] && key !== 'address' && key !== 'role') {
           newValidate[key] = 'Requite *'
         }
       }
@@ -106,8 +110,8 @@ const FormUser = ({ url }) => {
       setValidate(isInputValida)
     }
 
-    if (urlConvert[urlConvert.length - 1] === 'edit' && isInputValida) {
-      customAxiosApi.put(`/users/${dataStore.list.id}`, state)
+    if (isRequitEdit && isInputValida) {
+      customAxiosApi.put(`${textUsers}/${dataUsers.list.id}`, state)
       .then(function (response) {
         console.log(response);
       })
@@ -116,8 +120,8 @@ const FormUser = ({ url }) => {
       })
     }
 
-    if (urlConvert[urlConvert.length - 1] === 'creat' && isInputValida) {
-      customAxiosApi.post(`/users`, state)
+    if (isRequitCreat && isInputValida) {
+      customAxiosApi.post(textUsers, state)
       .then(function (response) {
         console.log(response);
       })
@@ -130,10 +134,12 @@ const FormUser = ({ url }) => {
   }
 
   const handleDelete = () => {
-    customAxiosApi.delete(`/users/${dataStore.list.id}`)
-      .then(function (response) {
-        console.log(response);
+    customAxiosApi.delete(`${textUsers}/${dataUsers.list.id}`)
+      .then(response => {
+        console.log(response)
       })
+
+    dispatch(defaultUsers())
   }
 
   return (
@@ -286,8 +292,8 @@ const FormUser = ({ url }) => {
                 onChange={handleOnChange}
                 value={state.role}
               >
-                <option value={0}>User</option>
-                <option value={1}>Admin</option>
+                <option value='0'>User</option>
+                <option value='1'>Admin</option>
               </select>
 
               <Lable
@@ -362,7 +368,7 @@ const FormUser = ({ url }) => {
               `}
               value={ state.password }
               onBlur={
-                urlConvert[urlConvert.length - 1] === 'creat'
+                isRequitCreat
                   ? handleOnBlur
                   : () => {}
               }
@@ -372,7 +378,7 @@ const FormUser = ({ url }) => {
             <Lable
                text={`
                 New password
-                ${urlConvert[urlConvert.length - 1] === 'creat'
+                ${isRequitCreat
                   ? '*'
                   : ''
                 }
@@ -402,7 +408,7 @@ const FormUser = ({ url }) => {
           </div>
 
           {
-            urlConvert[urlConvert.length - 1] === 'creat'
+            isRequitCreat
               ? (
                 <div className="group">
                   <Input
@@ -418,7 +424,7 @@ const FormUser = ({ url }) => {
                       }
                     `}
                     onBlur={
-                      urlConvert[urlConvert.length - 1] === 'creat'
+                      isRequitCreat
                         ? handleOnBlur
                         : () => {}
                     }
@@ -428,7 +434,7 @@ const FormUser = ({ url }) => {
                   <Lable
                     text={`
                       Confirm password
-                      ${urlConvert[urlConvert.length - 1] === 'creat'
+                      ${isRequitCreat
                         ? '*'
                         : ''
                       }
@@ -469,11 +475,15 @@ const FormUser = ({ url }) => {
               <Save />
             </div>
               {
-                urlConvert[urlConvert.length - 1] === 'edit'
+                isRequitEdit
                   ? (
-                    <Link to='/users' className="box-submit__delete" onClick={handleDelete}>
-                      <Delete />
-                    </Link>
+                      <DelayLink
+                        to={`/${textUsers}`}
+                        className="box-submit__delete"
+                        onClick={handleDelete}
+                        delay={1000}
+                        children={<Delete/>}
+                      />
                   ) : ''
               }
           </div>

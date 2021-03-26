@@ -1,5 +1,5 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit'
-import { customAxiosApi } from '../../../customAxiosApi'
+import { customAxiosApi } from '../../../../customAxiosApi'
 
 export const fetchUsers = createAsyncThunk(
   'users/fetchUsers',
@@ -25,15 +25,14 @@ export const userSlice = createSlice({
       state.loading = 'idle'
     },
 
-    creactUser: (state, action) => {
-
+    defaultUsers: (state, action) => {
+      state.list = []
     },
-    updateUser: (state, action) => {
 
+    defaultLoading: (state, action) => {
+      state.loading = 'idle'
     },
-    deleteUser: (state, action) => {
 
-    },
   },
   extraReducers: {
     [fetchUsers.pending]: (state, action) => {
@@ -56,6 +55,6 @@ export const userSlice = createSlice({
 })
 
 // Action creators are generated for each case reducer function
-export const { creactUser, updateUser, deleteUser, defaultState } = userSlice.actions
+export const { defaultLoading ,defaultUsers, defaultState } = userSlice.actions
 
 export default userSlice.reducer

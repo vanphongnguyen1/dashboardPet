@@ -1,4 +1,15 @@
+import ItemHistory from './ItemHistory'
+import { useSelector } from 'react-redux'
+import moment from 'moment'
+
 const HistoryUser = () => {
+  const user = useSelector(state => state.users.list)
+  const userCreated = moment.utc(user.created_at).local()._d
+  const userUpdated = moment.utc(user.updated_at).local()._d
+
+  const textDateCreated = moment(userCreated).format("DD-MM-YYYY")
+  const textDateUpdated =  moment(userUpdated).format("DD-MM-YYYY")
+
   return (
     <div className="history">
       <p className="history__title">
@@ -7,30 +18,27 @@ const HistoryUser = () => {
 
       <div className="box-row">
         <div className="box-6">
-          <span className="history__box">
-            <span className="history__box--icon far fa-clock" />
-            <span className="history__box-text">
-              <span className="history__box-text--text">First seen</span>
-              <span className="history__box-text--date">20/3/2021</span>
-            </span>
-          </span>
+          <ItemHistory
+            icon='far fa-clock'
+            title='First seen'
+            date={textDateCreated}
+          />
         </div>
+
         <div className="box-6">
-          <span className="history__box">
-            <span className="history__box--icon far fa-clock" />
-            <span className="history__box-text">
-              <span className="history__box-text--text">Last seen</span>
-              <span className="history__box-text--date">20/3/2021</span>
-            </span>
-          </span>
+          <ItemHistory
+            icon='far fa-clock'
+            title='Last seen'
+            date={textDateUpdated}
+          />
         </div>
-        <div className="box-6">
-          <span className="history__box">
-            <span className="history__box--icon far fa-dollar-sign" />
-            <span className="history__box-text">
-              <span className="history__box-text--text">2 orders</span>
-            </span>
-          </span>
+
+        <div className="box-12">
+          <ItemHistory
+            icon='far fa-dollar-sign'
+            title='orders'
+            lengthItem={3}
+          />
         </div>
       </div>
     </div>

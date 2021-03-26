@@ -3,11 +3,11 @@ import { Table, Space } from 'antd'
 import { EditOutlined } from '@ant-design/icons'
 import { Create } from '../../../../Components/Btn'
 import BoxItemDele from '../../../../Components/BoxItemDele'
-import { CUSTOMERS, EDIT, CREACT} from '../../../../dataDefault'
+import { TITLE_MENU, EDIT, CREAT} from '../../../../dataDefault'
 import { useGetColumnSearchProps } from '../../../../Components/access/logic/searchColumn'
 import { Link } from 'react-router-dom'
 import { useSelector, useDispatch } from 'react-redux'
-import { fetchUsers } from '../userSlice'
+import { fetchUsers } from '../asyncThunk/userSlice'
 import Loading from '../../../../Components/Loading'
 import { customAxiosApi }  from '../../../../customAxiosApi'
 
@@ -40,7 +40,7 @@ const Users = ({ match }) => {
       ...useGetColumnSearchProps('name'),
       render: text => (
         <Link
-          to={`/${CUSTOMERS.toLowerCase()}/${EDIT.toLowerCase()}`}
+          to={`/${TITLE_MENU.USERS.toLowerCase()}/${EDIT.toLowerCase()}`}
           className="antd-link"
           // exact
         >
@@ -54,7 +54,7 @@ const Users = ({ match }) => {
       width: '20%',
       render: text => (
         <Link
-          to={`/${CUSTOMERS.toLowerCase()}/${EDIT.toLowerCase()}`}
+          to={`/${TITLE_MENU.USERS.toLowerCase()}/${EDIT.toLowerCase()}`}
           className="antd-link"
           // exact
         >
@@ -69,7 +69,7 @@ const Users = ({ match }) => {
       ...useGetColumnSearchProps('phone'),
       render: text => (
         <Link
-          to={`/${CUSTOMERS.toLowerCase()}/${EDIT.toLowerCase()}`}
+          to={`/${TITLE_MENU.USERS.toLowerCase()}/${EDIT.toLowerCase()}`}
           className="antd-link"
           // exact
         >
@@ -84,7 +84,7 @@ const Users = ({ match }) => {
       ...useGetColumnSearchProps('address'),
       render: text => (
         <Link
-          to={`/${CUSTOMERS.toLowerCase()}/${EDIT.toLowerCase()}`}
+          to={`/${TITLE_MENU.USERS.toLowerCase()}/${EDIT.toLowerCase()}`}
           className="antd-link"
           // exact
         >
@@ -98,7 +98,7 @@ const Users = ({ match }) => {
       width: '5%',
       render: text => (
         <Link
-          to={`/${CUSTOMERS.toLowerCase()}/${EDIT.toLowerCase()}`}
+          to={`/${TITLE_MENU.USERS.toLowerCase()}/${EDIT.toLowerCase()}`}
           className="antd-link"
           // exact
         >
@@ -112,7 +112,7 @@ const Users = ({ match }) => {
       width: '10%',
       render: (text, record) => (
         <Link
-          to={`/${CUSTOMERS.toLowerCase()}/${EDIT.toLowerCase()}`}
+          to={`/${TITLE_MENU.USERS.toLowerCase()}/${EDIT.toLowerCase()}`}
           className="antd-link"
           // exact
         >
@@ -143,14 +143,14 @@ const Users = ({ match }) => {
             <div className="users">
               <div className="box-btn">
                 <Link
-                  to={`/${CUSTOMERS.toLowerCase()}/${CREACT.toLowerCase()}`}
+                  to={`/${TITLE_MENU.USERS.toLowerCase()}/${CREAT.toLowerCase()}`}
                   className="box-btn--link"
                 >
                   <Create />
                 </Link>
 
                 <Link
-                  to={`/${CUSTOMERS.toLowerCase()}/${CREACT.toLowerCase()}`}
+                  to={`/${TITLE_MENU.USERS.toLowerCase()}/${CREAT.toLowerCase()}`}
                   className="box-btn--link"
                 >
                   <Create />

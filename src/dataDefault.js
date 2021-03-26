@@ -1,13 +1,16 @@
-export const DASHBOARD = 'Dashboard'
-export const ORDERS = 'Orders'
-export const CUSTOMERS = 'Users'
-export const PRODUCTPORFOLIO = 'Product portfolio'
-export const PRODUCTS = 'Products'
-export const COMMENTS = 'Comments'
-export const SETTING = 'Setting'
-export const LOGOUT = 'Logout'
-export const CREACT = 'creat'
+export const CREAT = 'creat'
 export const EDIT = 'edit'
+
+export const TITLE_MENU = {
+  DASHBOARD: 'Dashboard',
+  ORDERS: 'Orders',
+  USERS: 'Users',
+  PRODUCTPORFOLIO: 'Product portfolio',
+  PRODUCTS: 'Products',
+  COMMENTS: 'Comments',
+  SETTING: 'Setting',
+  LOGOUT: 'Logout'
+}
 
 export const REGEX = {
   EMAIL: /^[a-zA-Z0-9]+@+[a-zA-Z0-9]+.+[A-z]/,
@@ -17,34 +20,34 @@ export const REGEX = {
 export const MENU = [
   {
     icon: 'fas fa-th-large',
-    title: DASHBOARD
+    title: TITLE_MENU.DASHBOARD
   },
   {
     icon: 'fas fa-shopping-cart',
-    title: ORDERS
+    title: TITLE_MENU.ORDERS
   },
   {
     icon: 'fas fa-user-friends',
-    title: CUSTOMERS
+    title: TITLE_MENU.USERS
   },
   {
     icon: 'fas fa-book',
-    title: PRODUCTPORFOLIO
+    title: TITLE_MENU.PRODUCTPORFOLIO
   },
   {
     icon: 'fas fa-tags',
-    title: PRODUCTS
+    title: TITLE_MENU.PRODUCTS
   },
   {
     icon: 'fas fa-comment-alt-lines',
-    title: COMMENTS
+    title: TITLE_MENU.COMMENTS
   },
   {
     icon: 'fas fa-cog',
-    title: SETTING
+    title: TITLE_MENU.SETTING
   },
   {
     icon: 'fas fa-sign-out-alt',
-    title: LOGOUT
+    title: TITLE_MENU.LOGOUT
   },
 ]

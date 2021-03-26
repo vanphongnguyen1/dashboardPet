@@ -5,7 +5,7 @@ import { MENU } from '../../dataDefault'
 import PupoSubText from '../../Components/PopuSubText'
 import { NavLink } from 'react-router-dom'
 import { useDispatch } from 'react-redux'
-import { defaultState } from '../../features/Main/Users/userSlice'
+import { defaultState } from './Users/asyncThunk/userSlice'
 
 const Sidebar = () => {
   const dispatch = useDispatch()
