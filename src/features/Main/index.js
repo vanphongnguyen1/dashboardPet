@@ -4,11 +4,13 @@ import ScrollToTop from '../../Components/ScrollToTop'
 import { ContextTasks } from '../../Components/Context'
 import {
   BrowserRouter as Router,
-  Switch,
-  Route,
-  Redirect
+  // Switch,
+  // Route,
+  // Redirect
 } from "react-router-dom"
-import { routes } from '../../routers'
+// import { routes } from '../../routers'
+
+import Orders from './Orders/Page'
 
 const Main = () => {
   const valueContext = useContext(ContextTasks)
@@ -24,7 +26,7 @@ const Main = () => {
         </div>
 
         <div className={!unOutLine ? "main__width--dashboard-smell" : 'main__width--dashboard-big'}>
-          <Switch>
+          {/* <Switch>
             <Redirect exact from="/" to="/dashboard" />
             {
               routes.map((item, index) => {
@@ -36,7 +38,8 @@ const Main = () => {
                 />
               })
             }
-          </Switch>
+          </Switch> */}
+          <Orders />
         </div>
       </div>
     </Router>

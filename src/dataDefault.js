@@ -1,6 +1,94 @@
 export const CREAT = 'creat'
 export const EDIT = 'edit'
 
+export const ORDERSDEMO = [
+  {
+    updated: '27/03/2021',
+    id: 1,
+    userName: 'Phong',
+    address: 'Số 1 ngõ 432, cổ nhuế bắc từ liêm hà nội',
+    phone: '0337263377',
+    nameProduct: [
+      'mèo',
+      'chó'
+    ],
+    count: 2,
+    subPrice: 20000,
+    intoMeny: 20050,
+    peyment:  'offline',
+    trasport: 'GHTK',
+    status: 'pending',
+  },
+  {
+    updated: '27/03/2021',
+    id: 2,
+    userName: 'Phong',
+    address: 'Số 1 ngõ 432, cổ nhuế bắc từ liêm hà nội',
+    phone: '0337263377',
+    nameProduct: [
+      'mèo',
+      'chó'
+    ],
+    count: 2,
+    subPrice: 20000,
+    intoMeny: 20050,
+    peyment:  'offline',
+    trasport: 'GHTK',
+    status: 'pending',
+  },
+  {
+    updated: '27/03/2021',
+    id: 3,
+    userName: 'Phong',
+    address: 'Số 1 ngõ 432, cổ nhuế bắc từ liêm hà nội',
+    phone: '0337263377',
+    nameProduct: [
+      'mèo',
+      'chó'
+    ],
+    count: 2,
+    subPrice: 20000,
+    intoMeny: 20050,
+    peyment:  'offline',
+    trasport: 'GHTK',
+    status: 'pending',
+  },
+  {
+    updated: '27/03/2021',
+    id: 4,
+    userName: 'Phong',
+    address: 'Số 1 ngõ 432, cổ nhuế bắc từ liêm hà nội',
+    phone: '0337263377',
+    nameProduct: [
+      'mèo',
+      'chó'
+    ],
+    count: 2,
+    subPrice: 20000,
+    intoMeny: 20050,
+    peyment:  'offline',
+    trasport: 'GHTK',
+    status: 'pending',
+  },
+  {
+    updated: '27/03/2021',
+    id: 5,
+    userName: 'Phong',
+    address: 'Số 1 ngõ 432, cổ nhuế bắc từ liêm hà nội',
+    phone: '0337263377',
+    nameProduct: [
+      'mèo',
+      'chó'
+    ],
+    count: 2,
+    subPrice: 20000,
+    intoMeny: 20050,
+    peyment:  'offline',
+    trasport: 'GHTK',
+    status: 'pending',
+  },
+]
+
 export const TITLE_MENU = {
   DASHBOARD: 'Dashboard',
   ORDERS: 'Orders',
