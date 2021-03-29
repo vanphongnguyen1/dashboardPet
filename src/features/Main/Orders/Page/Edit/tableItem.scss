@@ -1,0 +1,46 @@
+.table {
+  margin-bottom: 4rem;
+
+  &__item {}
+  &__tr {
+    display: flex;
+    align-items: center;
+    border-bottom: 1px solid #E0E0E0;
+  }
+
+  &__td,
+  &__th {
+    &--name {
+      width: calc(100% * 5 / 12);
+    }
+
+    &--price ,
+    &--count ,
+    &--totalPrice  {
+      width: calc(100% * 2 / 12);
+    }
+    &--action {
+      width: calc(100% * 1 / 12);
+      text-align: right;
+    }
+
+    &--name,
+    &--price ,
+    &--count ,
+    &--totalPrice ,
+    &--action {
+      font-weight: 500;
+      padding: 1.5rem 1rem;
+    }
+  }
+
+  &__td {
+    &--name,
+    &--price ,
+    &--count ,
+    &--totalPrice ,
+    &--action {
+      font-weight: 400;
+    }
+  }
+}

@@ -10,7 +10,8 @@ import {
 } from "react-router-dom"
 // import { routes } from '../../routers'
 
-import Orders from './Orders/Page'
+// import Orders from './Orders/Page'
+import EditOrder from './Orders/Page/Edit/EditOrder'
 
 const Main = () => {
   const valueContext = useContext(ContextTasks)
@@ -39,7 +40,8 @@ const Main = () => {
               })
             }
           </Switch> */}
-          <Orders />
+          {/* <Orders /> */}
+          <EditOrder />
         </div>
       </div>
     </Router>

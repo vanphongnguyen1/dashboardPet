@@ -1,9 +1,18 @@
-const sectionData = dataOrder => {
+export const useSectionData = (dataOrder, dataProductDetailOrder) => {
   const dataPending = []
   const dataDelivered = []
   const dataCanselled = []
 
-  dataOrder.forEach(order => {
+  dataOrder.forEach( order => {
+    const names = []
+
+    dataProductDetailOrder.forEach(item => {
+
+      if (item.detailOrderID === order.detailOrderID) {
+        names.push(item.products.name)
+      }
+    })
+
     const {
       users,
       detailorder,
@@ -12,25 +21,13 @@ const sectionData = dataOrder => {
       trasport
     } = order
 
-    // customAxiosApi.get(`/productDetailOrder?detailOrderID=${order.detailOrderID}`)
-    //   .then(response => {
-    //     const { data } = response.data
-    //     const names = []
-
-    //     data.forEach(item => {
-    //       names.push(item.products.name)
-    //     })
-
-    //     setNameProducts(names)
-    //   })
-
     const newOrder = {
       id: order.id,
       name: users.name,
       phone: users.phone,
       address: users.address,
 
-      products : [],    //detailOrderID: 1,
+      products : names,    //detailOrderID: 1,
       count: detailorder.count,
       price: detailorder.price,
 
@@ -66,5 +63,3 @@ const sectionData = dataOrder => {
     dataCanselled
   ]
 }
-
-export default sectionData
