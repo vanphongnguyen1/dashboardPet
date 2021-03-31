@@ -1,9 +1,9 @@
 @import './itemTotal.scss';
 
 .edit-order {
-  margin: 0 auto;
-  margin-top: 3rem;
-  padding: 1.5rem 2rem;
+  margin: 3rem auto;
+  overflow: hidden;
+  padding-top: 1.5rem;
 
   width: calc(100% * 9/12);
   border: 1px solid #e0e0e0;
@@ -21,7 +21,7 @@
   }
 
   &__box {
-    padding-left: 1rem;
+    padding: 0 2rem;
 
     .totals {
       .table {
@@ -38,12 +38,6 @@
         }
       }
     }
-  }
-
-  &__box--title {
-    font-size: 1.6rem;
-    font-weight: 500;
-    margin-bottom: 1rem;
   }
 
   &__box--text {

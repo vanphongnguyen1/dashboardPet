@@ -20,8 +20,6 @@ const TableContentTab = ({ data, url }) => {
     setSelectedRowKeys(item)
   }
 
-  console.log(selectedRowKeys)
-
   const rowSelection = {
     onChange: onSelectChange,
   }
@@ -216,9 +214,7 @@ const TableContentTab = ({ data, url }) => {
             return {
               onClick: () => {
                 dispatch(fetchOrders(`${url}/${record.id}`))
-                dispatch(fetchProductDetailOrder(`
-                  /productDetailOrder?detailOrderID=${record.detailOrderID}
-                `))
+                dispatch(fetchProductDetailOrder(`/productDetailOrder?detailOrderID=${record.detailOrderID}`))
               }
             }
           }}

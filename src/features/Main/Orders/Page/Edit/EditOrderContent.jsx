@@ -1,17 +1,17 @@
 import { useState, useEffect } from 'react'
+import { useSelector, useDispatch } from 'react-redux'
+import { message } from 'antd'
+import moment from 'moment'
 import GroupInput from '../../../../../Components/Form/GroupInput'
 import { Lable } from '../../../../../Components/Form/Lable'
 import { fetchStatus } from '../../../../../rootReducers/statusSlice'
 import { fetchTrasport } from '../../../../../rootReducers/trasportSlice'
 import { Delete, Save } from '../../../../../Components/Btn'
-import { useSelector } from 'react-redux'
-import { useDispatch } from 'react-redux'
-import { message } from 'antd'
-import moment from 'moment'
 import { customAxiosApi } from '../../../../../customAxiosApi'
+import { REGEX } from '../../../../../dataDefault'
+import { HeadingBox, SubHeading } from '../../../../../Components/HeadingBox'
 import ItemTotal from './ItemTotal'
 import ItemProduct from './ItemProduct'
-import { REGEX } from '../../../../../dataDefault'
 
 const EditOrderContent = ({ data })  =>{
   const { user, order, products, totals } = data
@@ -209,9 +209,7 @@ const EditOrderContent = ({ data })  =>{
   return (
     <>
       <div className="edit-order">
-        <div className="edit-order__heading">
-          Order
-        </div>
+        <HeadingBox title="Order" />
 
         <div className="box-row">
           <div className="box-5">
@@ -284,9 +282,7 @@ const EditOrderContent = ({ data })  =>{
 
           <div className="box-7">
             <div className="edit-order__box">
-              <p className="edit-order__box--title">
-                Customer
-              </p>
+              <SubHeading title="Customer" />
 
               <GroupInput
                 type="text"
@@ -322,7 +318,7 @@ const EditOrderContent = ({ data })  =>{
         </div>
 
         <div className="edit-order__box">
-          <p className="edit-order__box--title">Products</p>
+          <SubHeading title="Products" />
 
           <div className="table">
             <div className="table__item">
@@ -354,7 +350,7 @@ const EditOrderContent = ({ data })  =>{
         </div>
 
         <div className="edit-order__box">
-          <p className="edit-order__box--title">Totals</p>
+          <SubHeading title="Totals" />
 
           <div className="totals">
             <div className="table">

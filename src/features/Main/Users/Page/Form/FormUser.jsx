@@ -1,7 +1,8 @@
 import { useState } from 'react'
+import PropTypes from 'prop-types'
+import { useSelector, useDispatch } from 'react-redux'
 import { TITLE_MENU, EDIT, CREAT } from '../../../../../dataDefault'
 import { Delete, Save } from '../../../../../Components/Btn'
-import { useSelector, useDispatch } from 'react-redux'
 import { defaultUsers } from '../../../../../rootReducers/userSlice'
 import { customAxiosApi } from '../../../../../customAxiosApi'
 import { REGEX } from '../../../../../dataDefault'
@@ -9,7 +10,7 @@ import GroupInput from '../../../../../Components/Form/GroupInput'
 import { Lable } from '../../../../../Components/Form/Lable'
 import { openMessage } from '../../../../../Components/openMessage'
 import DelayLink from '../../../../../Components/DelayLink'
-import PropTypes from 'prop-types'
+import { HeadingBox } from '../../../../../Components/HeadingBox'
 
 const FormUser = ({ url }) => {
   const dispatch = useDispatch()
@@ -146,7 +147,7 @@ const FormUser = ({ url }) => {
     <div className="info-user">
       <form className="info-user__form" onSubmit={ handleSubmit }>
         <div className="identity">
-          <p className="identity__title">identity</p>
+          <HeadingBox title="identity" />
 
           <GroupInput
             type="text"
@@ -199,7 +200,7 @@ const FormUser = ({ url }) => {
         </div>
 
         <div className="identity">
-          <p className="identity__title">Address</p>
+          <HeadingBox title="Address" />
 
           <GroupInput
             type="text"
@@ -213,7 +214,7 @@ const FormUser = ({ url }) => {
         </div>
 
         <div className="identity">
-          <p className="identity__title"> New PassWord</p>
+          <HeadingBox title="New PassWord" />
 
           <GroupInput
             type="password"

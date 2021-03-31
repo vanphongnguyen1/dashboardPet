@@ -41,3 +41,13 @@ img {
 .posi-relative {
   position: relative;
 }
+
+.box-submit {
+  padding: 2rem;
+  background-color: #F5F5F5;
+
+  &__save,
+  &__delete {
+    margin: 0 1.5rem;
+  }
+}

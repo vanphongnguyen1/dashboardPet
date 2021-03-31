@@ -1,6 +1,7 @@
-import ItemHistory from './ItemHistory'
 import { useSelector } from 'react-redux'
 import moment from 'moment'
+import ItemHistory from './ItemHistory'
+import { HeadingBox } from '../../../../../Components/HeadingBox'
 
 const HistoryUser = () => {
   const user = useSelector(state => state.users.list)
@@ -12,9 +13,7 @@ const HistoryUser = () => {
 
   return (
     <div className="history">
-      <p className="history__title">
-        History
-      </p>
+      <HeadingBox title="History" />
 
       <div className="box-row">
         <div className="box-6">
