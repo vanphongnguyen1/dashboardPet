@@ -2,14 +2,14 @@ import { useState } from 'react'
 import { TITLE_MENU, EDIT, CREAT } from '../../../../../dataDefault'
 import { Delete, Save } from '../../../../../Components/Btn'
 import { useSelector, useDispatch } from 'react-redux'
-import { defaultUsers } from '../../asyncThunk/userSlice'
+import { defaultUsers } from '../../../../../rootReducers/userSlice'
 import { customAxiosApi } from '../../../../../customAxiosApi'
 import { REGEX } from '../../../../../dataDefault'
-import { Input } from '../../../../../Components/Form/Input'
+import GroupInput from '../../../../../Components/Form/GroupInput'
 import { Lable } from '../../../../../Components/Form/Lable'
-import { ValidaError } from '../../../../../Components/Form/ValidaError'
 import { openMessage } from '../../../../../Components/openMessage'
 import DelayLink from '../../../../../Components/DelayLink'
+import PropTypes from 'prop-types'
 
 const FormUser = ({ url }) => {
   const dispatch = useDispatch()
@@ -148,142 +148,36 @@ const FormUser = ({ url }) => {
         <div className="identity">
           <p className="identity__title">identity</p>
 
-          <div className="group">
-            <Input
-              type="text"
-              name="name"
-              className={`
-                group__input
-                ${
-                  validate.name
-                  ? 'valide-input'
-                  : ''
-                }
-              `}
-              value={ state.name }
-              onBlur={handleOnBlur}
-              onChange={handleOnChange}
-            />
+          <GroupInput
+            type="text"
+            name="name"
+            validateName={validate.name}
+            value={state.name}
+            onBlur={handleOnBlur}
+            onChange={handleOnChange}
+            titleLabel="UserName *"
+          />
 
-            <Lable
-              text="UserName *"
-              className={`
-                group__label
-                ${
-                  state.name
-                  ? 'label-input-value'
-                  : validate.name
-                  ? 'valide-label'
-                  : ''
-                }
-              `}
-            />
-
-            {
-              validate.name ? (
-                <ValidaError
-                  className="group__valide"
-                  text={validate.name}
-                />
-
-              ) : (
-                <span className="pseudo-input" />
-              )
-            }
-          </div>
-
-          <div className="group">
-            <Input
-              type="text"
-              name="email"
-              className={`
-                group__input
-                ${
-                  validate.email
-                  ? 'valide-input'
-                  : ''
-                }
-              `}
-              value={ state.email }
-              onBlur={handleOnBlur}
-              onChange={handleOnChange}
-            />
-
-            <Lable
-              text="Email *"
-              className={`
-                group__label
-                ${
-                  state.email && validate.email
-                  ? 'label-input-value valide-label'
-                  : state.email
-                  ? 'label-input-value'
-                  : validate.email
-                  ? 'valide-label'
-                  : ''
-                }
-              `}
-            />
-
-            {
-              validate.email ? (
-                <ValidaError
-                  className="group__valide"
-                  text={validate.email}
-                />
-
-              ) : (
-                <span className="pseudo-input" />
-              )
-            }
-          </div>
+          <GroupInput
+            type="text"
+            name="email"
+            validateName={validate.email}
+            value={state.email}
+            onBlur={handleOnBlur}
+            onChange={handleOnChange}
+            titleLabel="Email *"
+          />
 
           <div className="box-group">
-            <div className="group">
-              <Input
-                type="text"
-                name="phone"
-                className={`
-                  group__input
-                  ${
-                    validate.phone
-                    ? 'valide-input'
-                    : ''
-                  }
-                `}
-                value={ state.phone }
-                onBlur={handleOnBlur}
-                onChange={handleOnChange}
-              />
-
-              <Lable
-                text="Phone Number *"
-                className={`
-                  group__label
-                  ${
-                    state.phone && validate.phone
-                    ? 'label-input-value valide-label'
-                    : state.phone
-                    ? 'label-input-value'
-                    : validate.phone
-                    ? 'valide-label'
-                    : ''
-                  }
-                `}
-              />
-
-              {
-                validate.phone ? (
-                  <ValidaError
-                    className="group__valide"
-                    text={validate.phone}
-                  />
-
-                ) : (
-                  <span className="pseudo-input" />
-                )
-              }
-            </div>
+            <GroupInput
+              type="text"
+              name="phone"
+              validateName={validate.phone}
+              value={state.phone}
+              onBlur={handleOnBlur}
+              onChange={handleOnChange}
+              titleLabel="Phone *"
+            />
 
             <div className="group">
               <select
@@ -297,9 +191,9 @@ const FormUser = ({ url }) => {
               </select>
 
               <Lable
-              text="Role"
-              className='group__label label-input-value'
-            />
+                text="Role"
+                className='group__label label-input-value'
+              />
             </div>
           </div>
         </div>
@@ -307,164 +201,50 @@ const FormUser = ({ url }) => {
         <div className="identity">
           <p className="identity__title">Address</p>
 
-          <div className="group">
-            <Input
-              type="text"
-              name="address"
-              className={`
-                group__input
-                ${
-                  validate.address
-                  ? 'valide-input'
-                  : ''
-                }
-              `}
-              value={ state.address }
-              onChange={handleOnChange}
-            />
-
-            <Lable
-              text="Street Address"
-              className={`
-                group__label
-                ${
-                  state.address
-                  ? 'label-input-value'
-                  : validate.address
-                  ? 'valide-label'
-                  : ''
-                }
-              `}
-            />
-
-            {
-              validate.address ? (
-                <ValidaError
-                  className="group__valide"
-                  text={validate.address}
-                />
-
-              ) : (
-                <span className="pseudo-input" />
-              )
-            }
-          </div>
+          <GroupInput
+            type="text"
+            name="address"
+            validateName={validate.address}
+            value={state.address}
+            onBlur={handleOnBlur}
+            onChange={handleOnChange}
+            titleLabel="Address *"
+          />
         </div>
 
         <div className="identity">
           <p className="identity__title"> New PassWord</p>
 
-          <div className="group">
-            <Input
-              type="password"
-              name="password"
-              className={`
-                group__input
-                ${
-                  validate.password
-                  ? 'valide-input'
-                  : ''
-                }
-              `}
-              value={ state.password }
-              onBlur={
-                isRequitCreat
-                  ? handleOnBlur
-                  : () => {}
-              }
-              onChange={handleOnChange}
-            />
-
-            <Lable
-               text={`
-                New password
-                ${isRequitCreat
-                  ? '*'
-                  : ''
-                }
-              `}
-              className={`
-                group__label
-                ${
-                  state.password
-                  ? 'label-input-value'
-                  : validate.password
-                  ? 'valide-label'
-                  : ''
-                }
-              `}
-            />
-
-            {
-              validate.password ? (
-                <ValidaError
-                  className="group__valide"
-                  text={validate.password}
-                />
-              ) : (
-                <span className="pseudo-input" />
-              )
+          <GroupInput
+            type="password"
+            name="password"
+            validateName={validate.password}
+            value={state.password}
+            onBlur={
+              isRequitCreat
+                ? handleOnBlur
+                : () => {}
             }
-          </div>
+            onChange={handleOnChange}
+            titleLabel={`New password ${isRequitCreat ? '*' : ''}`}
+          />
 
           {
             isRequitCreat
               ? (
-                <div className="group">
-                  <Input
-                    type="password"
-                    name="confirmPassword"
-                    value={state.confirmPassword}
-                    className={`
-                      group__input
-                      ${
-                        validate.confirmPassword
-                        ? 'valide-input'
-                        : ''
-                      }
-                    `}
-                    onBlur={
-                      isRequitCreat
-                        ? handleOnBlur
-                        : () => {}
-                    }
-                    onChange={handleOnChange}
-                  />
-
-                  <Lable
-                    text={`
-                      Confirm password
-                      ${isRequitCreat
-                        ? '*'
-                        : ''
-                      }
-                    `}
-                    className={`
-                      group__label
-                      ${
-                        state.confirmPassword && validate.confirmPassword
-                        ? 'label-input-value valide-label'
-                        : state.confirmPassword
-                        ? 'label-input-value'
-                        : validate.confirmPassword
-                        ? 'valide-label'
-                        : ''
-                      }
-                    `}
-                  />
-
-                  {
-                    validate.confirmPassword ? (
-                      <ValidaError
-                        className="group__valide"
-                        text={validate.confirmPassword}
-                      />
-
-                    ) : (
-                      <span className="pseudo-input" />
-                    )
+                <GroupInput
+                  type="password"
+                  name="confirmPassword"
+                  validateName={validate.confirmPassword}
+                  value={state.confirmPassword}
+                  onBlur={
+                    isRequitCreat
+                      ? handleOnBlur
+                      : () => {}
                   }
-                </div>
+                  onChange={handleOnChange}
+                  titleLabel={`Confirm password ${isRequitCreat ? '*' : ''}`}
+                />
               ) : ''
           }
         </div>
@@ -491,6 +271,14 @@ const FormUser = ({ url }) => {
       </form>
     </div>
   )
+}
+
+FormUser.propTypes = {
+  url: PropTypes.string
+}
+
+FormUser.defaultProps = {
+  url: ''
 }
 
 export default FormUser

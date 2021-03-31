@@ -1,5 +1,4 @@
-@import './tableItem.scss';
-@import './totals.scss';
+@import './itemTotal.scss';
 
 .edit-order {
   margin: 0 auto;
@@ -23,6 +22,22 @@
 
   &__box {
     padding-left: 1rem;
+
+    .totals {
+      .table {
+        &__td {
+          &--name,
+          &--price {
+            width: 50%;
+
+          }
+
+          &--price {
+            text-align: right;
+          }
+        }
+      }
+    }
   }
 
   &__box--title {

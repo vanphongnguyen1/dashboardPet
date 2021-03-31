@@ -1,5 +1,6 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit'
 import { customAxiosApi } from '../customAxiosApi'
+import { STATUS_FETCH } from '../dataDefault'
 
 export const fetchTrasport = createAsyncThunk(
   'trasportSlice/fetchTrasport',
@@ -38,19 +39,19 @@ export const trasportSlice = createSlice({
     [fetchTrasport.pending]: (state, action) => {
       // Add user to the state array
       state.list = []
-      state.loading = 'loading'
+      state.loading = STATUS_FETCH.LOADING
     },
 
     [fetchTrasport.fulfilled]: (state, action) => {
       // Add user to the state array
 
       state.list = action.payload
-      state.loading = 'success'
+      state.loading = STATUS_FETCH.SUCCESS
     },
 
     [fetchTrasport.rejected]: (state, action) => {
       // Add user to the state array
-      state.loading = 'failed'
+      state.loading = STATUS_FETCH.FAILED
     },
   }
 })

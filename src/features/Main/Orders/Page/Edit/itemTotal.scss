@@ -38,9 +38,18 @@
     &--name,
     &--price ,
     &--count ,
-    &--totalPrice ,
-    &--action {
+    &--totalPrice {
       font-weight: 400;
+    }
+
+    &--action {
+      color: #F44336;
+      cursor: pointer;
+      transition: all 0.3s ease-in-out;
+
+      &:hover {
+        color: rgba(255, 0, 0, 0.616);
+      }
     }
   }
 }

@@ -1,8 +1,9 @@
-import userReducer from '../features/Main/Users/asyncThunk/userSlice'
-import orderReducer from '../features/Main/Orders/asyncThunk/orderSlice'
+import userReducer from './userSlice'
+import orderReducer from './orderSlice'
 import productDetailOrderSlice from './productDetailOrderThunk'
 import statusSlice from './statusSlice'
 import trasportSlice from './trasportSlice'
+import reducerEditOrder from './reducerEditOrder'
 
 export const rootReducers = {
   users: userReducer,
@@ -10,4 +11,5 @@ export const rootReducers = {
   productDetailOrder: productDetailOrderSlice,
   status: statusSlice,
   trasport: trasportSlice,
+  dataEditOrder: reducerEditOrder
 }

@@ -8,7 +8,8 @@ export const Input = props => {
     value,
     className,
     name,
-    type
+    type,
+    required
   } = props
 
   return (
@@ -20,6 +21,7 @@ export const Input = props => {
         value={value}
         onBlur={onBlur}
         onChange={onChange}
+        required={required}
       />
     </>
   )
@@ -49,5 +51,6 @@ Input.defaultProps = {
 
   className: '',
   onBlur: () => {},
-  onChange: {}
+  onChange: {},
+  required: false
 }

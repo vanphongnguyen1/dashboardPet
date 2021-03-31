@@ -6,13 +6,21 @@ import { TITLE_MENU, EDIT } from '../../../../dataDefault'
 import BoxItemDele from '../../../../Components/BoxItemDele'
 import PropTypes from 'prop-types'
 import moment from 'moment'
+import { fetchOrders } from '../../../../rootReducers/orderSlice'
+import { fetchProductDetailOrder } from '../../../../rootReducers/productDetailOrderThunk'
+import { useDispatch } from 'react-redux'
+import { useGetColumnSearchProps } from '../../../../Components/access/logic/searchColumn'
+import { customAxiosApi } from '../../../../customAxiosApi'
 
-const TableContentTab = ({ data }) => {
+const TableContentTab = ({ data, url }) => {
+  const dispatch = useDispatch()
   const [selectedRowKeys, setSelectedRowKeys] = useState([])
 
   const onSelectChange = (index, item) => {
     setSelectedRowKeys(item)
   }
+
+  console.log(selectedRowKeys)
 
   const rowSelection = {
     onChange: onSelectChange,
@@ -24,12 +32,10 @@ const TableContentTab = ({ data }) => {
       dataIndex: 'updated',
       fixed: 'left',
       width: 100,
-      // ...useGetColumnSearchProps('name'),
       render: text => (
         <Link
           to={`/${TITLE_MENU.USERS.toLowerCase()}/${EDIT.toLowerCase()}`}
           className="antd-link"
-          // exact
         >
           { moment(text).format("DD-MM-YYYY") }
         </Link>
@@ -40,11 +46,11 @@ const TableContentTab = ({ data }) => {
       dataIndex: 'name',
       fixed: 'left',
       width: 120,
+      ...useGetColumnSearchProps('name'),
       render: text => (
         <Link
-          // to={`/${TITLE_MENU.USERS.toLowerCase()}/${EDIT.toLowerCase()}`}
+          to={`/${url}/${EDIT.toLowerCase()}`}
           className="antd-link"
-          // exact
         >
           { text }
         </Link>
@@ -53,13 +59,11 @@ const TableContentTab = ({ data }) => {
     {
       title: 'Phone',
       dataIndex: 'phone',
-      // width: 50,
-      // ...useGetColumnSearchProps('phone'),
+      ...useGetColumnSearchProps('phone'),
       render: text => (
         <Link
-          // to={`/${TITLE_MENU.USERS.toLowerCase()}/${EDIT.toLowerCase()}`}
+          to={`/${url}/${EDIT.toLowerCase()}`}
           className="antd-link"
-          // exact
         >
           { text }
         </Link>
@@ -69,12 +73,11 @@ const TableContentTab = ({ data }) => {
       title: 'Address',
       dataIndex: 'address',
       width: 350,
-      // ...useGetColumnSearchProps('address'),
+      ...useGetColumnSearchProps('address'),
       render: text => (
         <Link
-          // to={`/${TITLE_MENU.USERS.toLowerCase()}/${EDIT.toLowerCase()}`}
+          to={`/${url}/${EDIT.toLowerCase()}`}
           className="antd-link"
-          // exact
         >
           { text }
         </Link>
@@ -86,15 +89,14 @@ const TableContentTab = ({ data }) => {
       width: 350,
       render: text => (
         <Link
-          // to={`/${TITLE_MENU.USERS.toLowerCase()}/${EDIT.toLowerCase()}`}
+          to={`/${url}/${EDIT.toLowerCase()}`}
           className="antd-link"
-          // exact
         >
           {
             text.map((item, index) => {
               return (
                 <p key={index}>
-                  { item }
+                  { item.name }
                 </p>
               )
             })
@@ -105,12 +107,10 @@ const TableContentTab = ({ data }) => {
     {
       title: 'TotalCount',
       dataIndex: 'totalCount',
-      // width: 50,
       render: text => (
         <Link
-          // to={`/${TITLE_MENU.USERS.toLowerCase()}/${EDIT.toLowerCase()}`}
+          to={`/${url}/${EDIT.toLowerCase()}`}
           className="antd-link"
-          // exact
         >
           { text }
         </Link>
@@ -119,12 +119,10 @@ const TableContentTab = ({ data }) => {
     {
       title: 'TotalPrice',
       dataIndex: 'totalPrice',
-      // width: 60,
       render: text => (
         <Link
-          // to={`/${TITLE_MENU.USERS.toLowerCase()}/${EDIT.toLowerCase()}`}
+          to={`/${url}/${EDIT.toLowerCase()}`}
           className="antd-link"
-          // exact
         >
           { text }
         </Link>
@@ -133,12 +131,10 @@ const TableContentTab = ({ data }) => {
     {
       title: 'trasport',
       dataIndex: 'trasport',
-      // width: 50,
       render: text => (
         <Link
-          // to={`/${TITLE_MENU.USERS.toLowerCase()}/${EDIT.toLowerCase()}`}
+          to={`/${url}/${EDIT.toLowerCase()}`}
           className="antd-link"
-          // exact
         >
           { text }
         </Link>
@@ -147,12 +143,10 @@ const TableContentTab = ({ data }) => {
     {
       title: 'intoMeny',
       dataIndex: 'intoMeny',
-      // width: 60,
       render: text => (
         <Link
-          // to={`/${TITLE_MENU.USERS.toLowerCase()}/${EDIT.toLowerCase()}`}
+          to={`/${url}/${EDIT.toLowerCase()}`}
           className="antd-link"
-          // exact
         >
           { text }
         </Link>
@@ -165,9 +159,8 @@ const TableContentTab = ({ data }) => {
       fixed: 'right',
       render: text => (
         <Link
-          // to={`/${TITLE_MENU.USERS.toLowerCase()}/${EDIT.toLowerCase()}`}
+          to={`/${url}/${EDIT.toLowerCase()}`}
           className="antd-link"
-          // exact
         >
           { text }
         </Link>
@@ -178,11 +171,10 @@ const TableContentTab = ({ data }) => {
       dataIndex: 'action',
       fixed: 'right',
       width: 70,
-      render: (text, record) => (
+      render: () => (
         <Link
-          // to={`/${TITLE_MENU.USERS.toLowerCase()}/${EDIT.toLowerCase()}`}
+          to={`/${url}/${EDIT.toLowerCase()}`}
           className="antd-link"
-          // exact
         >
           <Space size="middle">
             <EditOutlined className="icon-edit"/>
@@ -193,14 +185,17 @@ const TableContentTab = ({ data }) => {
   ]
 
   const handleDeleteSelect = () => {
-    // selectedRowKeys.forEach(item => {
-    //   customAxiosApi.delete(`${url}/${item.id}`)
-    //   .then(response => {
-    //     console.log(response.data)
-    //   })
-    // })
+    selectedRowKeys.forEach(item => {
+      customAxiosApi.delete(`/orders/${item.id}`)
+      customAxiosApi.delete(`/detailOrder/${item.detailOrderID}`)
 
-    // dispatch(fetchUsers(url))
+      item.products.forEach(product => {
+        customAxiosApi.delete(`/productDetailOrder/${product.productDetailOrderID}`)
+      })
+    })
+
+    dispatch(fetchOrders(url))
+    dispatch(fetchProductDetailOrder('productDetailOrder'))
   }
 
   return (
@@ -217,11 +212,16 @@ const TableContentTab = ({ data }) => {
           columns={columns}
           dataSource={data}
           scroll={{ x: 1700 }}
-          // onRow={(record, rowIndex) => {
-          //   return {
-          //     onClick: () => dispatch(fetchUsers(`${url}/${record.id}`))
-          //   }
-          // }}
+          onRow={(record, rowIndex) => {
+            return {
+              onClick: () => {
+                dispatch(fetchOrders(`${url}/${record.id}`))
+                dispatch(fetchProductDetailOrder(`
+                  /productDetailOrder?detailOrderID=${record.detailOrderID}
+                `))
+              }
+            }
+          }}
         />
       </div>
     </>
@@ -229,11 +229,13 @@ const TableContentTab = ({ data }) => {
 }
 
 TableContentTab.propTypes = {
-  data: PropTypes.array
+  data: PropTypes.array,
+  url: PropTypes.string
 }
 
 TableContentTab.defaultProps = {
-  data: []
+  data: [],
+  url: ''
 }
 
 export default TableContentTab

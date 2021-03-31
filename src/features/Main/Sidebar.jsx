@@ -5,12 +5,24 @@ import { MENU } from '../../dataDefault'
 import PupoSubText from '../../Components/PopuSubText'
 import { NavLink } from 'react-router-dom'
 import { useDispatch } from 'react-redux'
-import { defaultState } from './Users/asyncThunk/userSlice'
+import { defaultState as defaultStateUsers} from '../../rootReducers/userSlice'
+import { defaultState as defaultStateOrders} from '../../rootReducers/orderSlice'
+import { defaultState as defaultStateTrasport} from '../../rootReducers/trasportSlice'
+import { defaultState as defaultStateStatus} from '../../rootReducers/statusSlice'
+import { defaultState as defaultStateProductDetailOrder} from '../../rootReducers/productDetailOrderThunk'
 
 const Sidebar = () => {
   const dispatch = useDispatch()
   const valueContext = useContext(ContextTasks)
   const { unOutLine } = valueContext
+
+  const handleOnClickNav = () => {
+    dispatch(defaultStateUsers())
+    dispatch(defaultStateOrders())
+    dispatch(defaultStateTrasport())
+    dispatch(defaultStateStatus())
+    dispatch(defaultStateProductDetailOrder())
+  }
 
   return (
     <div className="sidebar">
@@ -24,7 +36,7 @@ const Sidebar = () => {
                   activeClassName="active-nav"
                   className="sidebar__link"
                   exact
-                  onClick={ () => dispatch(defaultState()) }
+                  onClick={handleOnClickNav}
                 >
                   <span className={`sidebar__link--icon ${item.icon}`} />
                   {

@@ -3,6 +3,8 @@ import Dashboard from './features/Main/Dashboard'
 import Users from './features/Main/Users/Page'
 import CreactUser from './features/Main/Users/Page/Creat/CreactUser'
 import EditUser from './features/Main/Users/Page/Edit/EditUser'
+import Orders from './features/Main/Orders/Page'
+import EditOrder from './features/Main/Orders/Page/Edit'
 
 export const routes = [
   // {
@@ -29,6 +31,16 @@ export const routes = [
     path: '/users/edit',
     exact: true,
     main: ({ match }) => <EditUser match={match}/>
+  },
+  {
+    path: '/orders',
+    exact: true,
+    main: ({ match }) => <Orders match={match}/>
+  },
+  {
+    path: '/orders/edit',
+    exact: true,
+    main: ({ match }) => <EditOrder match={match}/>
   },
   // {
   //   path: '/:group/:url',

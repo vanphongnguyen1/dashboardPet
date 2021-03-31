@@ -1,10 +1,11 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit'
 import { customAxiosApi } from '../customAxiosApi'
+import { STATUS_FETCH } from '../dataDefault'
 
 export const fetchProductDetailOrder = createAsyncThunk(
   'productDetailOrder/fetchProductDetailOrder',
-  async () => {
-    return customAxiosApi.get('productDetailOrder')
+  async (url) => {
+    return customAxiosApi.get(url)
       .then(response => {
         const { data } = response.data
         return data
@@ -38,19 +39,19 @@ export const productDetailOrderSlice = createSlice({
     [fetchProductDetailOrder.pending]: (state, action) => {
       // Add user to the state array
       state.list = []
-      state.loading = 'loading'
+      state.loading = STATUS_FETCH.LOADING
     },
 
     [fetchProductDetailOrder.fulfilled]: (state, action) => {
       // Add user to the state array
 
       state.list = action.payload
-      state.loading = 'success'
+      state.loading = STATUS_FETCH.SUCCESS
     },
 
     [fetchProductDetailOrder.rejected]: (state, action) => {
       // Add user to the state array
-      state.loading = 'failed'
+      state.loading = STATUS_FETCH.FAILED
     },
   }
 })
