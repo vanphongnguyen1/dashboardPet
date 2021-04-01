@@ -10,6 +10,7 @@ import { defaultState as defaultStateOrders} from '../../rootReducers/orderSlice
 import { defaultState as defaultStateTrasport} from '../../rootReducers/trasportSlice'
 import { defaultState as defaultStateStatus} from '../../rootReducers/statusSlice'
 import { defaultState as defaultStateProductDetailOrder} from '../../rootReducers/productDetailOrderThunk'
+import { defaultState as defaultStateComments} from '../../rootReducers/commentSlice'
 
 const Sidebar = () => {
   const dispatch = useDispatch()
@@ -22,6 +23,7 @@ const Sidebar = () => {
     dispatch(defaultStateTrasport())
     dispatch(defaultStateStatus())
     dispatch(defaultStateProductDetailOrder())
+    dispatch(defaultStateComments())
   }
 
   return (

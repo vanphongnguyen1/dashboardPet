@@ -1,8 +1,8 @@
 .group {
-  width: 90%;
-  margin: 0 3.5rem;
+  width: 100%;
   margin-bottom: 3rem;
   position: relative;
+  line-height: 1rem;
 
   &__valide {
     font-size: 1.2rem;
@@ -31,6 +31,7 @@
 
   &__input {
     width: 100%;
+    min-height: 5.2rem;
     font-weight: 500;
     font-size: 1.6rem;
 
@@ -44,6 +45,7 @@
 
     transition: all 0.3s ease-in-out;
     cursor: pointer;
+    line-height: 1.8rem;
 
     &:focus ~.pseudo-input {
       position: absolute;
@@ -101,7 +103,7 @@
   }
 
   .label-input-value {
-    padding-top: 0.5rem;
+    padding-top: 0.8rem;
     top: 0;
     transform: translateY(0);
     font-size: 1.2rem;

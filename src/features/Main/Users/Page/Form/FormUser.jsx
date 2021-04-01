@@ -149,27 +149,31 @@ const FormUser = ({ url }) => {
         <div className="identity">
           <HeadingBox title="identity" />
 
-          <GroupInput
-            type="text"
-            name="name"
-            validateName={validate.name}
-            value={state.name}
-            onBlur={handleOnBlur}
-            onChange={handleOnChange}
-            titleLabel="UserName *"
-          />
+          <div className="info-user__box">
+            <GroupInput
+              type="text"
+              name="name"
+              validateName={validate.name}
+              value={state.name}
+              onBlur={handleOnBlur}
+              onChange={handleOnChange}
+              titleLabel="UserName *"
+            />
+          </div>
 
-          <GroupInput
-            type="text"
-            name="email"
-            validateName={validate.email}
-            value={state.email}
-            onBlur={handleOnBlur}
-            onChange={handleOnChange}
-            titleLabel="Email *"
-          />
+          <div className="info-user__box">
+            <GroupInput
+              type="text"
+              name="email"
+              validateName={validate.email}
+              value={state.email}
+              onBlur={handleOnBlur}
+              onChange={handleOnChange}
+              titleLabel="Email *"
+            />
+          </div>
 
-          <div className="box-group">
+          <div className="box-group info-user__box">
             <GroupInput
               type="text"
               name="phone"
@@ -202,50 +206,56 @@ const FormUser = ({ url }) => {
         <div className="identity">
           <HeadingBox title="Address" />
 
-          <GroupInput
-            type="text"
-            name="address"
-            validateName={validate.address}
-            value={state.address}
-            onBlur={handleOnBlur}
-            onChange={handleOnChange}
-            titleLabel="Address *"
-          />
+          <div className="info-user__box">
+            <GroupInput
+              type="text"
+              name="address"
+              validateName={validate.address}
+              value={state.address}
+              onBlur={handleOnBlur}
+              onChange={handleOnChange}
+              titleLabel="Address *"
+            />
+          </div>
         </div>
 
         <div className="identity">
           <HeadingBox title="New PassWord" />
 
-          <GroupInput
-            type="password"
-            name="password"
-            validateName={validate.password}
-            value={state.password}
-            onBlur={
-              isRequitCreat
-                ? handleOnBlur
-                : () => {}
-            }
-            onChange={handleOnChange}
-            titleLabel={`New password ${isRequitCreat ? '*' : ''}`}
-          />
+          <div className="info-user__box">
+            <GroupInput
+              type="password"
+              name="password"
+              validateName={validate.password}
+              value={state.password}
+              onBlur={
+                isRequitCreat
+                  ? handleOnBlur
+                  : () => {}
+              }
+              onChange={handleOnChange}
+              titleLabel={`New password ${isRequitCreat ? '*' : ''}`}
+            />
+          </div>
 
           {
             isRequitCreat
               ? (
-                <GroupInput
-                  type="password"
-                  name="confirmPassword"
-                  validateName={validate.confirmPassword}
-                  value={state.confirmPassword}
-                  onBlur={
-                    isRequitCreat
-                      ? handleOnBlur
-                      : () => {}
-                  }
-                  onChange={handleOnChange}
-                  titleLabel={`Confirm password ${isRequitCreat ? '*' : ''}`}
-                />
+                <div className="info-user__box">
+                  <GroupInput
+                    type="password"
+                    name="confirmPassword"
+                    validateName={validate.confirmPassword}
+                    value={state.confirmPassword}
+                    onBlur={
+                      isRequitCreat
+                        ? handleOnBlur
+                        : () => {}
+                    }
+                    onChange={handleOnChange}
+                    titleLabel={`Confirm password ${isRequitCreat ? '*' : ''}`}
+                  />
+                </div>
               ) : ''
           }
         </div>

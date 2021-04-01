@@ -1,0 +1,37 @@
+.edit-comments {
+  position: fixed;
+  top: 0;
+  right: 0;
+
+  width: 40%;
+  height: 100vh;
+  background-color: #fff;
+  padding-top: 6rem;
+
+  overflow-y: auto;
+  transform: translateX(55rem);
+  opacity: 0;
+  visibility: hidden;
+  transition: all 0.3s;
+
+  &__box {
+    padding: 0 3rem;
+    margin-top: 1.5rem;
+
+    .box-info {
+      margin-bottom: 1.5rem;
+
+      &__title {
+        font-size: 1.2rem;
+        font-weight: 300;
+      }
+      &__name {
+        font-size: 1.6rem;
+        font-weight: 500;
+      }
+      &__date {
+        font-size: 1.6rem;
+      }
+    }
+  }
+}

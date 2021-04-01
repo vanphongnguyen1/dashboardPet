@@ -51,3 +51,10 @@ img {
     margin: 0 1.5rem;
   }
 }
+
+.one-line {
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 1;
+  overflow: hidden;
+}

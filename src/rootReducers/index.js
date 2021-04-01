@@ -4,6 +4,9 @@ import productDetailOrderSlice from './productDetailOrderThunk'
 import statusSlice from './statusSlice'
 import trasportSlice from './trasportSlice'
 import reducerEditOrder from './reducerEditOrder'
+import commentSlice from './commentSlice'
+import commentOneSlice from './commentOneSlice'
+import statusCommentsSlice from './statusCommentsSlice'
 
 export const rootReducers = {
   users: userReducer,
@@ -11,5 +14,8 @@ export const rootReducers = {
   productDetailOrder: productDetailOrderSlice,
   status: statusSlice,
   trasport: trasportSlice,
-  dataEditOrder: reducerEditOrder
+  dataEditOrder: reducerEditOrder,
+  comments: commentSlice,
+  comment: commentOneSlice,
+  statusComments: statusCommentsSlice
 }

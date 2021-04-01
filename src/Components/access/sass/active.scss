@@ -2,6 +2,12 @@
   transform: rotateZ(180deg);
 }
 
+.translateZero {
+  transform: translateX(0);
+  opacity: 1;
+  visibility: visible;
+}
+
 .icon-edit {
   color: #1890FF;
   font-size: 1.7rem;

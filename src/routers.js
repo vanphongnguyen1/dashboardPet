@@ -5,6 +5,7 @@ import CreactUser from './features/Main/Users/Page/Creat/CreactUser'
 import EditUser from './features/Main/Users/Page/Edit/EditUser'
 import Orders from './features/Main/Orders/Page'
 import EditOrder from './features/Main/Orders/Page/Edit'
+import Comments from './features/Main/Comments/Page'
 
 export const routes = [
   // {
@@ -42,6 +43,16 @@ export const routes = [
     exact: true,
     main: ({ match }) => <EditOrder match={match}/>
   },
+  {
+    path: '/comments',
+    exact: true,
+    main: ({ match }) => <Comments match={match}/>
+  },
+  // {
+  //   path: '/comments/edit',
+  //   exact: true,
+  //   main: ({ match }) => <EditOrder match={match}/>
+  // },
   // {
   //   path: '/:group/:url',
   //   exact: true,
