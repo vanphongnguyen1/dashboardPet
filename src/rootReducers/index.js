@@ -5,8 +5,8 @@ import statusSlice from './statusSlice'
 import trasportSlice from './trasportSlice'
 import reducerEditOrder from './reducerEditOrder'
 import commentSlice from './commentSlice'
-import commentOneSlice from './commentOneSlice'
 import statusCommentsSlice from './statusCommentsSlice'
+import menuAnimation from './menuAnimation'
 
 export const rootReducers = {
   users: userReducer,
@@ -16,6 +16,6 @@ export const rootReducers = {
   trasport: trasportSlice,
   dataEditOrder: reducerEditOrder,
   comments: commentSlice,
-  comment: commentOneSlice,
-  statusComments: statusCommentsSlice
+  statusComments: statusCommentsSlice,
+  stateIsMenu: menuAnimation
 }

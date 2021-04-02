@@ -1,16 +1,17 @@
-import { useContext, useRef } from 'react'
+import { useRef } from 'react'
+import { useSelector, useDispatch } from 'react-redux'
+import { setIsMenu } from '../rootReducers/menuAnimation'
 import Avarta from './Avarta'
-import { ContextTasks } from './Context'
 import PopuSubText from './PopuSubText'
 
 const Header = () => {
+  const dispatch = useDispatch()
   const refSidebar = useRef(null)
-  const valueContext = useContext(ContextTasks)
-  const { unOutLine, setUnOutLine } = valueContext
+  const stateIsMenu = useSelector(state => state.stateIsMenu.isMenu)
 
   const handleClickSidebar = () => {
     refSidebar.current.classList.toggle('active-rotatez')
-    setUnOutLine(!unOutLine)
+    dispatch(setIsMenu(!stateIsMenu))
   }
 
   return (
@@ -21,7 +22,7 @@ const Header = () => {
             <span className="header__sidebar--icon far fa-bars"  ref={refSidebar}/>
 
             <span className="header__sidebar--sub-text">
-              <PopuSubText title={ !unOutLine ? 'Open menu' : 'Close menu'}/>
+              <PopuSubText title={ !stateIsMenu ? 'Open menu' : 'Close menu'}/>
             </span>
           </div>
           <div className="header__user">

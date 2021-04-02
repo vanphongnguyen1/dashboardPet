@@ -1,6 +1,5 @@
 
-import { useContext } from 'react'
-import { ContextTasks } from '../../Components/Context'
+import { useSelector } from 'react-redux'
 import { MENU } from '../../dataDefault'
 import PupoSubText from '../../Components/PopuSubText'
 import { NavLink } from 'react-router-dom'
@@ -14,8 +13,7 @@ import { defaultState as defaultStateComments} from '../../rootReducers/commentS
 
 const Sidebar = () => {
   const dispatch = useDispatch()
-  const valueContext = useContext(ContextTasks)
-  const { unOutLine } = valueContext
+  const stateIsMenu = useSelector(state => state.stateIsMenu.isMenu)
 
   const handleOnClickNav = () => {
     dispatch(defaultStateUsers())
@@ -42,7 +40,7 @@ const Sidebar = () => {
                 >
                   <span className={`sidebar__link--icon ${item.icon}`} />
                   {
-                    !unOutLine ? (
+                    !stateIsMenu ? (
                       <span className="sidebar__link--title">
                         { item.title }
                       </span>
