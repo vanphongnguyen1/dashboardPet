@@ -14,7 +14,7 @@ import { HeadingBox } from '../../../../../Components/HeadingBox'
 
 const FormUser = ({ url }) => {
   const dispatch = useDispatch()
-  const dataUsers = useSelector(state => state.users)
+  const dataUsers = useSelector(state => state.users.user)
   const textUsers = TITLE_MENU.USERS.toLowerCase()
 
   const urlConvert = url.split('/')
@@ -22,13 +22,13 @@ const FormUser = ({ url }) => {
   const isRequitCreat = urlConvert[urlConvert.length - 1] === CREAT
 
   const initialValue = {
-    name: isRequitEdit ? dataUsers.list.name : '',
-    email: isRequitEdit ? dataUsers.list.email : '',
-    phone: isRequitEdit ? dataUsers.list.phone : '',
-    address: isRequitEdit ? dataUsers.list.address : '',
-    password: isRequitEdit ? dataUsers.list.password : '',
+    name: isRequitEdit ? dataUsers.name : '',
+    email: isRequitEdit ? dataUsers.email : '',
+    phone: isRequitEdit ? dataUsers.phone : '',
+    address: isRequitEdit ? dataUsers.address : '',
+    password: isRequitEdit ? dataUsers.password : '',
     confirmPassword: '',
-    role: isRequitEdit ? dataUsers.list.role : '0',
+    role: isRequitEdit ? dataUsers.role : '0',
   }
 
   const initialErMes = {
@@ -112,7 +112,7 @@ const FormUser = ({ url }) => {
     }
 
     if (isRequitEdit && isInputValida) {
-      customAxiosApi.put(`${textUsers}/${dataUsers.list.id}`, state)
+      customAxiosApi.put(`${textUsers}/${dataUsers.id}`, state)
       .then(function (response) {
         console.log(response);
       })
@@ -134,8 +134,8 @@ const FormUser = ({ url }) => {
     console.log(isInputValida)
   }
 
-  const handleDelete = () => {
-    customAxiosApi.delete(`${textUsers}/${dataUsers.list.id}`)
+  const handleDelete = async () => {
+    await customAxiosApi.delete(`${textUsers}/${dataUsers.id}`)
       .then(response => {
         console.log(response)
       })

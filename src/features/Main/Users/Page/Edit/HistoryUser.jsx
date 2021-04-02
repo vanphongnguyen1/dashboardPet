@@ -4,12 +4,10 @@ import ItemHistory from './ItemHistory'
 import { HeadingBox } from '../../../../../Components/HeadingBox'
 
 const HistoryUser = () => {
-  const user = useSelector(state => state.users.list)
-  const userCreated = moment.utc(user.created_at).local()._d
-  const userUpdated = moment.utc(user.updated_at).local()._d
+  const user = useSelector(state => state.users.user)
 
-  const textDateCreated = moment(userCreated).format("DD-MM-YYYY")
-  const textDateUpdated =  moment(userUpdated).format("DD-MM-YYYY")
+  const textDateCreated = moment(user.created_at).format("DD-MM-YYYY")
+  const textDateUpdated =  moment(user.updated_at).format("DD-MM-YYYY")
 
   return (
     <div className="history">

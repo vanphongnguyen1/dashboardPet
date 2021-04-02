@@ -7,8 +7,7 @@ import { EDIT, CREAT} from '../../../../dataDefault'
 import { useGetColumnSearchProps } from '../../../../Components/access/logic/searchColumn'
 import { Link } from 'react-router-dom'
 import { useSelector, useDispatch } from 'react-redux'
-import { fetchUsers } from '../../../../rootReducers/userSlice'
-import Loading from '../../../../Components/Loading'
+import { fetchUsers, setUser } from '../../../../rootReducers/userSlice'
 import { customAxiosApi }  from '../../../../customAxiosApi'
 
 const Users = ({ match }) => {
@@ -42,7 +41,6 @@ const Users = ({ match }) => {
         <Link
           to={`/${url}/${EDIT.toLowerCase()}`}
           className="antd-link"
-          // exact
         >
           { text }
         </Link>
@@ -56,7 +54,6 @@ const Users = ({ match }) => {
         <Link
           to={`/${url}/${EDIT.toLowerCase()}`}
           className="antd-link"
-          // exact
         >
           { text }
         </Link>
@@ -71,7 +68,6 @@ const Users = ({ match }) => {
         <Link
           to={`/${url}/${EDIT.toLowerCase()}`}
           className="antd-link"
-          // exact
         >
           { text }
         </Link>
@@ -86,7 +82,6 @@ const Users = ({ match }) => {
         <Link
           to={`/${url}/${EDIT.toLowerCase()}`}
           className="antd-link"
-          // exact
         >
           { text }
         </Link>
@@ -100,7 +95,6 @@ const Users = ({ match }) => {
         <Link
           to={`/${url}/${EDIT.toLowerCase()}`}
           className="antd-link"
-          // exact
         >
           { text }
         </Link>
@@ -110,11 +104,10 @@ const Users = ({ match }) => {
       title: 'Edit',
       dataIndex: 'action',
       width: '10%',
-      render: (text, record) => (
+      render: () => (
         <Link
           to={`/${url}/${EDIT.toLowerCase()}`}
           className="antd-link"
-          // exact
         >
           <Space size="middle">
             <EditOutlined className="icon-edit"/>
@@ -124,8 +117,8 @@ const Users = ({ match }) => {
     },
   ]
 
-  const handleDeleteSelect = () => {
-    selectedRowKeys.forEach(item => {
+  const handleDeleteSelect = async () => {
+    await selectedRowKeys.forEach(item => {
       customAxiosApi.delete(`${url}/${item.id}`)
       .then(response => {
         console.log(response.data)
@@ -137,45 +130,40 @@ const Users = ({ match }) => {
 
   return (
     <>
-      {
-        isLoading.loading === 'success'
-          ? (
-            <div className="users">
-              <div className="box-btn">
-                <Link
-                  to={`/${url}/${CREAT.toLowerCase()}`}
-                  className="box-btn--link"
-                >
-                  <Create />
-                </Link>
+      <div className="users">
+        <div className="box-btn">
+          <Link
+            to={`/${url}/${CREAT.toLowerCase()}`}
+            className="box-btn--link"
+          >
+            <Create />
+          </Link>
 
-                <Link
-                  to={`/${url}/${CREAT.toLowerCase()}`}
-                  className="box-btn--link"
-                >
-                  <Create />
-                </Link>
-              </div>
+          <Link
+            to={`/${url}/${CREAT.toLowerCase()}`}
+            className="box-btn--link"
+          >
+            <Create />
+          </Link>
+        </div>
 
-              <BoxItemDele
-                items={selectedRowKeys}
-                onClick={handleDeleteSelect}
-              />
+        <BoxItemDele
+          items={selectedRowKeys}
+          onClick={handleDeleteSelect}
+        />
 
-              <Table
-                rowKey="id"
-                rowSelection={rowSelection}
-                columns={columns}
-                dataSource={ dataUsers.list }
-                onRow={(record, rowIndex) => {
-                  return {
-                    onClick: () => dispatch(fetchUsers(`${url}/${record.id}`))
-                  }
-                }}
-              />
-            </div>
-          ) : <Loading />
-      }
+        <Table
+          rowKey="id"
+          rowSelection={rowSelection}
+          columns={columns}
+          dataSource={dataUsers.list}
+          onRow={(record, rowIndex) => {
+            return {
+              onClick: () => dispatch(setUser(record))
+            }
+          }}
+        />
+      </div>
     </>
   )
 }

@@ -17,12 +17,18 @@ export const userSlice = createSlice({
   name: 'users',
   initialState: {
     list: [],
+    user: {},
     loading: 'idle'
   },
 
   reducers: {
+    setUser: (state, action) => {
+      state.user = action.payload
+    },
+
     defaultState: (state, action) => {
       state.list = []
+      state.user = {}
       state.loading = 'idle'
     },
 
@@ -33,7 +39,6 @@ export const userSlice = createSlice({
     defaultLoading: (state, action) => {
       state.loading = 'idle'
     },
-
   },
   extraReducers: {
     [fetchUsers.pending]: (state, action) => {
@@ -56,6 +61,6 @@ export const userSlice = createSlice({
 })
 
 // Action creators are generated for each case reducer function
-export const { defaultLoading ,defaultUsers, defaultState } = userSlice.actions
+export const { defaultLoading ,defaultUsers, defaultState, setUser } = userSlice.actions
 
 export default userSlice.reducer

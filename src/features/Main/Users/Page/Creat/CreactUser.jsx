@@ -1,9 +1,7 @@
-// import { useState } from 'react'
 import FormUser from '../Form/FormUser'
-// import HistoryUser from './HistoryUser'
+import PropTypes from 'prop-types'
 
 const CreactUser = ({ match }) => {
-
   return (
     <>
       <div className="edit-user">
@@ -15,6 +13,14 @@ const CreactUser = ({ match }) => {
       </div>
     </>
   )
+}
+
+CreactUser.propTypes = {
+  match: PropTypes.object
+}
+
+CreactUser.defaultProps = {
+  match: {}
 }
 
 export default CreactUser
