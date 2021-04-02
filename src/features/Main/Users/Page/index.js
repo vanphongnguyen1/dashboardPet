@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react'
+import { useState } from 'react'
 import { Table, Space } from 'antd'
 import { EditOutlined } from '@ant-design/icons'
 import { Create } from '../../../../Components/Btn'
@@ -9,15 +9,12 @@ import { Link } from 'react-router-dom'
 import { useSelector, useDispatch } from 'react-redux'
 import { fetchUsers, setUser } from '../../../../rootReducers/userSlice'
 import { customAxiosApi }  from '../../../../customAxiosApi'
+import PropTypes from 'prop-types'
 
 const Users = ({ match }) => {
-
   const url = match.url.slice(1)
   const dispatch = useDispatch()
 
-  useEffect(() => {
-    dispatch(fetchUsers(url))
-  }, [dispatch, url])
 
   const [selectedRowKeys, setSelectedRowKeys] = useState([])
   const dataUsers = useSelector(state => state.users)
@@ -165,6 +162,14 @@ const Users = ({ match }) => {
       </div>
     </>
   )
+}
+
+Users.propTypes = {
+  url: PropTypes.string
+}
+
+Users.defaultProps = {
+  url: ''
 }
 
 export default Users

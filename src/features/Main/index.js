@@ -1,15 +1,34 @@
+import { useEffect } from 'react'
 import Sidebar from './Sidebar'
 import ScrollToTop from '../../Components/ScrollToTop'
-import { useSelector } from 'react-redux'
+import { useSelector, useDispatch } from 'react-redux'
 import {
   Switch,
   Route,
   Redirect
 } from "react-router-dom"
 import { routes } from '../../routers'
+import { fetchOrders } from '../../rootReducers/orderSlice'
+import { fetchUsers } from '../../rootReducers/userSlice'
+import { fetchComments } from '../../rootReducers/commentSlice'
+import { fetchProductDetailOrder } from '../../rootReducers/productDetailOrderThunk'
+import { fetchStatus } from '../../rootReducers/statusSlice'
+import { fetchTrasport } from '../../rootReducers/trasportSlice'
+import { fetchStatusComments } from '../../rootReducers/statusCommentsSlice'
 
 const Main = () => {
+  const dispatch = useDispatch()
   const stateIsMenu = useSelector(state => state.stateIsMenu.isMenu)
+
+  useEffect(() => {
+    dispatch(fetchOrders('orders'))
+    dispatch(fetchUsers('users'))
+    dispatch(fetchComments('comments'))
+    dispatch(fetchProductDetailOrder('productDetailOrder'))
+    dispatch(fetchStatus())
+    dispatch(fetchTrasport())
+    dispatch(fetchStatusComments())
+  }, [dispatch])
 
   return (
     <>

@@ -1,12 +1,10 @@
-import { useState, useEffect } from 'react'
+import { useState } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 import { openMessage } from '../../../../../Components/openMessage'
 import { Selector } from '../../../../../Components/Form/Selector'
 import moment from 'moment'
 import PropTypes from 'prop-types'
 import GroupInput from '../../../../../Components/Form/GroupInput'
-import { fetchStatus } from '../../../../../rootReducers/statusSlice'
-import { fetchTrasport } from '../../../../../rootReducers/trasportSlice'
 import { defaultOrder } from '../../../../../rootReducers/orderSlice'
 import { Delete, Save } from '../../../../../Components/Btn'
 import { customAxiosApi } from '../../../../../customAxiosApi'
@@ -32,11 +30,6 @@ const EditOrderContent = ({ url })  =>{
 
   const [validate, setValidate] = useState(initialValidate)
   const [dataEdit, setDataEdit] = useState(data)
-
-  useEffect(() => {
-    dispatch(fetchStatus())
-    dispatch(fetchTrasport())
-  }, [dispatch])
 
   const findPriceTrasport = id => {
     const newData = dataTrasport.list.find(item => item.id === id)

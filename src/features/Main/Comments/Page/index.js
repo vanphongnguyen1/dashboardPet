@@ -1,10 +1,7 @@
-import { useEffect } from 'react'
 import { Tabs } from 'antd'
 import { Link } from 'react-router-dom'
 import { Create } from '../../../../Components/Btn'
-import { useDispatch, useSelector } from 'react-redux'
-import { fetchComments } from '../../../../rootReducers/commentSlice'
-import { fetchStatusComments } from '../../../../rootReducers/statusCommentsSlice'
+import { useSelector } from 'react-redux'
 import PropTypes from 'prop-types'
 import TableContentTab from './TableContentTab'
 import { sectionData } from './sectionData'
@@ -12,13 +9,6 @@ import { sectionData } from './sectionData'
 const Comments = ({ match }) => {
   const url = match.url.slice(1)
   const { TabPane } = Tabs
-  const dispatch = useDispatch()
-
-  useEffect(() => {
-    dispatch(fetchComments(url))
-    dispatch(fetchStatusComments())
-  }, [dispatch, url])
-
   const dataComment = useSelector(state => state.comments)
 
   const [

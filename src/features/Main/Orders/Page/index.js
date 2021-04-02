@@ -1,23 +1,14 @@
-import { useEffect } from 'react'
 import { Tabs } from 'antd'
 import { Link } from 'react-router-dom'
 import { Create } from '../../../../Components/Btn'
 import TableContentTab from './TableContentTab'
-import { useDispatch, useSelector } from 'react-redux'
-import { fetchOrders } from '../../../../rootReducers/orderSlice'
-import { fetchProductDetailOrder } from '../../../../rootReducers/productDetailOrderThunk'
+import { useSelector } from 'react-redux'
 import { sectionData } from './sectionData'
 import PropTypes from 'prop-types'
 
 const Orders = ({ match }) => {
   const url = match.url.slice(1)
   const { TabPane } = Tabs
-  const dispatch = useDispatch()
-
-  useEffect(() => {
-    dispatch(fetchOrders(url))
-    dispatch(fetchProductDetailOrder('productDetailOrder'))
-  }, [dispatch, url])
 
   const dataOrder = useSelector(state => state.orders.list)
   const dataProductDetailOrder = useSelector(state => state.productDetailOrder.list)

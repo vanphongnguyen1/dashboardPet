@@ -3,26 +3,9 @@ import { useSelector } from 'react-redux'
 import { MENU } from '../../dataDefault'
 import PupoSubText from '../../Components/PopuSubText'
 import { NavLink } from 'react-router-dom'
-import { useDispatch } from 'react-redux'
-import { defaultState as defaultStateUsers} from '../../rootReducers/userSlice'
-import { defaultState as defaultStateOrders} from '../../rootReducers/orderSlice'
-import { defaultState as defaultStateTrasport} from '../../rootReducers/trasportSlice'
-import { defaultState as defaultStateStatus} from '../../rootReducers/statusSlice'
-import { defaultState as defaultStateProductDetailOrder} from '../../rootReducers/productDetailOrderThunk'
-import { defaultState as defaultStateComments} from '../../rootReducers/commentSlice'
 
 const Sidebar = () => {
-  const dispatch = useDispatch()
   const stateIsMenu = useSelector(state => state.stateIsMenu.isMenu)
-
-  const handleOnClickNav = () => {
-    dispatch(defaultStateUsers())
-    dispatch(defaultStateOrders())
-    dispatch(defaultStateTrasport())
-    dispatch(defaultStateStatus())
-    dispatch(defaultStateProductDetailOrder())
-    dispatch(defaultStateComments())
-  }
 
   return (
     <div className="sidebar">
@@ -35,8 +18,6 @@ const Sidebar = () => {
                   to={`/${item.title.toLowerCase()}`}
                   activeClassName="active-nav"
                   className="sidebar__link"
-                  // exact
-                  onClick={handleOnClickNav}
                 >
                   <span className={`sidebar__link--icon ${item.icon}`} />
                   {
