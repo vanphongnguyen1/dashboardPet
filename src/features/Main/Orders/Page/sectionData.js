@@ -3,14 +3,18 @@ export const sectionData = (dataOrder, dataProductDetailOrder) => {
   const dataDelivered = []
   const dataCanselled = []
 
-  dataOrder.forEach( order => {
+  dataOrder.forEach(order => {
     const products = []
 
     dataProductDetailOrder.forEach(item => {
       if (item.detailOrderID === order.detailOrderID) {
         products.push({
-          ...item.products,
-          productDetailOrderID: item.id
+          id: item.id,
+          name: item.products.name,
+          price: item.products.priceSale,
+
+          count: item.count,
+          totalPrice: item.count * item.products.priceSale,
         })
       }
     })
@@ -30,16 +34,20 @@ export const sectionData = (dataOrder, dataProductDetailOrder) => {
       address: users.address,
 
       products,
+
       totalCount: detailorder.count,
       totalPrice: detailorder.price,
       intoMeny: order.intoMeny,
 
       trasport: trasport.price,
-      peyment: peyment.name,
-      trasportPrice: trasport.price,
       status: status.name,
+      peyment: peyment.name,
 
+      trasportID: order.trasportID,
+      statusID: order.statusID,
       detailOrderID: order.detailOrderID,
+      peymentID: order.peymentID,
+      usersID: order.usersID,
 
       created: order.created_at,
       updated: order.updated_at,

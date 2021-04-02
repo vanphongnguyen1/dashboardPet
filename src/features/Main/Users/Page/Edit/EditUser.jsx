@@ -1,14 +1,10 @@
 // import { useState } from 'react'
 import FormUser from '../Form/FormUser'
 import HistoryUser from './HistoryUser'
-import Loading from '../../../../../Components/Loading'
-import { useSelector } from 'react-redux'
 import { Desktop } from '../../../../../Components/responsive'
 import PropTypes from 'prop-types'
 
 const EditUser = ({ match }) => {
-  const isLoading = useSelector(state => state.users.loading)
-
   return (
     <>
       <div className="edit-user">

@@ -14,7 +14,6 @@ const Users = ({ match }) => {
 
   const url = match.url.slice(1)
   const dispatch = useDispatch()
-  const isLoading = useSelector(state => state.users)
 
   useEffect(() => {
     dispatch(fetchUsers(url))

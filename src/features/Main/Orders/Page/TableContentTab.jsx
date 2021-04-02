@@ -6,7 +6,7 @@ import { TITLE_MENU, EDIT } from '../../../../dataDefault'
 import BoxItemDele from '../../../../Components/BoxItemDele'
 import PropTypes from 'prop-types'
 import moment from 'moment'
-import { fetchOrders } from '../../../../rootReducers/orderSlice'
+import { fetchOrders, setOrder } from '../../../../rootReducers/orderSlice'
 import { fetchProductDetailOrder } from '../../../../rootReducers/productDetailOrderThunk'
 import { useDispatch } from 'react-redux'
 import { useGetColumnSearchProps } from '../../../../Components/access/logic/searchColumn'
@@ -182,8 +182,8 @@ const TableContentTab = ({ data, url }) => {
     },
   ]
 
-  const handleDeleteSelect = () => {
-    selectedRowKeys.forEach(item => {
+  const handleDeleteSelect = async () => {
+    await selectedRowKeys.forEach(item => {
       customAxiosApi.delete(`/orders/${item.id}`)
       customAxiosApi.delete(`/detailOrder/${item.detailOrderID}`)
 
@@ -192,8 +192,9 @@ const TableContentTab = ({ data, url }) => {
       })
     })
 
-    dispatch(fetchOrders(url))
-    dispatch(fetchProductDetailOrder('productDetailOrder'))
+    setSelectedRowKeys([])
+    await dispatch(fetchOrders(url))
+    await dispatch(fetchProductDetailOrder('productDetailOrder'))
   }
 
   return (
@@ -213,8 +214,7 @@ const TableContentTab = ({ data, url }) => {
           onRow={(record, rowIndex) => {
             return {
               onClick: () => {
-                dispatch(fetchOrders(`${url}/${record.id}`))
-                dispatch(fetchProductDetailOrder(`/productDetailOrder?detailOrderID=${record.detailOrderID}`))
+                dispatch(setOrder(record))
               }
             }
           }}

@@ -1,38 +1,37 @@
 import { useState, useEffect } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
-import { message } from 'antd'
+import { openMessage } from '../../../../../Components/openMessage'
+import { Selector } from '../../../../../Components/Form/Selector'
 import moment from 'moment'
+import PropTypes from 'prop-types'
 import GroupInput from '../../../../../Components/Form/GroupInput'
-import { Lable } from '../../../../../Components/Form/Lable'
 import { fetchStatus } from '../../../../../rootReducers/statusSlice'
 import { fetchTrasport } from '../../../../../rootReducers/trasportSlice'
+import { defaultOrder } from '../../../../../rootReducers/orderSlice'
 import { Delete, Save } from '../../../../../Components/Btn'
 import { customAxiosApi } from '../../../../../customAxiosApi'
 import { REGEX } from '../../../../../dataDefault'
 import { HeadingBox, SubHeading } from '../../../../../Components/HeadingBox'
+import DelayLink from '../../../../../Components/DelayLink'
 import ItemTotal from './ItemTotal'
 import ItemProduct from './ItemProduct'
 
-const EditOrderContent = ({ data })  =>{
-  const { user, order, products, totals } = data
+const EditOrderContent = ({ url })  =>{
+  const urlOrder = url.split('/')
+  const dispatch = useDispatch()
+
+  const dataStatus = useSelector(state => state.status)
+  const dataTrasport = useSelector(state => state.trasport)
+  const data = useSelector(state => state.orders.order)
+
   const initialValidate = {
     name: '',
     address: '',
     phone: ''
   }
 
-  const dispatch = useDispatch()
-  const dataStatus = useSelector(state => state.status)
-  const dataTrasport = useSelector(state => state.trasport)
-
   const [validate, setValidate] = useState(initialValidate)
-  const [dataUser, setDataUser] = useState(user)
-  const [dataOrder, setDataOrder] = useState(order)
-  const [dataProducts, setDataProducts] = useState(products)
-  const [dataTotals, setDataTotals] = useState(totals)
-
-  let sumPriceProduct = 0
-  let sumCount = 0
+  const [dataEdit, setDataEdit] = useState(data)
 
   useEffect(() => {
     dispatch(fetchStatus())
@@ -58,30 +57,26 @@ const EditOrderContent = ({ data })  =>{
   const handleOnChange = e => {
     const { name, value } = e.target
 
-    if (name === 'trasport' || name === 'status') {
-      setDataOrder({
-        ...dataOrder,
-        [name]: value
+    if (name === 'trasportID') {
+      setDataEdit({
+        ...dataEdit,
+        trasportID: value,
+        trasport: findPriceTrasport(Number(value)),
+        intoMeny: dataEdit.totalPrice + findPriceTrasport(Number(value))
       })
-
-      if (name === 'trasport') {
-        setDataTotals({
-          ...dataTotals,
-          trasport: findPriceTrasport(Number(value)),
-          intoMeny: dataTotals.totalPrice + findPriceTrasport(Number(value))
-        })
-      }
-
     } else {
-      setDataUser({
-        ...dataUser,
+      setDataEdit({
+        ...dataEdit,
         [name]: value
       })
     }
   }
 
   const onChangeCountProduct = (value, id) => {
-    const newdata = dataProducts.map(product => {
+    let sumPriceProduct = 0
+    let sumCount = 0
+
+    const newdata = dataEdit.products.map(product => {
       if (product.id === id) {
         return {
           ...product,
@@ -99,18 +94,20 @@ const EditOrderContent = ({ data })  =>{
       })
     }
 
-    setDataTotals({
-      ...dataTotals,
+    setDataEdit({
+      ...dataEdit,
+      products: newdata,
       totalCount: sumCount,
       totalPrice: sumPriceProduct,
-      intoMeny: dataTotals.trasport + sumPriceProduct
+      intoMeny: dataEdit.trasport + sumPriceProduct
     })
-
-    setDataProducts(newdata)
   }
 
   const handleDelProduct = id => {
-    const newdata = dataProducts.filter(product => product.id !== id)
+    let sumPriceProduct = 0
+    let sumCount = 0
+
+    const newdata = dataEdit.products.filter(product => product.id !== id)
 
     if (newdata.length > 0) {
       newdata.forEach(product => {
@@ -119,40 +116,20 @@ const EditOrderContent = ({ data })  =>{
       })
     }
 
-    setDataTotals({
-      ...dataTotals,
-      totalPrice: sumPriceProduct,
+    setDataEdit({
+      ...dataEdit,
+      products: newdata,
       totalCount: sumCount,
-      intoMeny: dataTotals.trasport + sumPriceProduct
+      totalPrice: sumPriceProduct,
+      intoMeny: dataEdit.trasport + sumPriceProduct
     })
-
-    setDataProducts(newdata)
-  }
-
-  const openMessage = () => {
-    const key = 'updatable'
-
-    message.loading({ content: 'Loading...', key })
-    setTimeout(() => {
-      message.success({ content: 'Success!', key, duration: 2 })
-    }, 1000)
   }
 
   const checkValidated = () => {
     const { ...newValidate } = validate
 
-    if (!REGEX.EMAIL.test(dataUser.email)) {
-      newValidate.email = 'Bạn nhập sai Email !'
-    }
-
-    if (!REGEX.PHONE.test(dataUser.phone)) {
+    if (!REGEX.PHONE.test(dataEdit.phone)) {
       newValidate.phone = 'Số điện thoại gồm 10 số và đầu là 09|03|08|05|07'
-    }
-
-    for (let key in dataUser) {
-      if (!dataUser[key]) {
-        newValidate[key] = 'Requite *'
-      }
     }
 
     setValidate(newValidate)
@@ -168,42 +145,53 @@ const EditOrderContent = ({ data })  =>{
   const handleSave = () => {
     const isInputValida = checkValidated()
 
+    if (!dataEdit.products.length > 0) {
+      hanleDeleteOrder()
+      return;
+    }
+
     if (isInputValida) {
-      customAxiosApi.put(`/users/${dataUser.id}`, dataUser)
+      customAxiosApi.put(`/users/${dataEdit.usersID}`, {
+        name: dataEdit.name,
+        phone: dataEdit.phone,
+        address: dataEdit.address
+      })
       .then(response => {
         console.log(response.data)
       })
 
-      customAxiosApi.put(`/orders/${dataOrder.id}`, {
-        intoMeny: dataTotals.intoMeny,
-        trasportID: dataOrder.trasport,
-        peymentID: dataOrder.peyment,
-        statusID: dataOrder.status,
+      customAxiosApi.put(`/orders/${dataEdit.id}`, {
+        intoMeny: dataEdit.intoMeny,
+        trasportID: dataEdit.trasportID,
+        peymentID: dataEdit.peymentID,
+        statusID: dataEdit.statusID,
       })
 
-      customAxiosApi.put(`/detailOrder/${dataOrder.detailOrderID}`, {
-        count: dataTotals.totalCount,
-        price: dataTotals.totalPrice,
+      customAxiosApi.put(`/detailOrder/${dataEdit.detailOrderID}`, {
+        count: dataEdit.totalCount,
+        price: dataEdit.totalPrice,
       })
 
-      dataProducts.forEach(productDetailOrder => {
+      dataEdit.products.forEach(productDetailOrder => {
         customAxiosApi.put(`/productDetailOrder/${productDetailOrder.id}`, {
           count: productDetailOrder.count,
           price: productDetailOrder.totalPrice,
         })
       })
 
-      openMessage ()
+      openMessage('Update Success !')
     }
   }
 
-  const hanleDeleteOrder = () => {
-    customAxiosApi.delete(`/orders/${dataOrder.id}`)
-    customAxiosApi.delete(`/detailOrder/${dataOrder.detailOrderID}`)
+  const hanleDeleteOrder = async () => {
+    await customAxiosApi.delete(`/orders/${dataEdit.id}`)
+    await customAxiosApi.delete(`/detailOrder/${dataEdit.detailOrderID}`)
 
-    dataProducts.forEach(productDetailOrder => {
+    await dataEdit.products.forEach(productDetailOrder => {
       customAxiosApi.delete(`/productDetailOrder/${productDetailOrder.id}`)
     })
+
+    dispatch(defaultOrder())
   }
 
   return (
@@ -215,68 +203,24 @@ const EditOrderContent = ({ data })  =>{
           <div className="box-5">
             <div className="edit-order__box">
               <span className="edit-order__box--text">
-                Date: { moment(dataOrder.date).format('DD-MM-YYYY') }
+                Date: { moment(dataEdit.updated).format('DD-MM-YYYY') }
               </span>
 
-              <div className="group">
-                <select
-                  name="status"
-                  className="group__select"
-                  onChange={handleOnChange}
-                  value={dataOrder.status}
-                >
-                  {
-                    dataStatus.loading === 'success'
-                      ? (
-                          dataStatus.list.map(item => {
-                            return (
-                              <option
-                                value={item.id}
-                                key={item.id}
-                                >
-                                  { item.name}
-                              </option>
-                            )
-                          })
-                      ) : ''
-                  }
-                </select>
+              <Selector
+                title="Status"
+                name="statusID"
+                onChange={handleOnChange}
+                value={dataEdit.statusID}
+                options={dataStatus.list}
+              />
 
-                <Lable
-                  text="Status"
-                  className='group__label label-input-value'
-                />
-              </div>
-
-              <div className="group">
-                <select
-                  name="trasport"
-                  className="group__select"
-                  onChange={handleOnChange}
-                  value={dataOrder.trasport}
-                >
-                  {
-                    dataTrasport.loading === 'success'
-                      ? (
-                          dataTrasport.list.map(item => {
-                            return (
-                              <option
-                                value={item.id}
-                                key={item.id}
-                                >
-                                  { item.name}
-                              </option>
-                            )
-                          })
-                      ) : ''
-                  }
-                </select>
-
-                <Lable
-                  text="Trasport"
-                  className='group__label label-input-value'
-                />
-              </div>
+              <Selector
+                title="Trasport"
+                name="trasportID"
+                onChange={handleOnChange}
+                value={dataEdit.trasportID}
+                options={dataTrasport.list}
+              />
             </div>
           </div>
 
@@ -288,7 +232,7 @@ const EditOrderContent = ({ data })  =>{
                 type="text"
                 name="name"
                 validateName={validate.name}
-                value={dataUser.name}
+                value={dataEdit.name}
                 onBlur={handleOnBlur}
                 onChange={handleOnChange}
                 titleLabel="Name *"
@@ -298,7 +242,7 @@ const EditOrderContent = ({ data })  =>{
                 type="text"
                 name="phone"
                 validateName={validate.phone}
-                value={dataUser.phone}
+                value={dataEdit.phone}
                 onBlur={handleOnBlur}
                 onChange={handleOnChange}
                 titleLabel="Phone *"
@@ -308,7 +252,7 @@ const EditOrderContent = ({ data })  =>{
                 type="text"
                 name="address"
                 validateName={validate.address}
-                value={dataUser.address}
+                value={dataEdit.address}
                 onBlur={handleOnBlur}
                 onChange={handleOnChange}
                 titleLabel="Address *"
@@ -331,7 +275,7 @@ const EditOrderContent = ({ data })  =>{
               </div>
 
               {
-                dataProducts.map((product, index) => {
+                dataEdit.products.map((product, index) => {
                   return (
                     <ItemProduct
                       key={index}
@@ -354,15 +298,15 @@ const EditOrderContent = ({ data })  =>{
 
           <div className="totals">
             <div className="table">
-              <ItemTotal name="totalPrice" value={dataTotals.totalPrice} />
+              <ItemTotal name="totalPrice" value={dataEdit.totalPrice} />
 
-              <ItemTotal name="totalCount" value={dataTotals.totalCount} />
+              <ItemTotal name="totalCount" value={dataEdit.totalCount} />
 
-              <ItemTotal name="Trasport" value={dataTotals.trasport} />
+              <ItemTotal name="Trasport" value={dataEdit.trasport} />
 
-              <ItemTotal name="Peyment" value={dataTotals.peyment} />
+              <ItemTotal name="Peyment" value={dataEdit.peyment} />
 
-              <ItemTotal name="intoMeny" value={dataTotals.intoMeny} />
+              <ItemTotal name="intoMeny" value={dataEdit.intoMeny} />
             </div>
           </div>
         </div>
@@ -372,14 +316,25 @@ const EditOrderContent = ({ data })  =>{
             <div className="box-submit__save" onClick={handleSave}>
               <Save />
             </div >
-            <div className="box-submit__delete" onClick={hanleDeleteOrder}>
-              <Delete/>
-            </div>
+            <DelayLink
+              to={`/${urlOrder[1]}`}
+              className="box-submit__delete"
+              onClick={hanleDeleteOrder}
+              delay={1000}
+              children={<Delete/>}
+            />
           </div>
         </div>
       </div>
     </>
   )
+}
+
+EditOrderContent.propTypes = {
+  url: PropTypes.string
+}
+EditOrderContent.defaultProps = {
+  url: ''
 }
 
 export default EditOrderContent

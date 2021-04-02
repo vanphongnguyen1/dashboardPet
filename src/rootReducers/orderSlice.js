@@ -17,21 +17,22 @@ export const orderSlice = createSlice({
   name: 'orders',
   initialState: {
     list: [],
+    order: {},
     loading: 'idle'
   },
 
   reducers: {
     defaultState: (state, action) => {
       state.list = []
+      state.order = {}
       state.loading = 'idle'
     },
-
-    defaultListOrders: (state, action) => {
-      state.list = []
+    defaultOrder: (state, action) => {
+      state.order = {}
     },
 
-    defaultLoading: (state, action) => {
-      state.loading = 'idle'
+    setOrder: (state, action) => {
+      state.order = action.payload
     }
   },
 
@@ -44,7 +45,6 @@ export const orderSlice = createSlice({
 
     [fetchOrders.fulfilled]: (state, action) => {
       // Add user to the state array
-
       state.list = action.payload
       state.loading = STATUS_FETCH.SUCCESS
     },
@@ -58,6 +58,6 @@ export const orderSlice = createSlice({
 
 const { actions, reducer } = orderSlice
 
-export const { defaultLoading, defaultState, defaultListOrders  } = actions
+export const { setOrder, defaultState, defaultOrder } = actions
 
 export default reducer

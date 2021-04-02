@@ -8,3 +8,7 @@ export const openMessage = text => {
     message.success({ content: text, key, duration: 2 });
   }, 700);
 }
+
+export const messageError = text => {
+  message.error(text);
+}

@@ -3,12 +3,12 @@ import PropTypes from 'prop-types'
 import { useSelector, useDispatch } from 'react-redux'
 import { TITLE_MENU, EDIT, CREAT } from '../../../../../dataDefault'
 import { Delete, Save } from '../../../../../Components/Btn'
-import { defaultUsers } from '../../../../../rootReducers/userSlice'
+import { defaultUser } from '../../../../../rootReducers/userSlice'
 import { customAxiosApi } from '../../../../../customAxiosApi'
 import { REGEX } from '../../../../../dataDefault'
 import GroupInput from '../../../../../Components/Form/GroupInput'
 import { Lable } from '../../../../../Components/Form/Lable'
-import { openMessage } from '../../../../../Components/openMessage'
+import { openMessage, messageError } from '../../../../../Components/openMessage'
 import DelayLink from '../../../../../Components/DelayLink'
 import { HeadingBox } from '../../../../../Components/HeadingBox'
 
@@ -16,7 +16,6 @@ const FormUser = ({ url }) => {
   const dispatch = useDispatch()
   const dataUsers = useSelector(state => state.users.user)
   const textUsers = TITLE_MENU.USERS.toLowerCase()
-
   const urlConvert = url.split('/')
   const isRequitEdit = urlConvert[urlConvert.length - 1] === EDIT
   const isRequitCreat = urlConvert[urlConvert.length - 1] === CREAT
@@ -104,43 +103,37 @@ const FormUser = ({ url }) => {
   const handleSubmit = () => {
     const isInputValida = checkValidated()
 
-    if (isInputValida) {
-      openMessage()
-
-      setState(initialValue)
-      setValidate(isInputValida)
-    }
-
     if (isRequitEdit && isInputValida) {
       customAxiosApi.put(`${textUsers}/${dataUsers.id}`, state)
-      .then(function (response) {
-        console.log(response);
+      .then(() => {
+        openMessage('Update Success !')
       })
-      .catch(function (error) {
-        console.log(error);
+      .catch(error => {
+        messageError(error.message)
       })
+
+      setState(initialValue)
+      setValidate(initialErMes)
     }
 
     if (isRequitCreat && isInputValida) {
       customAxiosApi.post(textUsers, state)
-      .then(function (response) {
-        console.log(response);
+      .then(() => {
+        openMessage('Add Success !')
       })
-      .catch(function (error) {
-        console.log(error);
+      .catch(error => {
+        messageError(error.message)
       })
-    }
 
-    console.log(isInputValida)
+      setState(initialValue)
+      setValidate(initialErMes)
+    }
   }
 
   const handleDelete = async () => {
     await customAxiosApi.delete(`${textUsers}/${dataUsers.id}`)
-      .then(response => {
-        console.log(response)
-      })
 
-    dispatch(defaultUsers())
+    dispatch(defaultUser())
   }
 
   return (
