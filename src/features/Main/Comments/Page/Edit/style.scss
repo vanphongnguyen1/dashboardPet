@@ -2,6 +2,7 @@
   position: fixed;
   top: 0;
   right: 0;
+  z-index: 3;
 
   width: 40%;
   height: 100vh;
@@ -32,6 +33,20 @@
       &__date {
         font-size: 1.6rem;
       }
+    }
+  }
+
+  .close-icon {
+    margin-right: 2rem;
+    padding: 1rem 1.5rem;
+    font-size: 1.8rem;
+    border-radius: 50%;
+    margin-bottom: 2rem;
+    transition: all 0.3s ease-in-out;
+    cursor: pointer;
+
+    &:hover {
+      background-color: #F5F5F5;
     }
   }
 }

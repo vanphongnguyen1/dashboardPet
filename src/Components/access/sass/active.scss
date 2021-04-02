@@ -32,3 +32,20 @@
   border-left: 3px solid #4F3CC9;
   background-color: rgba(0, 0, 0, 0.04);
 }
+
+.overflow {
+  position: fixed;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+  z-index: 2;
+
+  background-color: rgba(#000000, .1);
+  transform: translateX(100%);
+
+  opacity: 0;
+  visibility: hidden;
+  cursor: pointer;
+  transition: all 0.28s ease-in-out;
+}

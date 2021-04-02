@@ -18,7 +18,7 @@ const EditComments = ({ url, isEditComments, setIsEditComments }) => {
 
   const dispatch = useDispatch()
   const dataStatus = useSelector(state => state.statusComments.list)
-  const dataEdit = useSelector(state => state.comment.list)
+  const dataEdit = useSelector(state => state.comments.comment)
   const [newData, setNewData] = useState(initial)
 
   useEffect(() => {
@@ -40,13 +40,13 @@ const EditComments = ({ url, isEditComments, setIsEditComments }) => {
   const handleSave = async () => {
     await customAxiosApi.put(`${url}/${dataEdit.id}`, newData)
     openMessage('edit success !')
-    dispatch(fetchComments(url))
+    await dispatch(fetchComments(url))
   }
 
   const handleDelete = async () => {
     await customAxiosApi.delete(`${url}/${dataEdit.id}`)
     setIsEditComments(false)
-    dispatch(fetchComments(url))
+    await dispatch(fetchComments(url))
   }
 
   return (
@@ -55,7 +55,11 @@ const EditComments = ({ url, isEditComments, setIsEditComments }) => {
         edit-comments
         ${isEditComments ? 'translateZero' : ''}
       `}>
-        <HeadingBox title="Comments Detail" />
+        <div className="box-row">
+          <HeadingBox title="Comments Detail" />
+
+          <span className="close-icon far fa-times" onClick={() => setIsEditComments(false)}/>
+        </div>
 
         <div className="edit-comments__box">
           <div className="box-row">

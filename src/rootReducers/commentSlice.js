@@ -17,6 +17,7 @@ export const commentSlice = createSlice({
   name: 'comments',
   initialState: {
     list: [],
+    comment: {},
     loading: 'idle'
   },
 
@@ -30,8 +31,8 @@ export const commentSlice = createSlice({
       state.list = []
     },
 
-    defaultLoading: (state, action) => {
-      state.loading = 'idle'
+    setDataComment: (state, action) => {
+      state.comment = action.payload
     }
   },
 
@@ -58,6 +59,6 @@ export const commentSlice = createSlice({
 
 const { actions, reducer } = commentSlice
 
-export const { defaultLoading, defaultState, defaultListComments  } = actions
+export const { setDataComment, defaultState, defaultListComments  } = actions
 
 export default reducer

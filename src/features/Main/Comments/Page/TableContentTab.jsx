@@ -4,11 +4,10 @@ import { EditOutlined } from '@ant-design/icons'
 import BoxItemDele from '../../../../Components/BoxItemDele'
 import PropTypes from 'prop-types'
 import moment from 'moment'
-import { fetchComments } from '../../../../rootReducers/commentSlice'
-import { setDataComment } from '../../../../rootReducers/commentOneSlice'
+import { fetchComments, setDataComment } from '../../../../rootReducers/commentSlice'
 import { useDispatch } from 'react-redux'
 import { useGetColumnSearchProps } from '../../../../Components/access/logic/searchColumn'
-// import { customAxiosApi } from '../../../../customAxiosApi'
+import { customAxiosApi } from '../../../../customAxiosApi'
 import EditComments from './Edit/EditComments'
 
 const TableContentTab = ({ data, url }) => {
@@ -91,17 +90,13 @@ const TableContentTab = ({ data, url }) => {
     },
   ]
 
-  const handleDeleteSelect = () => {
-    // selectedRowKeys.forEach(item => {
-    //   customAxiosApi.delete(`/orders/${item.id}`)
-    //   customAxiosApi.delete(`/detailOrder/${item.detailOrderID}`)
+  const handleDeleteSelect = async () => {
+    await selectedRowKeys.forEach(item => {
+      customAxiosApi.delete(`${url}/${item.id}`)
+    })
 
-    //   item.products.forEach(product => {
-    //     customAxiosApi.delete(`/productDetailOrder/${product.productDetailOrderID}`)
-    //   })
-    // })
-
-    dispatch(fetchComments(url))
+    setSelectedRowKeys([])
+    await dispatch(fetchComments(url))
   }
 
   return (
@@ -122,7 +117,6 @@ const TableContentTab = ({ data, url }) => {
               onClick: () => {
                 dispatch(setDataComment(record))
                 setIsEditComments(true)
-                console.log(record)
               }
             }
           }}
@@ -132,6 +126,13 @@ const TableContentTab = ({ data, url }) => {
           url={url}
           setIsEditComments={setIsEditComments}
           isEditComments={isEditComments}
+        />
+        <div
+          className={`
+            overflow
+            ${isEditComments ? 'translateZero' : ''}
+          `}
+          onClick={() => setIsEditComments(false)}
         />
       </div>
     </>
