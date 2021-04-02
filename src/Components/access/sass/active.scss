@@ -7,6 +7,11 @@
   opacity: 1;
   visibility: visible;
 }
+.translate-scale {
+  transform: scale(1);
+  opacity: 1;
+  visibility: visible;
+}
 
 .icon-edit {
   color: #1890FF;
@@ -33,6 +38,7 @@
   background-color: rgba(0, 0, 0, 0.04);
 }
 
+.overflow-trasperent,
 .overflow {
   position: fixed;
   top: 0;
@@ -48,4 +54,13 @@
   visibility: hidden;
   cursor: pointer;
   transition: all 0.28s ease-in-out;
+}
+
+.overflow-trasperent {
+  background-color: transparent;
+  transform: translateX(0);
+
+  opacity: 1;
+  visibility: visible;
+  cursor: initial;
 }

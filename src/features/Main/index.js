@@ -2,7 +2,6 @@ import Sidebar from './Sidebar'
 import ScrollToTop from '../../Components/ScrollToTop'
 import { useSelector } from 'react-redux'
 import {
-  BrowserRouter as Router,
   Switch,
   Route,
   Redirect
@@ -13,7 +12,7 @@ const Main = () => {
   const stateIsMenu = useSelector(state => state.stateIsMenu.isMenu)
 
   return (
-    <Router>
+    <>
       <ScrollToTop />
 
       <div className="main">
@@ -49,7 +48,7 @@ const Main = () => {
           </Switch>
         </div>
       </div>
-    </Router>
+    </>
   )
 }
 

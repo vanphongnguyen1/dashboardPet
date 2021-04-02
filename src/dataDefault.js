@@ -14,8 +14,6 @@ export const TITLE_MENU = {
   PRODUCTPORFOLIO: 'Product portfolio',
   PRODUCTS: 'Products',
   COMMENTS: 'Comments',
-  SETTING: 'Setting',
-  LOGOUT: 'Logout'
 }
 
 export const REGEX = {
@@ -47,13 +45,5 @@ export const MENU = [
   {
     icon: 'fas fa-comment-alt-lines',
     title: TITLE_MENU.COMMENTS
-  },
-  {
-    icon: 'fas fa-cog',
-    title: TITLE_MENU.SETTING
-  },
-  {
-    icon: 'fas fa-sign-out-alt',
-    title: TITLE_MENU.LOGOUT
   },
 ]

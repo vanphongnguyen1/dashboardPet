@@ -35,7 +35,7 @@ const Sidebar = () => {
                   to={`/${item.title.toLowerCase()}`}
                   activeClassName="active-nav"
                   className="sidebar__link"
-                  exact
+                  // exact
                   onClick={handleOnClickNav}
                 >
                   <span className={`sidebar__link--icon ${item.icon}`} />
