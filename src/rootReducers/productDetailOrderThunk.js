@@ -1,11 +1,11 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit'
 import { customAxiosApi } from '../customAxiosApi'
-import { STATUS_FETCH } from '../dataDefault'
+import { STATUS_FETCH, API_NAME } from '../dataDefault'
 
 export const fetchProductDetailOrder = createAsyncThunk(
   'productDetailOrder/fetchProductDetailOrder',
-  async (url) => {
-    return customAxiosApi.get(url)
+  async () => {
+    return customAxiosApi.get(API_NAME.PRODUCTDETAILORDER)
       .then(response => {
         const { data } = response.data
         return data

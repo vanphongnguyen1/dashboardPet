@@ -1,6 +1,38 @@
 export const CREAT = 'creat'
 export const EDIT = 'edit'
 
+export const STATUS_HANDLE = {
+  PENDING: 'pending',
+
+  DELIVERED: 'delivered',
+  CANCELLED: 'cancelled',
+
+  REJECTED: 'rejected',
+  ACCEPTED: 'accepted'
+}
+
+export const API_NAME = {
+  USERS: 'users',
+  ORDERS: 'orders',
+  CUSTOMERS: 'customers',
+  COMMENTS: 'comments',
+  PRODUCTS: 'products',
+  DETAILORDER: 'detailOrder',
+
+  TYPEPRODUCT: 'typeProduct',
+  PRODUCTDETAILORDER: 'productDetailOrder',
+
+  GROUPS: 'groups',
+  LINEAGE: 'lineage',
+  IMAGES: 'images',
+  KEYSEARCH: 'keySearch',
+  PEYMENT: 'peyment',
+  STATUS: 'status',
+  TRASPORT: 'trasport',
+  SLIDER: 'slider',
+  STATUSCOMMENTS: 'statusComments',
+}
+
 export const STATUS_FETCH = {
   SUCCESS: 'success',
   LOADING: 'loading',

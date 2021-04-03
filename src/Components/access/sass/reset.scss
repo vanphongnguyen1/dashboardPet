@@ -38,6 +38,24 @@ img {
     display: block;
 }
 
+::-webkit-scrollbar {
+  width: 1rem;
+}
+
+::-webkit-scrollbar-track {
+  background-color: #fcfcfe;
+}
+
+::-webkit-scrollbar-thumb {
+  background-color: #c1c1c1ab;
+  border-radius: 2.5rem;
+  transition: all 0.3s ease-in-out;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background-color: #c1c1c1;
+}
+
 .posi-relative {
   position: relative;
 }

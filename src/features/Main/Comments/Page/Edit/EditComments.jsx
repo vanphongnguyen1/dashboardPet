@@ -4,13 +4,16 @@ import { Selector } from '../../../../../Components/Form/Selector'
 import { Textarea } from '../../../../../Components/Form/Textarea'
 import { Delete, Save } from '../../../../../Components/Btn'
 import { useSelector, useDispatch } from 'react-redux'
-import moment from 'moment'
+import { date } from '../../../../../Components/myMonment'
 import { customAxiosApi } from '../../../../../customAxiosApi'
 import PropTypes from 'prop-types'
 import { openMessage } from '../../../../../Components/openMessage'
 import { fetchComments } from '../../../../../rootReducers/commentSlice'
+import BoxInfo from './BoxInfo'
+import { API_NAME } from '../../../../../dataDefault'
+import { showLoading, hideLoading } from 'react-redux-loading-bar'
 
-const EditComments = ({ url, isEditComments, setIsEditComments }) => {
+const EditComments = ({ isEditComments, handleCloseEdit }) => {
   const initial = {
     statusCommentsID: '',
     title: ''
@@ -38,15 +41,21 @@ const EditComments = ({ url, isEditComments, setIsEditComments }) => {
   }
 
   const handleSave = async () => {
-    await customAxiosApi.put(`${url}/${dataEdit.id}`, newData)
+    dispatch(showLoading('sectionBar'))
+    customAxiosApi.put(`${API_NAME.COMMENTS}/${dataEdit.id}`, newData)
+
+    await dispatch(fetchComments())
     openMessage('edit success !')
-    await dispatch(fetchComments(url))
+    await dispatch(hideLoading('sectionBar'))
   }
 
   const handleDelete = async () => {
-    await customAxiosApi.delete(`${url}/${dataEdit.id}`)
-    setIsEditComments(false)
-    await dispatch(fetchComments(url))
+    dispatch(showLoading('sectionBar'))
+    customAxiosApi.delete(`${API_NAME.COMMENTS}/${dataEdit.id}`)
+
+    await dispatch(fetchComments())
+    handleCloseEdit()
+    await dispatch(hideLoading('sectionBar'))
   }
 
   return (
@@ -58,30 +67,22 @@ const EditComments = ({ url, isEditComments, setIsEditComments }) => {
         <div className="box-row">
           <HeadingBox title="Comments Detail" />
 
-          <span className="close-icon far fa-times" onClick={() => setIsEditComments(false)}/>
+          <span
+            className="close-icon far fa-times"
+            onClick={handleCloseEdit}
+          />
         </div>
 
         <div className="edit-comments__box">
           <div className="box-row">
             <div className="box-6">
-              <div className="box-info">
-                <p className="box-info__title">Custommer</p>
-                <p className="box-info__name">{dataEdit.userName}</p>
-              </div>
+              <BoxInfo title="Custommer" info={dataEdit.userName} />
 
-              <div className="box-info">
-                <p className="box-info__title">Date</p>
-                <p className="box-info__date">
-                  { moment(dataEdit.updated).format('DD-MM-YYYY') }
-                </p>
-              </div>
+              <BoxInfo title="Date" info={date(dataEdit.updated)} />
             </div>
 
             <div className="box-6">
-              <div className="box-info">
-                <p className="box-info__title">Product</p>
-                <p className="box-info__name">{dataEdit.nameProduct}</p>
-              </div>
+              <BoxInfo title="Product" info={dataEdit.nameProduct} />
 
               <div className="box-info">
                 <Selector
@@ -95,6 +96,7 @@ const EditComments = ({ url, isEditComments, setIsEditComments }) => {
             </div>
           </div>
         </div>
+
         <div className="edit-comments__box">
           <Textarea
             title='Comments'
@@ -109,6 +111,7 @@ const EditComments = ({ url, isEditComments, setIsEditComments }) => {
             <div className="box-submit__save" onClick={handleSave}>
               <Save />
             </div >
+
             <div className="box-submit__delete" onClick={handleDelete}>
               <Delete/>
             </div>
@@ -120,15 +123,13 @@ const EditComments = ({ url, isEditComments, setIsEditComments }) => {
 }
 
 EditComments.propTypes = {
-  url: PropTypes.string,
   isEditComments: PropTypes.bool,
-  setIsEditComments: PropTypes.func
+  handleCloseEdit: PropTypes.func
 }
 
 EditComments.defaultProps = {
-  url: '',
   isEditComments: false,
-  setIsEditComments: () => {}
+  handleCloseEdit: () => {}
 }
 
 export default EditComments

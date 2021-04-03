@@ -1,9 +1,9 @@
 import { useState } from 'react'
 import PropTypes from 'prop-types'
 import { useSelector, useDispatch } from 'react-redux'
-import { TITLE_MENU, EDIT, CREAT } from '../../../../../dataDefault'
+import { TITLE_MENU, EDIT, CREAT, API_NAME } from '../../../../../dataDefault'
 import { Delete, Save } from '../../../../../Components/Btn'
-import { defaultUser } from '../../../../../rootReducers/userSlice'
+import { defaultUser, fetchUsers } from '../../../../../rootReducers/userSlice'
 import { customAxiosApi } from '../../../../../customAxiosApi'
 import { REGEX } from '../../../../../dataDefault'
 import GroupInput from '../../../../../Components/Form/GroupInput'
@@ -11,14 +11,15 @@ import { Lable } from '../../../../../Components/Form/Lable'
 import { openMessage, messageError } from '../../../../../Components/openMessage'
 import DelayLink from '../../../../../Components/DelayLink'
 import { HeadingBox } from '../../../../../Components/HeadingBox'
+import { showLoading, hideLoading } from 'react-redux-loading-bar'
 
 const FormUser = ({ url }) => {
   const dispatch = useDispatch()
   const dataUsers = useSelector(state => state.users.user)
-  const textUsers = TITLE_MENU.USERS.toLowerCase()
   const urlConvert = url.split('/')
   const isRequitEdit = urlConvert[urlConvert.length - 1] === EDIT
   const isRequitCreat = urlConvert[urlConvert.length - 1] === CREAT
+  const textUsers = API_NAME.USERS
 
   const initialValue = {
     name: isRequitEdit ? dataUsers.name : '',
@@ -75,7 +76,7 @@ const FormUser = ({ url }) => {
     }
 
     if (!REGEX.PHONE.test(state.phone)) {
-      newValidate.phone = 'Số điện thoại gồm 10 số và đầu là 09|03|08|05|07'
+      newValidate.phone = 'Đầu số 09|03|08|05|07 gồm 10 số !'
     }
 
     if (isRequitCreat && !(state.confirmPassword === state.password)) {
@@ -100,10 +101,12 @@ const FormUser = ({ url }) => {
     return true
   }
 
-  const handleSubmit = () => {
+  const handleSubmit = async () => {
     const isInputValida = checkValidated()
 
     if (isRequitEdit && isInputValida) {
+      dispatch(showLoading('sectionBar'))
+
       customAxiosApi.put(`${textUsers}/${dataUsers.id}`, state)
       .then(() => {
         openMessage('Update Success !')
@@ -112,11 +115,14 @@ const FormUser = ({ url }) => {
         messageError(error.message)
       })
 
-      setState(initialValue)
       setValidate(initialErMes)
+      await dispatch(fetchUsers())
+      await dispatch(hideLoading('sectionBar'))
     }
 
     if (isRequitCreat && isInputValida) {
+      dispatch(showLoading('sectionBar'))
+
       customAxiosApi.post(textUsers, state)
       .then(() => {
         openMessage('Add Success !')
@@ -125,15 +131,20 @@ const FormUser = ({ url }) => {
         messageError(error.message)
       })
 
-      setState(initialValue)
       setValidate(initialErMes)
+      await dispatch(fetchUsers())
+      setState(initialValue)
+      await dispatch(hideLoading('sectionBar'))
     }
   }
 
   const handleDelete = async () => {
-    await customAxiosApi.delete(`${textUsers}/${dataUsers.id}`)
+    dispatch(showLoading('sectionBar'))
+    customAxiosApi.delete(`${textUsers}/${dataUsers.id}`)
 
-    dispatch(defaultUser())
+    await dispatch(fetchUsers())
+    await dispatch(defaultUser())
+    await dispatch(hideLoading('sectionBar'))
   }
 
   return (
@@ -262,7 +273,7 @@ const FormUser = ({ url }) => {
                 isRequitEdit
                   ? (
                       <DelayLink
-                        to={`/${textUsers}`}
+                        to={`/${TITLE_MENU.USERS}`}
                         className="box-submit__delete"
                         onClick={handleDelete}
                         delay={1000}

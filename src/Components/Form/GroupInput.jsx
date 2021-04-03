@@ -1,5 +1,6 @@
 import { ValidaError } from './ValidaError'
 import { Lable } from './Lable'
+import PropTypes from 'prop-types'
 
 const GroupInput = props => {
   const {
@@ -57,6 +58,28 @@ const GroupInput = props => {
       }
     </div>
   )
+}
+
+GroupInput.propTypes = {
+  type: PropTypes.string,
+  name: PropTypes.string,
+  validateName: PropTypes.string,
+  value: PropTypes.string,
+  titleLabel: PropTypes.string,
+
+  onBlur: PropTypes.func,
+  onChange: PropTypes.func
+}
+
+GroupInput.defaultProps = {
+  type: '',
+  name: '',
+  validateName: '',
+  value: '',
+  titleLabel: '',
+
+  onBlur: () => {},
+  onChange: () => {}
 }
 
 export default GroupInput

@@ -1,4 +1,5 @@
 import PropTypes from 'prop-types'
+import { STATUS_HANDLE } from '../../../../dataDefault'
 
 export const sectionData = dataComments => {
   const dataPending = []
@@ -27,15 +28,15 @@ export const sectionData = dataComments => {
       updated: comment.updated_at,
     }
 
-    if (newComment.statusComments === 'pending') {
+    if (newComment.statusComments === STATUS_HANDLE.PENDING) {
       dataPending.push(newComment)
     }
 
-    if (newComment.statusComments === 'accepted') {
+    if (newComment.statusComments === STATUS_HANDLE.ACCEPTED) {
       dataAccepted.push(newComment)
     }
 
-    if (newComment.statusComments === 'rejected') {
+    if (newComment.statusComments === STATUS_HANDLE.REJECTED) {
       dataRejected.push(newComment)
     }
   })

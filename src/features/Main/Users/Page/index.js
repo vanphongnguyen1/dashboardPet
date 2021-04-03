@@ -1,9 +1,9 @@
 import { useState } from 'react'
 import { Table, Space } from 'antd'
 import { EditOutlined } from '@ant-design/icons'
-import { Create } from '../../../../Components/Btn'
+import { BtnCreatExport } from '../../../../Components/Btn'
 import BoxItemDele from '../../../../Components/BoxItemDele'
-import { EDIT, CREAT} from '../../../../dataDefault'
+import { EDIT, CREAT, API_NAME } from '../../../../dataDefault'
 import { useGetColumnSearchProps } from '../../../../Components/access/logic/searchColumn'
 import { Link } from 'react-router-dom'
 import { useSelector, useDispatch } from 'react-redux'
@@ -115,13 +115,13 @@ const Users = ({ match }) => {
 
   const handleDeleteSelect = async () => {
     await selectedRowKeys.forEach(item => {
-      customAxiosApi.delete(`${url}/${item.id}`)
+      customAxiosApi.delete(`${API_NAME.USERS}/${item.id}`)
       .then(response => {
         console.log(response.data)
       })
     })
 
-    dispatch(fetchUsers(url))
+    await dispatch(fetchUsers())
   }
 
   return (
@@ -132,15 +132,15 @@ const Users = ({ match }) => {
             to={`/${url}/${CREAT.toLowerCase()}`}
             className="box-btn--link"
           >
-            <Create />
+            <BtnCreatExport icon="fas fa-plus" title="Create"/>
           </Link>
 
-          <Link
-            to={`/${url}/${CREAT.toLowerCase()}`}
-            className="box-btn--link"
-          >
-            <Create />
-          </Link>
+          <div className="box-btn--link">
+            <BtnCreatExport
+              icon="fas fa-arrow-alt-to-bottom"
+              title="Export"
+            />
+          </div>
         </div>
 
         <BoxItemDele
@@ -153,7 +153,7 @@ const Users = ({ match }) => {
           rowSelection={rowSelection}
           columns={columns}
           dataSource={dataUsers.list}
-          onRow={(record, rowIndex) => {
+          onRow={record => {
             return {
               onClick: () => dispatch(setUser(record))
             }

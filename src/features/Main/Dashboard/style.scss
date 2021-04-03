@@ -1,6 +1,6 @@
 @import './rootPaper.scss';
 @import './pendingOrder.scss';
-@import './showReviews.scss';
+@import './showComments.scss';
 @import './showcustomer.scss';
 
 .dashboard {
@@ -17,9 +17,14 @@
 
   .box-half {
     width: calc(50% - 0.5rem);
+    display: block;
   }
   .box-big {
     width: 100%;
+  }
+
+  .link-page{
+    display: block;
   }
 }
 

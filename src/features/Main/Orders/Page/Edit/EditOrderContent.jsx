@@ -2,20 +2,19 @@ import { useState } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 import { openMessage } from '../../../../../Components/openMessage'
 import { Selector } from '../../../../../Components/Form/Selector'
-import moment from 'moment'
-import PropTypes from 'prop-types'
+import { date } from '../../../../../Components/myMonment'
 import GroupInput from '../../../../../Components/Form/GroupInput'
-import { defaultOrder } from '../../../../../rootReducers/orderSlice'
+import { defaultOrder, fetchOrders } from '../../../../../rootReducers/orderSlice'
 import { Delete, Save } from '../../../../../Components/Btn'
 import { customAxiosApi } from '../../../../../customAxiosApi'
-import { REGEX } from '../../../../../dataDefault'
+import { REGEX, TITLE_MENU, API_NAME } from '../../../../../dataDefault'
 import { HeadingBox, SubHeading } from '../../../../../Components/HeadingBox'
 import DelayLink from '../../../../../Components/DelayLink'
 import ItemTotal from './ItemTotal'
 import ItemProduct from './ItemProduct'
+import { showLoading, hideLoading } from 'react-redux-loading-bar'
 
-const EditOrderContent = ({ url })  =>{
-  const urlOrder = url.split('/')
+const EditOrderContent = ()  =>{
   const dispatch = useDispatch()
 
   const dataStatus = useSelector(state => state.status)
@@ -122,7 +121,7 @@ const EditOrderContent = ({ url })  =>{
     const { ...newValidate } = validate
 
     if (!REGEX.PHONE.test(dataEdit.phone)) {
-      newValidate.phone = 'Số điện thoại gồm 10 số và đầu là 09|03|08|05|07'
+      newValidate.phone = 'Đầu số 09|03|08|05|07 gồm 10 số !'
     }
 
     setValidate(newValidate)
@@ -135,7 +134,7 @@ const EditOrderContent = ({ url })  =>{
     return true
   }
 
-  const handleSave = () => {
+  const handleSave = async () => {
     const isInputValida = checkValidated()
 
     if (!dataEdit.products.length > 0) {
@@ -144,7 +143,9 @@ const EditOrderContent = ({ url })  =>{
     }
 
     if (isInputValida) {
-      customAxiosApi.put(`/users/${dataEdit.usersID}`, {
+      dispatch(showLoading('sectionBar'))
+
+      customAxiosApi.put(`${API_NAME.USERS}/${dataEdit.usersID}`, {
         name: dataEdit.name,
         phone: dataEdit.phone,
         address: dataEdit.address
@@ -153,38 +154,42 @@ const EditOrderContent = ({ url })  =>{
         console.log(response.data)
       })
 
-      customAxiosApi.put(`/orders/${dataEdit.id}`, {
+      customAxiosApi.put(`${API_NAME.ORDERS}/${dataEdit.id}`, {
         intoMeny: dataEdit.intoMeny,
         trasportID: dataEdit.trasportID,
         peymentID: dataEdit.peymentID,
         statusID: dataEdit.statusID,
       })
 
-      customAxiosApi.put(`/detailOrder/${dataEdit.detailOrderID}`, {
+      customAxiosApi.put(`${API_NAME.DETAILORDER}/${dataEdit.detailOrderID}`, {
         count: dataEdit.totalCount,
         price: dataEdit.totalPrice,
       })
 
       dataEdit.products.forEach(productDetailOrder => {
-        customAxiosApi.put(`/productDetailOrder/${productDetailOrder.id}`, {
+        customAxiosApi.put(`${API_NAME.PRODUCTDETAILORDER}/${productDetailOrder.id}`, {
           count: productDetailOrder.count,
           price: productDetailOrder.totalPrice,
         })
       })
 
+      await dispatch(fetchOrders('orders'))
       openMessage('Update Success !')
+      await dispatch(hideLoading('sectionBar'))
     }
   }
 
   const hanleDeleteOrder = async () => {
-    await customAxiosApi.delete(`/orders/${dataEdit.id}`)
-    await customAxiosApi.delete(`/detailOrder/${dataEdit.detailOrderID}`)
+    dispatch(showLoading('sectionBar'))
+    customAxiosApi.delete(`${API_NAME.ORDERS}/${dataEdit.id}`)
+    customAxiosApi.delete(`${API_NAME.DETAILORDER}/${dataEdit.detailOrderID}`)
 
-    await dataEdit.products.forEach(productDetailOrder => {
-      customAxiosApi.delete(`/productDetailOrder/${productDetailOrder.id}`)
+    dataEdit.products.forEach(productDetailOrder => {
+      customAxiosApi.delete(`${API_NAME.PRODUCTDETAILORDER}/${productDetailOrder.id}`)
     })
 
-    dispatch(defaultOrder())
+    await dispatch(defaultOrder())
+    await dispatch(hideLoading('sectionBar'))
   }
 
   return (
@@ -196,7 +201,7 @@ const EditOrderContent = ({ url })  =>{
           <div className="box-5">
             <div className="edit-order__box">
               <span className="edit-order__box--text">
-                Date: { moment(dataEdit.updated).format('DD-MM-YYYY') }
+                Date: { date(dataEdit.updated) }
               </span>
 
               <Selector
@@ -291,15 +296,30 @@ const EditOrderContent = ({ url })  =>{
 
           <div className="totals">
             <div className="table">
-              <ItemTotal name="totalPrice" value={dataEdit.totalPrice} />
+              <ItemTotal
+                name="totalPrice"
+                value={dataEdit.totalPrice}
+              />
 
-              <ItemTotal name="totalCount" value={dataEdit.totalCount} />
+              <ItemTotal
+                name="totalCount"
+                value={dataEdit.totalCount}
+              />
 
-              <ItemTotal name="Trasport" value={dataEdit.trasport} />
+              <ItemTotal
+                name="Trasport"
+                value={dataEdit.trasport}
+              />
 
-              <ItemTotal name="Peyment" value={dataEdit.peyment} />
+              <ItemTotal
+                name="Peyment"
+                value={dataEdit.peyment}
+              />
 
-              <ItemTotal name="intoMeny" value={dataEdit.intoMeny} />
+              <ItemTotal
+                name="intoMeny"
+                value={dataEdit.intoMeny}
+              />
             </div>
           </div>
         </div>
@@ -309,8 +329,9 @@ const EditOrderContent = ({ url })  =>{
             <div className="box-submit__save" onClick={handleSave}>
               <Save />
             </div >
+
             <DelayLink
-              to={`/${urlOrder[1]}`}
+              to={`/${TITLE_MENU.ORDERS}`}
               className="box-submit__delete"
               onClick={hanleDeleteOrder}
               delay={1000}
@@ -321,13 +342,6 @@ const EditOrderContent = ({ url })  =>{
       </div>
     </>
   )
-}
-
-EditOrderContent.propTypes = {
-  url: PropTypes.string
-}
-EditOrderContent.defaultProps = {
-  url: ''
 }
 
 export default EditOrderContent

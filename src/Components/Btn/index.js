@@ -1,8 +1,10 @@
-export const Create = () => {
+import PropTypes from 'prop-types'
+
+export const BtnCreatExport = ({ icon, title}) => {
   return (
     <span className="btn__create">
-      <span className="btn__create--icon fas fa-plus" />
-      <span className="btn__create--text">Create</span>
+      <span className={`btn__create--icon ${icon}`} />
+      <span className="btn__create--text">{ title }</span>
     </span>
   )
 }
@@ -23,4 +25,14 @@ export const Save = () => {
       <span className="btn__save--text">Save</span>
     </span>
   )
+}
+
+BtnCreatExport.propTypes = {
+  icon: PropTypes.string,
+  title: PropTypes.string,
+}
+
+BtnCreatExport.defaultProps = {
+  icon: '',
+  title: '',
 }

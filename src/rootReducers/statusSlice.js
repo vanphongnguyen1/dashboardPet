@@ -1,11 +1,11 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit'
 import { customAxiosApi } from '../customAxiosApi'
-import { STATUS_FETCH } from '../dataDefault'
+import { STATUS_FETCH, API_NAME } from '../dataDefault'
 
 export const fetchStatus = createAsyncThunk(
   'statusSlice/fetchStatus',
   async () => {
-    return customAxiosApi.get('status')
+    return customAxiosApi.get(API_NAME.STATUS)
       .then(response => {
         const { data } = response.data
         return data

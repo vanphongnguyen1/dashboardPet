@@ -15,25 +15,34 @@ import { fetchProductDetailOrder } from '../../rootReducers/productDetailOrderTh
 import { fetchStatus } from '../../rootReducers/statusSlice'
 import { fetchTrasport } from '../../rootReducers/trasportSlice'
 import { fetchStatusComments } from '../../rootReducers/statusCommentsSlice'
+import { showLoading, hideLoading } from 'react-redux-loading-bar'
 
 const Main = () => {
   const dispatch = useDispatch()
   const stateIsMenu = useSelector(state => state.stateIsMenu.isMenu)
+  const isHideLoading = useSelector(state => state.statusComments.loading)
 
   useEffect(() => {
-    dispatch(fetchOrders('orders'))
-    dispatch(fetchUsers('users'))
-    dispatch(fetchComments('comments'))
-    dispatch(fetchProductDetailOrder('productDetailOrder'))
+    dispatch(showLoading('sectionBar'))
+
+    dispatch(fetchOrders())
+    dispatch(fetchUsers())
+    dispatch(fetchComments())
+    dispatch(fetchProductDetailOrder())
     dispatch(fetchStatus())
     dispatch(fetchTrasport())
     dispatch(fetchStatusComments())
   }, [dispatch])
 
+  useEffect(() => {
+    if (isHideLoading === 'success') {
+      dispatch(hideLoading('sectionBar'))
+    }
+  }, [isHideLoading, dispatch])
+
   return (
     <>
       <ScrollToTop />
-
       <div className="main">
         <div
           className={

@@ -1,11 +1,11 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit'
 import { customAxiosApi } from '../customAxiosApi'
-import { STATUS_FETCH } from '../dataDefault'
+import { STATUS_FETCH, API_NAME } from '../dataDefault'
 
 export const fetchComments = createAsyncThunk(
   'comments/fetchComments',
-  async (url) => {
-    return customAxiosApi.get(url)
+  async () => {
+    return customAxiosApi.get(API_NAME.COMMENTS)
       .then(response => {
         const { data } = response.data
         return data
@@ -24,6 +24,7 @@ export const commentSlice = createSlice({
   reducers: {
     defaultState: (state, action) => {
       state.list = []
+      state.comment = {}
       state.loading = 'idle'
     },
 
@@ -33,6 +34,10 @@ export const commentSlice = createSlice({
 
     setDataComment: (state, action) => {
       state.comment = action.payload
+    },
+
+    defaultDataComment: (state, action) => {
+      state.comment = {}
     }
   },
 
@@ -59,6 +64,11 @@ export const commentSlice = createSlice({
 
 const { actions, reducer } = commentSlice
 
-export const { setDataComment, defaultState, defaultListComments  } = actions
+export const {
+  setDataComment,
+  defaultState,
+  defaultListComments,
+  defaultDataComment
+} = actions
 
 export default reducer

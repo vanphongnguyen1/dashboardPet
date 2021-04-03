@@ -1,11 +1,11 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit'
 import { customAxiosApi } from '../customAxiosApi'
-import { STATUS_FETCH } from '../dataDefault'
+import { STATUS_FETCH, API_NAME } from '../dataDefault'
 
 export const fetchUsers = createAsyncThunk(
   'users/fetchUsers',
-  async (nameTable) => {
-    return customAxiosApi.get(`/${nameTable}`)
+  async () => {
+    return customAxiosApi.get(API_NAME.USERS)
       .then(response => {
         const { data } = response.data
         return data
@@ -33,7 +33,7 @@ export const userSlice = createSlice({
     },
 
     defaultUser: (state, action) => {
-      state.user = []
+      state.user = {}
     },
     defaultUsers: (state, action) => {
       state.list = []

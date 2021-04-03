@@ -2,15 +2,16 @@ import { useState } from 'react'
 import { Table, Space } from 'antd'
 import { EditOutlined } from '@ant-design/icons'
 import { Link } from 'react-router-dom'
-import { TITLE_MENU, EDIT } from '../../../../dataDefault'
+import { API_NAME, EDIT } from '../../../../dataDefault'
 import BoxItemDele from '../../../../Components/BoxItemDele'
 import PropTypes from 'prop-types'
-import moment from 'moment'
+import { date } from '../../../../Components/myMonment'
 import { fetchOrders, setOrder } from '../../../../rootReducers/orderSlice'
 import { fetchProductDetailOrder } from '../../../../rootReducers/productDetailOrderThunk'
 import { useDispatch } from 'react-redux'
 import { useGetColumnSearchProps } from '../../../../Components/access/logic/searchColumn'
 import { customAxiosApi } from '../../../../customAxiosApi'
+import moment from 'moment'
 
 const TableContentTab = ({ data, url }) => {
   const dispatch = useDispatch()
@@ -30,12 +31,15 @@ const TableContentTab = ({ data, url }) => {
       dataIndex: 'updated',
       fixed: 'left',
       width: 100,
+      sorter: {
+        compare: (a, b) => moment(a.updated).format('x') - moment(b.updated).format('x'),
+      },
       render: text => (
         <Link
-          to={`/${TITLE_MENU.USERS.toLowerCase()}/${EDIT.toLowerCase()}`}
+          to={`/${url}/${EDIT.toLowerCase()}`}
           className="antd-link"
         >
-          { moment(text).format("DD-MM-YYYY") }
+          { date(text) }
         </Link>
       )
     },
@@ -184,17 +188,17 @@ const TableContentTab = ({ data, url }) => {
 
   const handleDeleteSelect = async () => {
     await selectedRowKeys.forEach(item => {
-      customAxiosApi.delete(`/orders/${item.id}`)
-      customAxiosApi.delete(`/detailOrder/${item.detailOrderID}`)
+      customAxiosApi.delete(`${API_NAME.ORDERS}/${item.id}`)
+      customAxiosApi.delete(`${API_NAME.DETAILORDER}/${item.detailOrderID}`)
 
       item.products.forEach(product => {
-        customAxiosApi.delete(`/productDetailOrder/${product.productDetailOrderID}`)
+        customAxiosApi.delete(`${API_NAME.PRODUCTDETAILORDER}/${product.productDetailOrderID}`)
       })
     })
 
     setSelectedRowKeys([])
-    await dispatch(fetchOrders(url))
-    await dispatch(fetchProductDetailOrder('productDetailOrder'))
+    await dispatch(fetchOrders())
+    await dispatch(fetchProductDetailOrder())
   }
 
   return (
@@ -211,7 +215,7 @@ const TableContentTab = ({ data, url }) => {
           columns={columns}
           dataSource={data}
           scroll={{ x: 1700 }}
-          onRow={(record, rowIndex) => {
+          onRow={record => {
             return {
               onClick: () => {
                 dispatch(setOrder(record))

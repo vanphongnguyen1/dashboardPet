@@ -1,66 +1,41 @@
-import Avarta from '../../../Components/Avarta'
+import ItemCustommer from './ItemCustommer'
+import { Link } from 'react-router-dom'
+import { TITLE_MENU } from '../../../dataDefault'
+import PropTypes from 'prop-types'
 
-const ShowCustomers = () => {
+const ShowCustomers = ({ data }) => {
   return (
     <>
       <div className="show-customer">
         <ul className="show-customer__list">
-          <li className="show-customer__item">
-            <a href="#as" className="show-customer__link">
-              <div className="show-customer__link-box">
-                <Avarta />
-                <div className="show-content">
-                  <p className="show-content__user">
-                    Phong Nguyen
-                  </p>
-                </div>
-              </div>
-            </a>
-          </li>
-          <li className="show-customer__item">
-            <a href="#as" className="show-customer__link">
-              <div className="show-customer__link-box">
-                <Avarta />
-                <div className="show-content">
-                  <p className="show-content__user">
-                    Phong Nguyen
-                  </p>
-                </div>
-              </div>
-            </a>
-          </li>
-          <li className="show-customer__item">
-            <a href="#as" className="show-customer__link">
-              <div className="show-customer__link-box">
-                <Avarta />
-                <div className="show-content">
-                  <p className="show-content__user">
-                    Phong Nguyen
-                  </p>
-                </div>
-              </div>
-            </a>
-          </li>
-          <li className="show-customer__item">
-            <a href="#as" className="show-customer__link">
-              <div className="show-customer__link-box">
-                <Avarta />
-                <div className="show-content">
-                  <p className="show-content__user">
-                    Phong Nguyen
-                  </p>
-                </div>
-              </div>
-            </a>
-          </li>
+          {
+            data.map(item => {
+              return (
+                <ItemCustommer
+                  name={item.name}
+                  avarta={item.avarta}
+                  key={item.id}
+                  data={item}
+                />
+              )
+            })
+          }
         </ul>
 
-        <div className="show-customer__all">
+        <Link className="show-comments__all" to={TITLE_MENU.USERS}>
           Show All
-        </div>
+        </Link>
       </div>
     </>
   )
+}
+
+ShowCustomers.propTypes = {
+  data: PropTypes.array
+}
+
+ShowCustomers.defaultProps = {
+  data: []
 }
 
 export default ShowCustomers

@@ -1,19 +1,11 @@
 import EditOrderContent from './EditOrderContent'
-import PropTypes from 'prop-types'
 
-const EditOrder = ({ match }) => {
+const EditOrder = () => {
   return (
     <>
-      <EditOrderContent url={match.url}/>
+      <EditOrderContent/>
     </>
   )
-}
-
-EditOrder.propTypes = {
-  match: PropTypes.object
-}
-EditOrder.defaultProps = {
-  match: {}
 }
 
 export default EditOrder

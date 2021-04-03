@@ -14,7 +14,9 @@ const ItemProduct = (props) => {
   return (
     <div className="table__tr">
       <p className="table__td--name">{name}</p>
+
       <p className="table__td--price">{price}</p>
+
       <div className="table__td--count">
         <InputNumber
           min={1}
@@ -23,7 +25,9 @@ const ItemProduct = (props) => {
           onChange={onChangeCount}
         />
       </div>
+
       <p className="table__td--totalPrice">{totalPrice}</p>
+
       <p className="table__td--action" onClick={handleDelProduct}>
         Delete
       </p>

@@ -1,6 +1,5 @@
 import { Tabs } from 'antd'
-import { Link } from 'react-router-dom'
-import { Create } from '../../../../Components/Btn'
+import { BtnCreatExport } from '../../../../Components/Btn'
 import TableContentTab from './TableContentTab'
 import { useSelector } from 'react-redux'
 import { sectionData } from './sectionData'
@@ -22,12 +21,12 @@ const Orders = ({ match }) => {
   return (
     <div className="orders posi-relative">
       <div className="box-btn">
-        <Link
-          to={`/${url}`}
-          className="box-btn--link"
-        >
-          <Create />
-        </Link>
+        <div className="box-btn--link">
+          <BtnCreatExport
+            icon="fas fa-arrow-alt-to-bottom"
+            title="Export"
+          />
+        </div>
       </div>
 
       <Tabs type="card">

@@ -3,14 +3,24 @@ import { Table, Space } from 'antd'
 import { EditOutlined } from '@ant-design/icons'
 import BoxItemDele from '../../../../Components/BoxItemDele'
 import PropTypes from 'prop-types'
-import moment from 'moment'
-import { fetchComments, setDataComment } from '../../../../rootReducers/commentSlice'
+import { date } from '../../../../Components/myMonment'
+import {
+  fetchComments,
+  setDataComment,
+  defaultDataComment
+} from '../../../../rootReducers/commentSlice'
+
 import { useDispatch } from 'react-redux'
-import { useGetColumnSearchProps } from '../../../../Components/access/logic/searchColumn'
+import {
+  useGetColumnSearchProps
+} from '../../../../Components/access/logic/searchColumn'
+
 import { customAxiosApi } from '../../../../customAxiosApi'
 import EditComments from './Edit/EditComments'
+import { API_NAME } from '../../../../dataDefault'
+import moment from 'moment'
 
-const TableContentTab = ({ data, url }) => {
+const TableContentTab = ({ data }) => {
   const dispatch = useDispatch()
   const [selectedRowKeys, setSelectedRowKeys] = useState([])
   const [isEditComments, setIsEditComments] = useState(false)
@@ -28,9 +38,12 @@ const TableContentTab = ({ data, url }) => {
       title: 'Date',
       dataIndex: 'updated',
       width: 100,
+      sorter: {
+        compare: (a, b) => moment(a.updated).format('x') - moment(b.updated).format('x'),
+      },
       render: text => (
         <div className="antd-link">
-          { moment(text).format("DD-MM-YYYY") }
+          { date(text) }
         </div>
       )
     },
@@ -92,11 +105,16 @@ const TableContentTab = ({ data, url }) => {
 
   const handleDeleteSelect = async () => {
     await selectedRowKeys.forEach(item => {
-      customAxiosApi.delete(`${url}/${item.id}`)
+      customAxiosApi.delete(`${API_NAME.COMMENTS}/${item.id}`)
     })
 
     setSelectedRowKeys([])
-    await dispatch(fetchComments(url))
+    await dispatch(fetchComments())
+  }
+
+  const handleCloseEdit = () => {
+    setIsEditComments(false)
+    dispatch(defaultDataComment())
   }
 
   return (
@@ -112,7 +130,7 @@ const TableContentTab = ({ data, url }) => {
           rowSelection={rowSelection}
           columns={columns}
           dataSource={data}
-          onRow={(record, rowIndex) => {
+          onRow={record => {
             return {
               onClick: () => {
                 dispatch(setDataComment(record))
@@ -123,8 +141,7 @@ const TableContentTab = ({ data, url }) => {
         />
 
         <EditComments
-          url={url}
-          setIsEditComments={setIsEditComments}
+          handleCloseEdit={handleCloseEdit}
           isEditComments={isEditComments}
         />
         <div
@@ -132,7 +149,7 @@ const TableContentTab = ({ data, url }) => {
             overflow
             ${isEditComments ? 'translateZero' : ''}
           `}
-          onClick={() => setIsEditComments(false)}
+          onClick={handleCloseEdit}
         />
       </div>
     </>
@@ -141,12 +158,10 @@ const TableContentTab = ({ data, url }) => {
 
 TableContentTab.propTypes = {
   data: PropTypes.array,
-  url: PropTypes.string
 }
 
 TableContentTab.defaultProps = {
   data: [],
-  url: ''
 }
 
 export default TableContentTab

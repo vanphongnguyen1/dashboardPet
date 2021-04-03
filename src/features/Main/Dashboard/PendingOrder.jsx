@@ -1,6 +1,12 @@
-import Avarta from '../../../Components/Avarta'
+import PropTypes from 'prop-types'
+import { useSelector } from 'react-redux'
+import { sectionData } from '../Orders/Page/sectionData'
+import ItemOrderPending from './ItemOrderPending'
 
-const PendingOrder = () => {
+const PendingOrder = ({ data }) => {
+  const dataProductDetailOrder = useSelector(state => state.productDetailOrder.list)
+  const [newData] = sectionData(data, dataProductDetailOrder)
+
   return (
     <>
       <div className="pending-order">
@@ -9,49 +15,25 @@ const PendingOrder = () => {
         </h2>
 
         <ul className="pending-order__list">
-          <li className="pending-order__item">
-            <a href="#a" className="pending-order__link">
-              <div className="info-order">
-                <div className="info-order__user">
-                  <Avarta/>
-
-                  <div className="info-order__detail">
-                    <span className="info-order__detail--date">
-                      16/03/2021, 20:45PM
-                    </span>
-                    <span className="info-order__detail--customer">
-                      mua bởi Nguyễn Văn Phong, 3 sản phẩm
-                    </span>
-                  </div>
-                </div>
-                <div className="info-order__meny">1000000</div>
-              </div>
-            </a>
-          </li>
-
-          <li className="pending-order__item">
-            <a href="#a" className="pending-order__link">
-              <div className="info-order">
-                <div className="info-order__user">
-                  <Avarta/>
-
-                  <div className="info-order__detail">
-                    <span className="info-order__detail--date">
-                      16/03/2021, 20:45PM
-                    </span>
-                    <span className="info-order__detail--customer">
-                      mua bởi Nguyễn Văn Phong, 3 sản phẩm
-                    </span>
-                  </div>
-                </div>
-                <div className="info-order__meny">1000000</div>
-              </div>
-            </a>
-          </li>
+          {
+            newData.map(item => {
+              return (
+                <ItemOrderPending data={item} key={item.id} />
+              )
+            })
+          }
         </ul>
       </div>
     </>
   )
+}
+
+PendingOrder.propTypes = {
+  data: PropTypes.array,
+}
+
+PendingOrder.defaultProps = {
+  data: []
 }
 
 export default PendingOrder

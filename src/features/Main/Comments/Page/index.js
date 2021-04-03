@@ -1,13 +1,11 @@
 import { Tabs } from 'antd'
-import { Link } from 'react-router-dom'
-import { Create } from '../../../../Components/Btn'
+import { BtnCreatExport } from '../../../../Components/Btn'
 import { useSelector } from 'react-redux'
 import PropTypes from 'prop-types'
 import TableContentTab from './TableContentTab'
 import { sectionData } from './sectionData'
 
 const Comments = ({ match }) => {
-  const url = match.url.slice(1)
   const { TabPane } = Tabs
   const dataComment = useSelector(state => state.comments)
 
@@ -20,25 +18,25 @@ const Comments = ({ match }) => {
   return (
     <div className="posi-relative">
       <div className="box-btn">
-        <Link
-          to={`/${url}`}
-          className="box-btn--link"
-        >
-          <Create />
-        </Link>
+        <div className="box-btn--link">
+          <BtnCreatExport
+            icon="fas fa-arrow-alt-to-bottom"
+            title="Export"
+          />
+        </div>
       </div>
 
       <Tabs type="card">
         <TabPane tab="Pending" key="1">
-          <TableContentTab data={dataPending} url={url} />
+          <TableContentTab data={dataPending} />
         </TabPane>
 
         <TabPane tab="Accepted" key="2">
-          <TableContentTab data={dataAccepted} url={url} />
+          <TableContentTab data={dataAccepted} />
         </TabPane>
 
         <TabPane tab="Rejected" key="3">
-          <TableContentTab data={dataRejected} url={url} />
+          <TableContentTab data={dataRejected} />
         </TabPane>
       </Tabs>
     </div>

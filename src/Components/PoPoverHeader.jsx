@@ -6,23 +6,21 @@ import PropTypes from 'prop-types'
 const PoPoverHeader = ({ isPopover }) => {
   return (
     <div className={`popover  ${isPopover ? 'translate-scale' : ''}`}>
-      <ul className="popover__list">
-        <li className="popover__item">
-          <NavLink
-            className="popover__link"
-            to="/configuration"
-            activeClassName="active-nav"
-          >
-            <span className="popover__link--icon fas fa-cog" />
-            <span className="popover__link--text">Configuration</span>
-          </NavLink>
+      <NavLink
+        className="popover__link"
+        to="/configuration"
+        activeClassName="active-nav"
+      >
+        <span className="popover__link--icon fas fa-cog" />
 
-          <div className="popover__link">
-            <PoweroffOutlined className="popover__link--icon"/>
-            <span className="popover__link--text">LogOut</span>
-          </div>
-        </li>
-      </ul>
+        <span className="popover__link--text">Configuration</span>
+      </NavLink>
+
+      <div className="popover__link">
+        <PoweroffOutlined className="popover__link--icon"/>
+
+        <span className="popover__link--text">LogOut</span>
+      </div>
     </div>
   )
 }

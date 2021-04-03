@@ -1,13 +1,10 @@
 import { useSelector } from 'react-redux'
-import moment from 'moment'
+import { date } from '../../../../../Components/myMonment'
 import ItemHistory from './ItemHistory'
 import { HeadingBox } from '../../../../../Components/HeadingBox'
 
 const HistoryUser = () => {
   const user = useSelector(state => state.users.user)
-
-  const textDateCreated = moment(user.created_at).format("DD-MM-YYYY")
-  const textDateUpdated =  moment(user.updated_at).format("DD-MM-YYYY")
 
   return (
     <div className="history">
@@ -18,7 +15,7 @@ const HistoryUser = () => {
           <ItemHistory
             icon='far fa-clock'
             title='First seen'
-            date={textDateCreated}
+            date={date(user.created_at)}
           />
         </div>
 
@@ -26,7 +23,7 @@ const HistoryUser = () => {
           <ItemHistory
             icon='far fa-clock'
             title='Last seen'
-            date={textDateUpdated}
+            date={date(user.updated_at)}
           />
         </div>
 

@@ -1,3 +1,5 @@
+import { STATUS_HANDLE } from '../../../../dataDefault'
+
 export const sectionData = (dataOrder, dataProductDetailOrder) => {
   const dataPending = []
   const dataDelivered = []
@@ -32,6 +34,7 @@ export const sectionData = (dataOrder, dataProductDetailOrder) => {
       name: users.name,
       phone: users.phone,
       address: users.address,
+      avarta: users.avarta,
 
       products,
 
@@ -53,15 +56,15 @@ export const sectionData = (dataOrder, dataProductDetailOrder) => {
       updated: order.updated_at,
     }
 
-    if (newOrder.status === 'pending') {
+    if (newOrder.status === STATUS_HANDLE.PENDING) {
       dataPending.push(newOrder)
     }
 
-    if (newOrder.status === 'delivered') {
+    if (newOrder.status === STATUS_HANDLE.DELIVERED) {
       dataDelivered.push(newOrder)
     }
 
-    if (newOrder.status === 'cancelled') {
+    if (newOrder.status === STATUS_HANDLE.CANCELLED) {
       dataCanselled.push(newOrder)
     }
   })
