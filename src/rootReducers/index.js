@@ -7,6 +7,7 @@ import commentSlice from './commentSlice'
 import statusCommentsSlice from './statusCommentsSlice'
 import menuAnimation from './menuAnimation'
 import { loadingBarReducer } from 'react-redux-loading-bar'
+import navbarScrolled from './navbarScrolled'
 
 export const rootReducers = {
   users: userReducer,
@@ -18,4 +19,5 @@ export const rootReducers = {
   statusComments: statusCommentsSlice,
   stateIsMenu: menuAnimation,
   loadingBar: loadingBarReducer,
+  navbarScrolled: navbarScrolled
 }
