@@ -8,10 +8,11 @@ import { customAxiosApi } from '../../../../../customAxiosApi'
 import { REGEX } from '../../../../../dataDefault'
 import GroupInput from '../../../../../Components/Form/GroupInput'
 import { Lable } from '../../../../../Components/Form/Lable'
-import { openMessage, messageError } from '../../../../../Components/openMessage'
+import { messageError } from '../../../../../Components/openMessage'
 import DelayLink from '../../../../../Components/DelayLink'
 import { HeadingBox } from '../../../../../Components/HeadingBox'
 import { showLoading, hideLoading } from 'react-redux-loading-bar'
+import { Prompt } from 'react-router-dom'
 
 const FormUser = ({ url }) => {
   const dispatch = useDispatch()
@@ -42,9 +43,11 @@ const FormUser = ({ url }) => {
 
   const [state, setState] = useState(initialValue)
   const [validate, setValidate] = useState(initialErMes)
+  const [isLocalPath, setIsLocalPath] = useState(false)
 
   const handleOnBlur = e => {
     const { value, name } = e.target
+    setIsLocalPath(true)
 
     if ( !value ) {
       setValidate({
@@ -56,6 +59,7 @@ const FormUser = ({ url }) => {
 
   const handleOnChange = e => {
     const { value, name } = e.target
+    setIsLocalPath(true)
 
     setState({
       ...state,
@@ -105,11 +109,15 @@ const FormUser = ({ url }) => {
     const isInputValida = checkValidated()
 
     if (isRequitEdit && isInputValida) {
+      if (isLocalPath) {
+        setIsLocalPath(false)
+      }
+
       dispatch(showLoading('sectionBar'))
 
       customAxiosApi.put(`${textUsers}/${dataUsers.id}`, state)
       .then(() => {
-        openMessage('Update Success !')
+        dispatch(hideLoading('sectionBar'))
       })
       .catch(error => {
         messageError(error.message)
@@ -117,15 +125,18 @@ const FormUser = ({ url }) => {
 
       setValidate(initialErMes)
       await dispatch(fetchUsers())
-      await dispatch(hideLoading('sectionBar'))
     }
 
     if (isRequitCreat && isInputValida) {
+      if (isLocalPath) {
+        setIsLocalPath(false)
+      }
+
       dispatch(showLoading('sectionBar'))
 
       customAxiosApi.post(textUsers, state)
       .then(() => {
-        openMessage('Add Success !')
+        dispatch(hideLoading('sectionBar'))
       })
       .catch(error => {
         messageError(error.message)
@@ -134,11 +145,14 @@ const FormUser = ({ url }) => {
       setValidate(initialErMes)
       await dispatch(fetchUsers())
       setState(initialValue)
-      await dispatch(hideLoading('sectionBar'))
     }
   }
 
   const handleDelete = async () => {
+    if (isLocalPath) {
+      setIsLocalPath(false)
+    }
+
     dispatch(showLoading('sectionBar'))
     customAxiosApi.delete(`${textUsers}/${dataUsers.id}`)
 
@@ -148,143 +162,150 @@ const FormUser = ({ url }) => {
   }
 
   return (
-    <div className="info-user">
-      <form className="info-user__form" onSubmit={ handleSubmit }>
-        <div className="identity">
-          <HeadingBox title="identity" />
+    <>
+      <div className="info-user">
+        <form className="info-user__form" onSubmit={ handleSubmit }>
+          <div className="identity">
+            <HeadingBox title="identity" />
 
-          <div className="info-user__box">
-            <GroupInput
-              type="text"
-              name="name"
-              validateName={validate.name}
-              value={state.name}
-              onBlur={handleOnBlur}
-              onChange={handleOnChange}
-              titleLabel="UserName *"
-            />
-          </div>
-
-          <div className="info-user__box">
-            <GroupInput
-              type="text"
-              name="email"
-              validateName={validate.email}
-              value={state.email}
-              onBlur={handleOnBlur}
-              onChange={handleOnChange}
-              titleLabel="Email *"
-            />
-          </div>
-
-          <div className="box-group info-user__box">
-            <GroupInput
-              type="text"
-              name="phone"
-              validateName={validate.phone}
-              value={state.phone}
-              onBlur={handleOnBlur}
-              onChange={handleOnChange}
-              titleLabel="Phone *"
-            />
-
-            <div className="group">
-              <select
-                name="role"
-                className="group__select"
+            <div className="info-user__box">
+              <GroupInput
+                type="text"
+                name="name"
+                validateName={validate.name}
+                value={state.name}
+                onBlur={handleOnBlur}
                 onChange={handleOnChange}
-                value={state.role}
-              >
-                <option value='0'>User</option>
-                <option value='1'>Admin</option>
-              </select>
+                titleLabel="UserName *"
+              />
+            </div>
 
-              <Lable
-                text="Role"
-                className='group__label label-input-value'
+            <div className="info-user__box">
+              <GroupInput
+                type="text"
+                name="email"
+                validateName={validate.email}
+                value={state.email}
+                onBlur={handleOnBlur}
+                onChange={handleOnChange}
+                titleLabel="Email *"
+              />
+            </div>
+
+            <div className="box-group info-user__box">
+              <GroupInput
+                type="text"
+                name="phone"
+                validateName={validate.phone}
+                value={state.phone}
+                onBlur={handleOnBlur}
+                onChange={handleOnChange}
+                titleLabel="Phone *"
+              />
+
+              <div className="group">
+                <select
+                  name="role"
+                  className="group__select"
+                  onChange={handleOnChange}
+                  value={state.role}
+                >
+                  <option value='0'>User</option>
+                  <option value='1'>Admin</option>
+                </select>
+
+                <Lable
+                  text="Role"
+                  className='group__label label-input-value'
+                />
+              </div>
+            </div>
+          </div>
+
+          <div className="identity">
+            <HeadingBox title="Address" />
+
+            <div className="info-user__box">
+              <GroupInput
+                type="text"
+                name="address"
+                validateName={validate.address}
+                value={state.address}
+                onBlur={handleOnBlur}
+                onChange={handleOnChange}
+                titleLabel="Address *"
               />
             </div>
           </div>
-        </div>
 
-        <div className="identity">
-          <HeadingBox title="Address" />
+          <div className="identity">
+            <HeadingBox title="New PassWord" />
 
-          <div className="info-user__box">
-            <GroupInput
-              type="text"
-              name="address"
-              validateName={validate.address}
-              value={state.address}
-              onBlur={handleOnBlur}
-              onChange={handleOnChange}
-              titleLabel="Address *"
-            />
-          </div>
-        </div>
-
-        <div className="identity">
-          <HeadingBox title="New PassWord" />
-
-          <div className="info-user__box">
-            <GroupInput
-              type="password"
-              name="password"
-              validateName={validate.password}
-              value={state.password}
-              onBlur={
-                isRequitCreat
-                  ? handleOnBlur
-                  : () => {}
-              }
-              onChange={handleOnChange}
-              titleLabel={`New password ${isRequitCreat ? '*' : ''}`}
-            />
-          </div>
-
-          {
-            isRequitCreat
-              ? (
-                <div className="info-user__box">
-                  <GroupInput
-                    type="password"
-                    name="confirmPassword"
-                    validateName={validate.confirmPassword}
-                    value={state.confirmPassword}
-                    onBlur={
-                      isRequitCreat
-                        ? handleOnBlur
-                        : () => {}
-                    }
-                    onChange={handleOnChange}
-                    titleLabel={`Confirm password ${isRequitCreat ? '*' : ''}`}
-                  />
-                </div>
-              ) : ''
-          }
-        </div>
-
-        <div className="box-submit">
-          <div className="box-row">
-            <div className="box-submit__save" onClick={handleSubmit}>
-              <Save />
+            <div className="info-user__box">
+              <GroupInput
+                type="password"
+                name="password"
+                validateName={validate.password}
+                value={state.password}
+                onBlur={
+                  isRequitCreat
+                    ? handleOnBlur
+                    : () => {}
+                }
+                onChange={handleOnChange}
+                titleLabel={`New password ${isRequitCreat ? '*' : ''}`}
+              />
             </div>
-              {
-                isRequitEdit
-                  ? (
-                      <DelayLink
-                        to={`/${TITLE_MENU.USERS}`}
-                        className="box-submit__delete"
-                        onClick={handleDelete}
-                        delay={1000}
-                        children={<Delete/>}
-                      />
-                  ) : ''
-              }
+
+            {
+              isRequitCreat
+                ? (
+                  <div className="info-user__box">
+                    <GroupInput
+                      type="password"
+                      name="confirmPassword"
+                      validateName={validate.confirmPassword}
+                      value={state.confirmPassword}
+                      onBlur={
+                        isRequitCreat
+                          ? handleOnBlur
+                          : () => {}
+                      }
+                      onChange={handleOnChange}
+                      titleLabel={`Confirm password ${isRequitCreat ? '*' : ''}`}
+                    />
+                  </div>
+                ) : ''
+            }
           </div>
-        </div>
-      </form>
-    </div>
+
+          <div className="box-submit">
+            <div className="box-row">
+              <div className="box-submit__save" onClick={handleSubmit}>
+                <Save />
+              </div>
+                {
+                  isRequitEdit
+                    ? (
+                        <DelayLink
+                          to={`/${TITLE_MENU.USERS}`}
+                          className="box-submit__delete"
+                          onClick={handleDelete}
+                          delay={1000}
+                          children={<Delete/>}
+                        />
+                    ) : ''
+                }
+            </div>
+          </div>
+        </form>
+      </div>
+
+      <Prompt
+        when={isLocalPath}
+        message={location => (`Bạn có muốn đến ${location.pathname}`)}
+      />
+    </>
   )
 }
 

@@ -1,4 +1,4 @@
-import { useRef, useState } from 'react'
+import { useRef, useState, useEffect } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 import { setIsMenu } from '../rootReducers/menuAnimation'
 import Avarta from './Avarta'
@@ -15,9 +15,11 @@ const Header = () => {
   const stateIsMenu = useSelector(state => state.stateIsMenu.isMenu)
   const isNavbarScroll = useSelector(state => state.navbarScrolled)
 
-  const scrollHandler = useThrottledCallback(() => {
-    const scrollY = window.scrollY
+  const myThrottled = useThrottledCallback(() => {
+    handleScrolled(window.scrollY)
+  }, 250)
 
+  const handleScrolled = scrollY => {
     if (isPopover) {
       setIsPopover(false)
     }
@@ -42,10 +44,11 @@ const Header = () => {
         status: false
       }))
     }
-  }, 250)
+  }
 
-
-  window.addEventListener('scroll', scrollHandler)
+  useEffect(() => {
+    window.addEventListener('scroll', myThrottled)
+  }, [myThrottled])
 
   const handleClickSidebar = () => {
     refSidebar.current.classList.toggle('active-rotatez')

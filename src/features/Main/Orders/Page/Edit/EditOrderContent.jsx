@@ -13,6 +13,7 @@ import DelayLink from '../../../../../Components/DelayLink'
 import ItemTotal from './ItemTotal'
 import ItemProduct from './ItemProduct'
 import { showLoading, hideLoading } from 'react-redux-loading-bar'
+import { Prompt } from 'react-router-dom'
 
 const EditOrderContent = ()  =>{
   const dispatch = useDispatch()
@@ -29,6 +30,7 @@ const EditOrderContent = ()  =>{
 
   const [validate, setValidate] = useState(initialValidate)
   const [dataEdit, setDataEdit] = useState(data)
+  const [isLocalPath, setIsLocalPath] = useState(false)
 
   const findPriceTrasport = id => {
     const newData = dataTrasport.list.find(item => item.id === id)
@@ -48,6 +50,7 @@ const EditOrderContent = ()  =>{
 
   const handleOnChange = e => {
     const { name, value } = e.target
+    setIsLocalPath(true)
 
     if (name === 'trasportID') {
       setDataEdit({
@@ -67,6 +70,7 @@ const EditOrderContent = ()  =>{
   const onChangeCountProduct = (value, id) => {
     let sumPriceProduct = 0
     let sumCount = 0
+    setIsLocalPath(true)
 
     const newdata = dataEdit.products.map(product => {
       if (product.id === id) {
@@ -143,6 +147,10 @@ const EditOrderContent = ()  =>{
     }
 
     if (isInputValida) {
+      if (isLocalPath) {
+        setIsLocalPath(false)
+      }
+
       dispatch(showLoading('sectionBar'))
 
       customAxiosApi.put(`${API_NAME.USERS}/${dataEdit.usersID}`, {
@@ -180,7 +188,12 @@ const EditOrderContent = ()  =>{
   }
 
   const hanleDeleteOrder = async () => {
+    if (isLocalPath) {
+      setIsLocalPath(false)
+    }
+
     dispatch(showLoading('sectionBar'))
+
     customAxiosApi.delete(`${API_NAME.ORDERS}/${dataEdit.id}`)
     customAxiosApi.delete(`${API_NAME.DETAILORDER}/${dataEdit.detailOrderID}`)
 
@@ -340,6 +353,11 @@ const EditOrderContent = ()  =>{
           </div>
         </div>
       </div>
+
+      <Prompt
+        when={isLocalPath}
+        message={location => (`Bạn có muốn đến ${location.pathname}`)}
+      />
     </>
   )
 }
