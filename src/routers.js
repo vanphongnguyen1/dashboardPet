@@ -6,6 +6,7 @@ import EditUser from './features/Main/Users/Page/Edit/EditUser'
 import Orders from './features/Main/Orders/Page'
 import EditOrder from './features/Main/Orders/Page/Edit'
 import Comments from './features/Main/Comments/Page'
+import Products from './features/Main/Products/Page'
 
 export const routes = [
   // {
@@ -29,7 +30,7 @@ export const routes = [
     main: ({ match }) => <CreactUser match={match}/>
   },
   {
-    path: '/users/edit',
+    path: '/users/:id/edit',
     exact: true,
     main: ({ match }) => <EditUser match={match}/>
   },
@@ -39,7 +40,7 @@ export const routes = [
     main: ({ match }) => <Orders match={match}/>
   },
   {
-    path: '/orders/edit',
+    path: '/orders/:id/edit',
     exact: true,
     main: ({ match }) => <EditOrder match={match}/>
   },
@@ -47,6 +48,11 @@ export const routes = [
     path: '/comments',
     exact: true,
     main: ({ match }) => <Comments match={match}/>
+  },
+  {
+    path: '/products',
+    exact: true,
+    main: ({ match }) => <Products match={match}/>
   },
   // {
   //   path: '/comments/edit',

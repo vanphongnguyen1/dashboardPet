@@ -33,9 +33,9 @@ const Users = ({ match }) => {
       dataIndex: 'name',
       width: '15%',
       ...useGetColumnSearchProps('name'),
-      render: text => (
+      render: (text, record) => (
         <Link
-          to={`/${url}/${EDIT.toLowerCase()}`}
+          to={`/${url}/${record.id}/${EDIT.toLowerCase()}`}
           className="antd-link"
         >
           { text }
@@ -46,9 +46,9 @@ const Users = ({ match }) => {
       title: 'Email',
       dataIndex: 'email',
       width: '20%',
-      render: text => (
+      render: (text, record) => (
         <Link
-          to={`/${url}/${EDIT.toLowerCase()}`}
+          to={`/${url}/${record.id}/${EDIT.toLowerCase()}`}
           className="antd-link"
         >
           { text }
@@ -60,9 +60,9 @@ const Users = ({ match }) => {
       dataIndex: 'phone',
       width: '15%',
       ...useGetColumnSearchProps('phone'),
-      render: text => (
+      render: (text, record) => (
         <Link
-          to={`/${url}/${EDIT.toLowerCase()}`}
+          to={`/${url}/${record.id}/${EDIT.toLowerCase()}`}
           className="antd-link"
         >
           { text }
@@ -74,9 +74,9 @@ const Users = ({ match }) => {
       dataIndex: 'address',
       width: '35%',
       ...useGetColumnSearchProps('address'),
-      render: text => (
+      render: (text, record) => (
         <Link
-          to={`/${url}/${EDIT.toLowerCase()}`}
+          to={`/${url}/${record.id}/${EDIT.toLowerCase()}`}
           className="antd-link"
         >
           { text }
@@ -87,9 +87,9 @@ const Users = ({ match }) => {
       title: 'Role',
       dataIndex: 'role',
       width: '5%',
-      render: text => (
+      render: (text, record) => (
         <Link
-          to={`/${url}/${EDIT.toLowerCase()}`}
+          to={`/${url}/${record.id}/${EDIT.toLowerCase()}`}
           className="antd-link"
         >
           { text }

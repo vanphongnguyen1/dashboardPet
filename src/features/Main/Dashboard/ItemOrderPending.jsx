@@ -13,7 +13,7 @@ const ItemOrderPending = ({ data }) => {
     <li className="pending-order__item" onClick={() => dispatch(setOrder(data))}>
       <Link
         className="pending-order__link"
-        to={`${TITLE_MENU.ORDERS}/${EDIT}`}
+        to={`${TITLE_MENU.ORDERS}/${data.id}/${EDIT}`}
       >
         <div className="info-order">
           <div className="info-order__user">

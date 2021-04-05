@@ -15,7 +15,7 @@ const ItemCustommer = ({ name, avarta, data }) => {
     >
       <Link
         className="show-customer__link"
-        to={`${TITLE_MENU.USERS}/${EDIT.toLowerCase()}`}
+        to={`${TITLE_MENU.USERS}/${data.id}/${EDIT.toLowerCase()}`}
       >
         <div className="show-customer__link-box">
           <Avarta name={name} avarta={avarta}/>

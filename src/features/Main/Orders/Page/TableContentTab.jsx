@@ -34,9 +34,9 @@ const TableContentTab = ({ data, url }) => {
       sorter: {
         compare: (a, b) => moment(a.updated).format('x') - moment(b.updated).format('x'),
       },
-      render: text => (
+      render: (text, record) => (
         <Link
-          to={`/${url}/${EDIT.toLowerCase()}`}
+          to={`/${url}/${record.id}/${EDIT.toLowerCase()}`}
           className="antd-link"
         >
           { date(text) }
@@ -49,9 +49,9 @@ const TableContentTab = ({ data, url }) => {
       fixed: 'left',
       width: 120,
       ...useGetColumnSearchProps('name'),
-      render: text => (
+      render: (text, record) => (
         <Link
-          to={`/${url}/${EDIT.toLowerCase()}`}
+          to={`/${url}/${record.id}/${EDIT.toLowerCase()}`}
           className="antd-link"
         >
           { text }
@@ -62,9 +62,9 @@ const TableContentTab = ({ data, url }) => {
       title: 'Phone',
       dataIndex: 'phone',
       ...useGetColumnSearchProps('phone'),
-      render: text => (
+      render: (text, record) => (
         <Link
-          to={`/${url}/${EDIT.toLowerCase()}`}
+          to={`/${url}/${record.id}/${EDIT.toLowerCase()}`}
           className="antd-link"
         >
           { text }
@@ -76,9 +76,9 @@ const TableContentTab = ({ data, url }) => {
       dataIndex: 'address',
       width: 350,
       ...useGetColumnSearchProps('address'),
-      render: text => (
+      render: (text, record) => (
         <Link
-          to={`/${url}/${EDIT.toLowerCase()}`}
+          to={`/${url}/${record.id}/${EDIT.toLowerCase()}`}
           className="antd-link"
         >
           { text }
@@ -89,9 +89,9 @@ const TableContentTab = ({ data, url }) => {
       title: 'Products',
       dataIndex: 'products',
       width: 350,
-      render: text => (
+      render: (text, record) => (
         <Link
-          to={`/${url}/${EDIT.toLowerCase()}`}
+          to={`/${url}/${record.id}/${EDIT.toLowerCase()}`}
           className="antd-link"
         >
           {
@@ -109,9 +109,9 @@ const TableContentTab = ({ data, url }) => {
     {
       title: 'TotalCount',
       dataIndex: 'totalCount',
-      render: text => (
+      render: (text, record) => (
         <Link
-          to={`/${url}/${EDIT.toLowerCase()}`}
+          to={`/${url}/${record.id}/${EDIT.toLowerCase()}`}
           className="antd-link"
         >
           { text }
@@ -121,9 +121,9 @@ const TableContentTab = ({ data, url }) => {
     {
       title: 'TotalPrice',
       dataIndex: 'totalPrice',
-      render: text => (
+      render: (text, record) => (
         <Link
-          to={`/${url}/${EDIT.toLowerCase()}`}
+          to={`/${url}/${record.id}/${EDIT.toLowerCase()}`}
           className="antd-link"
         >
           { text }
@@ -133,9 +133,9 @@ const TableContentTab = ({ data, url }) => {
     {
       title: 'trasport',
       dataIndex: 'trasport',
-      render: text => (
+      render: (text, record) => (
         <Link
-          to={`/${url}/${EDIT.toLowerCase()}`}
+          to={`/${url}/${record.id}/${EDIT.toLowerCase()}`}
           className="antd-link"
         >
           { text }
@@ -145,9 +145,9 @@ const TableContentTab = ({ data, url }) => {
     {
       title: 'intoMeny',
       dataIndex: 'intoMeny',
-      render: text => (
+      render: (text, record) => (
         <Link
-          to={`/${url}/${EDIT.toLowerCase()}`}
+          to={`/${url}/${record.id}/${EDIT.toLowerCase()}`}
           className="antd-link"
         >
           { text }
@@ -159,9 +159,9 @@ const TableContentTab = ({ data, url }) => {
       dataIndex: 'status',
       width: 100,
       fixed: 'right',
-      render: text => (
+      render: (text, record) => (
         <Link
-          to={`/${url}/${EDIT.toLowerCase()}`}
+          to={`/${url}/${record.id}/${EDIT.toLowerCase()}`}
           className="antd-link"
         >
           { text }

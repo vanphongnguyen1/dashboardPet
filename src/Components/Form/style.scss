@@ -86,6 +86,19 @@
     cursor: pointer;
   }
 
+  &__checkbox,
+  &__radio {
+    width: 2rem;
+    height: 2rem;
+    cursor: pointer;
+
+    &--title {
+      font-size: 1.6rem;
+      font-weight: 500;
+      margin-left: 0.5rem;
+    }
+  }
+
   .pseudo-input {
     position: absolute;
     bottom: 0;
@@ -110,3 +123,11 @@
     font-weight: 400;
   }
 }
+
+
+  .box-checkbox,
+  .box-radio {
+    display: flex;
+    align-items: center;
+    margin: 0 1rem;
+  }
