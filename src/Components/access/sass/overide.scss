@@ -24,6 +24,7 @@
   align-items: center;
 }
 
+// ---------------------Tabs Antd------------------------------------
 .ant-spin-dot-item {
   width: 3rem;
   height: 3rem;
@@ -40,6 +41,10 @@
 }
 
 .ant-tabs > .ant-tabs-nav .ant-tabs-nav-list {
+  width: 100%;
+}
+
+.ant-tabs-tab {
   width: 100%;
 }
 
@@ -65,4 +70,45 @@
   font-size: 1.6rem;
   font-weight: 500;
   width: 100%;
+}
+
+.ant-tabs-ink-bar {
+  background: #4F3CC9;
+}
+
+
+// ---------------------Ckeditor------------------------------------
+.ck {
+  cursor: pointer;
+}
+
+.ck.ck-editor__editable_inline {
+  border: none;
+  border-bottom: 1px solid #8E8E8E;
+}
+
+.ck.ck-editor__main>.ck-editor__editable.ck-editor__editable {
+  background-color: #F5F5F5;
+  position: relative;
+
+  &::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+
+    width: 100%;
+    height: 2px;
+    background-color: #4F3CC9;
+    transform: scale(0);
+    transition: all 0.3s ease-in-out;
+  }
+
+  &:focus::after {
+    transform: scale(1);
+  }
+}
+
+.ck.ck-editor__editable:not(.ck-editor__nested-editable).ck-focused {
+  background-color: #DEDEDE;
 }
