@@ -1,39 +1,86 @@
-import { useState } from 'react'
-// import { customAxiosApi } from '../../../../../customAxiosApi'
+import { useState, useEffect } from 'react'
 import GroupInput from '../../../../../Components/Form/GroupInput'
 import { Selector } from '../../../../../Components/Form/Selector'
-import { Textarea } from '../../../../../Components/Form/Textarea'
-import { Lable } from '../../../../../Components/Form/Lable'
 import { Delete, Save } from '../../../../../Components/Btn'
 import DelayLink from '../../../../../Components/DelayLink'
 import { Tabs } from 'antd'
 import { CKEditor } from '@ckeditor/ckeditor5-react'
 import ClassicEditor from '@ckeditor/ckeditor5-build-classic'
+import { useDispatch, useSelector } from 'react-redux'
+import { fetchLineage } from '../../../../../rootReducers/lineageSlice'
+import { showLoading, hideLoading } from 'react-redux-loading-bar'
+import Upload from '../../../../../Components/Form/Upload'
+import InputRadio from '../../../../../Components/Form/InputRadio'
 
 function Form() {
   const { TabPane } = Tabs
-  const [dataProduct, setDataProduct] = useState({})
-  // const [data, setData] = useState([])
+  const dispatch = useDispatch()
 
-  // useEffect(() => {
-  //   customAxiosApi.get('images/157')
-  //     .then(response => {
-  //       const { data } = response.data
-  //       setData(data)
-  //     })
-  // }, [])
+  const dataGroup = useSelector(state => state.groups.list)
+  const dataLineage = useSelector(state => state.lineage.list)
+  const isHideLoading = useSelector(state => state.lineage.loading)
 
-  // const newUrls = JSON.parse(data.url)
+  const initialState = {
+    name: '',
+    price: '',
+    priceSale: '',
+    group: 1,
+    lineage: 1,
+    isStatus: 1,
+    new: 0,
+    hot: 0,
+    files: []
+  }
+
+  const [dataProduct, setDataProduct] = useState(initialState)
+
+  useEffect(() => {
+    dispatch(fetchLineage(dataProduct.group))
+  }, [dataProduct.group, dispatch])
+
+  useEffect(() => {
+    if (isHideLoading === 'success') {
+      dispatch(hideLoading('sectionBar'))
+    }
+  }, [isHideLoading, dispatch])
 
   const handleOnchange = e => {
-    const { value, name } = e.target
+    const { value, files, type, name  } = e.target
+    let newValue = value
+
+    if ( type === 'file') {
+      const listFile = []
+
+      for (let i = 0; i < files.length; i++) {
+        const { name } = files[i]
+
+        if (name) {
+          listFile.push(name)
+        }
+      }
+
+      newValue = listFile
+    }
 
     setDataProduct({
       ...dataProduct,
-      files: value
+      [name]: newValue
     })
+  }
 
-    console.log(value)
+  const handleOnchangeGroup = async e => {
+    const { value, name } = e.target
+    dispatch(showLoading('sectionBar'))
+
+    setDataProduct({
+      ...dataProduct,
+      [name]: value,
+      lineage: ''
+    })
+  }
+
+  const handleChangeEditor = (e, editor) => {
+
   }
 
   return (
@@ -46,8 +93,9 @@ function Form() {
                 <GroupInput
                   type="text"
                   name="name"
-                  value=""
+                  value={ dataProduct.name }
                   titleLabel="Name Product"
+                  onChange={ handleOnchange }
                 />
               </div>
 
@@ -57,17 +105,19 @@ function Form() {
                     <GroupInput
                       type="number"
                       name="price"
-                      value=""
+                      value={ dataProduct.price }
                       titleLabel="Price"
+                      onChange={ handleOnchange }
                     />
                   </div>
 
                   <div className="box-6">
                     <GroupInput
                       type="number"
-                      value=""
+                      value={ dataProduct.priceSale }
                       name="priceSale"
                       titleLabel="Price Sale"
+                      onChange={ handleOnchange }
                     />
                   </div>
                 </div>
@@ -78,16 +128,21 @@ function Form() {
                   <div className="box-6">
                     <Selector
                       name="group"
-                      value=""
+                      value={ dataProduct.group }
                       title="Group"
+                      onChange={ handleOnchangeGroup }
+                      options={ dataGroup }
                     />
                   </div>
 
                   <div className="box-6">
                     <Selector
                       name="lineage"
-                      value=""
+                      value={ dataProduct.lineage }
                       title="Lineage"
+                      onChange={ handleOnchange }
+                      disabled={ dataProduct.group ? false : true }
+                      options={ dataLineage }
                     />
                   </div>
                 </div>
@@ -95,45 +150,59 @@ function Form() {
 
               <div className="form__product">
                 <div className="form__product-box">
-                  <div className="box-checkbox">
-                    <input type="checkbox" className="group__checkbox" id="onProduct"/>
-                    <Lable
-                      htmlFor="onProduct"
-                      text="on"
-                      className="group__checkbox--title"
-                    />
-                  </div>
+                  <InputRadio
+                    name="isStatus"
+                    id="onProduct"
+                    lable="on"
+                    value="1"
+                    onChange={ handleOnchange }
+                    checked={ dataProduct.isStatus === '1' }
+                  />
 
-                  <div className="box-checkbox">
-                    <input type="checkbox" className="group__checkbox" id="offProduct"/>
-                    <Lable
-                      htmlFor="offProduct"
-                      text="off"
-                      className="group__checkbox--title"
-                    />
-                  </div>
-                </div>
-              </div>
+                  <InputRadio
+                    name="isStatus"
+                    id="offProduct"
+                    lable="off"
+                    value="0"
+                    onChange={ handleOnchange }
+                    checked={ dataProduct.isStatus === '0' }
+                  />
 
-              <div className="form__product">
-                <div className="form__product-box">
-                  <div className="box-radio">
-                    <input type="radio" className="group__radio" id="newProduct"/>
-                    <Lable
-                      htmlFor="newProduct"
-                      text="New Product"
-                      className="group__radio--title"
-                    />
-                  </div>
+                  <InputRadio
+                    name="new"
+                    id="onNew"
+                    value="1"
+                    lable="New"
+                    onChange={ handleOnchange }
+                    checked={ dataProduct.new === '1' }
+                  />
 
-                  <div className="box-radio">
-                    <input type="radio" className="group__radio" id="hotProduct"/>
-                    <Lable
-                      htmlFor="hotProduct"
-                      text="Hot Product"
-                      className="group__radio--title"
-                    />
-                  </div>
+                  <InputRadio
+                    name="new"
+                    id="offNew"
+                    value="0"
+                    lable="Off New"
+                    onChange={ handleOnchange }
+                    checked={ dataProduct.new === '0' }
+                  />
+
+                  <InputRadio
+                    name="hot"
+                    id="onHot"
+                    value="1"
+                    lable="Hot"
+                    onChange={ handleOnchange }
+                    checked={ dataProduct.hot === '1' }
+                  />
+
+                  <InputRadio
+                    name="hot"
+                    id="offHot"
+                    value="0"
+                    lable="Off Hot"
+                    onChange={ handleOnchange }
+                    checked={ dataProduct.hot === '0' }
+                  />
                 </div>
               </div>
             </div>
@@ -142,29 +211,12 @@ function Form() {
           <TabPane tab="IMAGES" key="2">
             <div className="box-tabs">
               <div className="form__product">
-                <div className="box-checkbox">
-                  <div className="box-file">
-                    <img src="fakepath/xetrang.jpg" alt="" className="box-file__image"/>
-
-                    <input
-                      type="file"
-                      className="group__files"
-                      id="files"
-                      onChange={handleOnchange}
-                    />
-
-                    <label
-                      htmlFor="files"
-                      text=""
-                      className="group__checkbox--title label-file"
-                    >
-                      <span className="label-file__icon fas fa-plus" />
-                      <span className="label-file__text">
-                        Upload
-                      </span>
-                    </label>
-                  </div>
-                </div>
+                <Upload
+                  dataProduct={ dataProduct.files }
+                  id="files"
+                  onChange={ handleOnchange }
+                  multiple
+                />
               </div>
             </div>
           </TabPane>
@@ -175,20 +227,17 @@ function Form() {
                 <CKEditor
                   editor={ ClassicEditor }
                   data="<p>Hello from CKEditor 5!</p>"
-                  onReady={ editor => {
+                  onReady={  editor => {
                       // You can store the "editor" and use when it is needed.
                       console.log( 'Editor is ready to use!', editor );
-                  } }
-                  onChange={ ( event, editor ) => {
-                      // const data = editor.getData();
-                      // console.log( { event, editor, data } );
-                  } }
-                  onBlur={ ( event, editor ) => {
+                  }}
+                  onChange={ (event, editor) => handleChangeEditor(event, editor) }
+                  onBlur={ (event, editor) => {
                       console.log( 'Blur.', editor );
-                  } }
-                  onFocus={ ( event, editor ) => {
+                  }}
+                  onFocus={ (event, editor) => {
                       console.log( 'Focus.', editor );
-                  } }
+                  }}
                 />
               </div>
             </div>
@@ -206,8 +255,8 @@ function Form() {
                       <DelayLink
                         to=""
                         className="box-submit__delete"
-                        delay={1000}
-                        children={<Delete/>}
+                        delay={ 1000}
+                        children={ <Delete/>}
                       />
                   {/* ) : ''
               } */}

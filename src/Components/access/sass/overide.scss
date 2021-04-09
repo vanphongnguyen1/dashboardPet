@@ -82,14 +82,24 @@
   cursor: pointer;
 }
 
+.ck.ck-sticky-panel__content {
+  z-index: 2;
+}
+
 .ck.ck-editor__editable_inline {
   border: none;
   border-bottom: 1px solid #8E8E8E;
 }
 
+.ck-rounded-corners .ck.ck-editor__top .ck-sticky-panel .ck-toolbar {
+  border: none;
+  background-color: #fff;
+}
+
 .ck.ck-editor__main>.ck-editor__editable.ck-editor__editable {
   background-color: #F5F5F5;
   position: relative;
+  min-height: 15rem;
 
   &::after {
     content: '';
@@ -111,4 +121,6 @@
 
 .ck.ck-editor__editable:not(.ck-editor__nested-editable).ck-focused {
   background-color: #DEDEDE;
+  border: none;
+  box-shadow: initial;
 }

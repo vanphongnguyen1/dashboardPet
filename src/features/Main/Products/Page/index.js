@@ -1,4 +1,3 @@
-import React from 'react'
 import EditProduct from './Edit'
 
 const Products = () => {

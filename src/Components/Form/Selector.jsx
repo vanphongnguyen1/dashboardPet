@@ -8,6 +8,7 @@ export const Selector = props => {
     onChange,
     value,
     options,
+    disabled
   } = props
   return (
     <div className="group">
@@ -16,6 +17,7 @@ export const Selector = props => {
         className="group__select"
         onChange={onChange}
         value={value}
+        disabled={disabled}
       >
         {
           options.length > 0
@@ -49,7 +51,8 @@ Selector.propTypes = {
     PropTypes.string,
     PropTypes.number,
   ]),
-  options: PropTypes.array
+  options: PropTypes.array,
+  disabled: PropTypes.bool
 }
 
 Selector.defaultProps = {
@@ -57,5 +60,6 @@ Selector.defaultProps = {
   title: '',
   onChange: () => {},
   value: '',
-  options: []
+  options: [],
+  disabled: false
 }
