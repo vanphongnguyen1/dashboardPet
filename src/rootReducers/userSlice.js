@@ -35,6 +35,7 @@ export const userSlice = createSlice({
     defaultUser: (state, action) => {
       state.user = {}
     },
+
     defaultUsers: (state, action) => {
       state.list = []
     },
@@ -42,7 +43,7 @@ export const userSlice = createSlice({
   extraReducers: {
     [fetchUsers.pending]: (state, action) => {
       // Add user to the state array
-      state.list = []
+      state.list = [...state.list]
       state.loading = STATUS_FETCH.LOADING
     },
 

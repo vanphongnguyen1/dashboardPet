@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState, useEffect, useMemo } from 'react'
 import { Table, Space } from 'antd'
 import { EditOutlined } from '@ant-design/icons'
 import { BtnCreatExport } from '../../../../Components/Btn'
@@ -10,14 +10,28 @@ import { useSelector, useDispatch } from 'react-redux'
 import { fetchUsers, setUser } from '../../../../rootReducers/userSlice'
 import { customAxiosApi }  from '../../../../customAxiosApi'
 import PropTypes from 'prop-types'
+import { showLoading, hideLoading } from 'react-redux-loading-bar'
 
 const Users = ({ match }) => {
   const url = match.url.slice(1)
   const dispatch = useDispatch()
 
-
   const [selectedRowKeys, setSelectedRowKeys] = useState([])
   const dataUsers = useSelector(state => state.users)
+
+  useEffect(() => {
+    dispatch(showLoading('sectionBar'))
+    dispatch(fetchUsers())
+  }, [dispatch])
+
+  useMemo(() => {
+    setTimeout(() => {
+      if (dataUsers.loading === 'success') {
+        dispatch(hideLoading('sectionBar'))
+        
+      }
+    }, 500)
+  }, [dataUsers.loading, dispatch])
 
   const onSelectChange = (index, item) => {
     setSelectedRowKeys(item)
@@ -100,9 +114,9 @@ const Users = ({ match }) => {
       title: 'Edit',
       dataIndex: 'action',
       width: '10%',
-      render: () => (
+      render: (text, record) => (
         <Link
-          to={`/${url}/${EDIT.toLowerCase()}`}
+          to={`/${url}/${record.id}/${EDIT.toLowerCase()}`}
           className="antd-link"
         >
           <Space size="middle">
@@ -114,14 +128,16 @@ const Users = ({ match }) => {
   ]
 
   const handleDeleteSelect = async () => {
+    dispatch(showLoading('sectionBar'))
+
     await selectedRowKeys.forEach(item => {
       customAxiosApi.delete(`${API_NAME.USERS}/${item.id}`)
       .then(response => {
-        console.log(response.data)
+        dispatch(fetchUsers())
       })
     })
 
-    await dispatch(fetchUsers())
+    setSelectedRowKeys([])
   }
 
   return (

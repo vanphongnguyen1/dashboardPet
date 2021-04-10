@@ -8,37 +8,23 @@ import {
   Redirect
 } from "react-router-dom"
 import { routes } from '../../routers'
-import { fetchOrders } from '../../rootReducers/orderSlice'
-import { fetchUsers } from '../../rootReducers/userSlice'
-import { fetchComments } from '../../rootReducers/commentSlice'
-import { fetchProductDetailOrder } from '../../rootReducers/productDetailOrderThunk'
 import { fetchStatus } from '../../rootReducers/statusSlice'
 import { fetchTrasport } from '../../rootReducers/trasportSlice'
 import { fetchStatusComments } from '../../rootReducers/statusCommentsSlice'
-import { showLoading, hideLoading } from 'react-redux-loading-bar'
+import { fetchLineage } from '../../rootReducers/lineageSlice'
+import { fetchGroup } from '../../rootReducers/groupSlice'
 
 const Main = () => {
   const dispatch = useDispatch()
   const stateIsMenu = useSelector(state => state.stateIsMenu.isMenu)
-  const isHideLoading = useSelector(state => state.statusComments.loading)
 
   useEffect(() => {
-    dispatch(showLoading('sectionBar'))
-
-    dispatch(fetchOrders())
-    dispatch(fetchUsers())
-    dispatch(fetchComments())
-    dispatch(fetchProductDetailOrder())
     dispatch(fetchStatus())
     dispatch(fetchTrasport())
     dispatch(fetchStatusComments())
+    dispatch(fetchGroup())
+    dispatch(fetchLineage())
   }, [dispatch])
-
-  useEffect(() => {
-    if (isHideLoading === 'success') {
-      dispatch(hideLoading('sectionBar'))
-    }
-  }, [isHideLoading, dispatch])
 
   return (
     <>

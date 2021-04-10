@@ -1,13 +1,30 @@
+import { useEffect } from 'react'
 import { Tabs } from 'antd'
 import { BtnCreatExport } from '../../../../Components/Btn'
-import { useSelector } from 'react-redux'
-import PropTypes from 'prop-types'
+import { useDispatch, useSelector } from 'react-redux'
 import TableContentTab from './TableContentTab'
 import { sectionData } from './sectionData'
+import { fetchComments } from '../../../../rootReducers/commentSlice'
+import { showLoading, hideLoading } from 'react-redux-loading-bar'
+import { STATUS_FETCH } from '../../../../dataDefault'
 
-const Comments = ({ match }) => {
+const Comments = () => {
+  const dispatch = useDispatch()
   const { TabPane } = Tabs
   const dataComment = useSelector(state => state.comments)
+
+  useEffect(() => {
+    dispatch(showLoading('sectionBar'))
+    dispatch(fetchComments())
+  }, [dispatch])
+
+  useEffect(() => {
+    if (dataComment.loading === STATUS_FETCH.SUCCESS) {
+      setTimeout(() => {
+        dispatch(hideLoading('sectionBar'))
+      }, 500)
+    }
+  }, [dispatch, dataComment.loading])
 
   const [
     dataPending,
@@ -41,14 +58,6 @@ const Comments = ({ match }) => {
       </Tabs>
     </div>
   )
-}
-
-Comments.propTypes = {
-  match: PropTypes.object
-}
-
-Comments.defaultProps = {
-  match: {}
 }
 
 export default Comments

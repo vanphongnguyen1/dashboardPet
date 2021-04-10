@@ -11,6 +11,7 @@ import { Lable } from '../../../../../Components/Form/Lable'
 import { messageError } from '../../../../../Components/openMessage'
 import DelayLink from '../../../../../Components/DelayLink'
 import { HeadingBox } from '../../../../../Components/HeadingBox'
+import { resetScroll } from '../../../../../Components/access/logic/resetScroll'
 import { showLoading, hideLoading } from 'react-redux-loading-bar'
 import { Prompt } from 'react-router-dom'
 
@@ -108,6 +109,10 @@ const FormUser = ({ url }) => {
   const handleSubmit = async () => {
     const isInputValida = checkValidated()
 
+    if (!isInputValida) {
+      resetScroll()
+    }
+
     if (isRequitEdit && isInputValida) {
       if (isLocalPath) {
         setIsLocalPath(false)
@@ -116,15 +121,17 @@ const FormUser = ({ url }) => {
       dispatch(showLoading('sectionBar'))
 
       customAxiosApi.put(`${textUsers}/${dataUsers.id}`, state)
-      .then(() => {
-        dispatch(hideLoading('sectionBar'))
+      .then(async () => {
+        setValidate(initialErMes)
+        await dispatch(fetchUsers())
       })
       .catch(error => {
         messageError(error.message)
       })
 
-      setValidate(initialErMes)
-      await dispatch(fetchUsers())
+      await setTimeout(() => {
+        dispatch(hideLoading('sectionBar'))
+      }, 500)
     }
 
     if (isRequitCreat && isInputValida) {
@@ -135,16 +142,19 @@ const FormUser = ({ url }) => {
       dispatch(showLoading('sectionBar'))
 
       customAxiosApi.post(textUsers, state)
-      .then(() => {
-        dispatch(hideLoading('sectionBar'))
+      .then(async() => {
+        setValidate(initialErMes)
+        setState(initialValue)
+
+        await setTimeout(() => {
+          dispatch(hideLoading('sectionBar'))
+        }, 500)
+
+        resetScroll()
       })
       .catch(error => {
         messageError(error.message)
       })
-
-      setValidate(initialErMes)
-      await dispatch(fetchUsers())
-      setState(initialValue)
     }
   }
 
@@ -156,9 +166,11 @@ const FormUser = ({ url }) => {
     dispatch(showLoading('sectionBar'))
     customAxiosApi.delete(`${textUsers}/${dataUsers.id}`)
 
-    await dispatch(fetchUsers())
+    await setTimeout(() => {
+      dispatch(hideLoading('sectionBar'))
+    }, 500)
+
     await dispatch(defaultUser())
-    await dispatch(hideLoading('sectionBar'))
   }
 
   return (

@@ -1,5 +1,5 @@
 import axios from 'axios'
 
 export const customAxiosApi = axios.create({
-  baseURL: 'http://localhost/myproject/public/api/v1/'
+  baseURL: 'http://localhost/myProject/public/api/v1/'
 })

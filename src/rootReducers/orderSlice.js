@@ -39,7 +39,7 @@ export const orderSlice = createSlice({
   extraReducers: {
     [fetchOrders.pending]: (state, action) => {
       // Add user to the state array
-      state.list = []
+      state.list = [...state.list]
       state.loading = STATUS_FETCH.LOADING
     },
 

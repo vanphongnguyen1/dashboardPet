@@ -51,10 +51,11 @@ img {
   background-color: #909090;
   border-radius: 2.5rem;
   transition: all 0.3s ease-in-out;
+  cursor: pointer;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background-color: #e8e5e5;
+  background-color: #9c9c9c;
 }
 
 .posi-relative {

@@ -4,7 +4,7 @@ import { openMessage } from '../../../../../Components/openMessage'
 import { Selector } from '../../../../../Components/Form/Selector'
 import { date } from '../../../../../Components/myMonment'
 import GroupInput from '../../../../../Components/Form/GroupInput'
-import { defaultOrder, fetchOrders } from '../../../../../rootReducers/orderSlice'
+import { defaultOrder } from '../../../../../rootReducers/orderSlice'
 import { Delete, Save } from '../../../../../Components/Btn'
 import { customAxiosApi } from '../../../../../customAxiosApi'
 import { REGEX, TITLE_MENU, API_NAME } from '../../../../../dataDefault'
@@ -14,6 +14,7 @@ import ItemTotal from './ItemTotal'
 import ItemProduct from './ItemProduct'
 import { showLoading, hideLoading } from 'react-redux-loading-bar'
 import { Prompt } from 'react-router-dom'
+import { resetScroll } from '../../../../../Components/access/logic/resetScroll'
 
 const EditOrderContent = ()  =>{
   const dispatch = useDispatch()
@@ -141,11 +142,6 @@ const EditOrderContent = ()  =>{
   const handleSave = async () => {
     const isInputValida = checkValidated()
 
-    if (!dataEdit.products.length > 0) {
-      hanleDeleteOrder()
-      return;
-    }
-
     if (isInputValida) {
       if (isLocalPath) {
         setIsLocalPath(false)
@@ -181,9 +177,11 @@ const EditOrderContent = ()  =>{
         })
       })
 
-      await dispatch(fetchOrders('orders'))
       openMessage('Update Success !')
-      await dispatch(hideLoading('sectionBar'))
+      await setTimeout(() => {
+        resetScroll()
+        dispatch(hideLoading('sectionBar'))
+      }, 500)
     }
   }
 

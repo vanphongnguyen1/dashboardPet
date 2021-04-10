@@ -1,22 +1,41 @@
+import { useEffect } from 'react'
 import { Tabs } from 'antd'
 import { BtnCreatExport } from '../../../../Components/Btn'
 import TableContentTab from './TableContentTab'
-import { useSelector } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import { sectionData } from './sectionData'
 import PropTypes from 'prop-types'
-
+import { fetchOrders } from '../../../../rootReducers/orderSlice'
+import { fetchProductDetailOrder } from '../../../../rootReducers/productDetailOrderThunk'
+import { showLoading, hideLoading } from 'react-redux-loading-bar'
+ 
 const Orders = ({ match }) => {
   const url = match.url.slice(1)
   const { TabPane } = Tabs
+  const dispatch = useDispatch()
 
-  const dataOrder = useSelector(state => state.orders.list)
-  const dataProductDetailOrder = useSelector(state => state.productDetailOrder.list)
+  useEffect(() => {
+    dispatch(showLoading('sectionBar'))
+    dispatch(fetchOrders())
+    dispatch(fetchProductDetailOrder())
+  }, [dispatch])
+
+  const dataOrder = useSelector(state => state.orders)
+  const dataProductDetailOrder = useSelector(state => state.productDetailOrder)
+
+  useEffect(() => {
+    if (dataProductDetailOrder.loading === 'success') {
+      setTimeout(() => {
+        dispatch(hideLoading('sectionBar'))
+      }, 500)
+    }
+  }, [dispatch, dataProductDetailOrder.loading])
 
   const [
     dataPending,
     dataDelivered,
     dataCanselled
-  ] = sectionData(dataOrder, dataProductDetailOrder)
+  ] = sectionData(dataOrder.list, dataProductDetailOrder.list)
 
   return (
     <div className="orders posi-relative">

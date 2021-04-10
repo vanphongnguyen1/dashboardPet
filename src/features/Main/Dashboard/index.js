@@ -1,19 +1,45 @@
+import { useEffect } from 'react'
 import RootPaper from './RootPaper'
 import PendingOrder from './PendingOrder'
 import ShowComments from './ShowComments'
 import ShowCustomers from './ShowCustomers'
 import { Tablet } from '../../../Components/responsive'
-import { useSelector } from 'react-redux'
-import { filterDataComments, filterDataOrders, sumRevenueMonthly } from './filterData'
+import { useSelector, useDispatch } from 'react-redux'
 import { TITLE_MENU } from '../../../dataDefault'
 import { Link } from 'react-router-dom'
+import { fetchOrders } from '../../../rootReducers/orderSlice'
+import { fetchComments } from '../../../rootReducers/commentSlice'
+import { fetchUsers } from '../../../rootReducers/userSlice'
+import { STATUS_FETCH } from '../../../dataDefault'
+import { hideLoading, showLoading } from 'react-redux-loading-bar'
+import {
+  filterDataComments,
+  filterDataOrders,
+  sumRevenueMonthly
+} from './filterData'
 
 const Dashboard = () => {
+  const dispatch = useDispatch()
   const dataOrders = useSelector(state => state.orders.list)
-  const dataComments = useSelector(state => state.comments.list)
+  const dataComments = useSelector(state => state.comments)
   const dataUsers = useSelector(state => state.users.list)
 
-  const [dataPendingComments, dataPendingCommentsLength] = filterDataComments(dataComments)
+  useEffect(() => {
+    dispatch(showLoading('sectionBar'))
+    dispatch(fetchUsers())
+    dispatch(fetchOrders())
+    dispatch(fetchComments())
+  }, [dispatch])
+
+  useEffect(() => {
+    if (dataComments.loading === STATUS_FETCH.SUCCESS) {
+      setTimeout(() => {
+        dispatch(hideLoading('sectionBar'))
+      }, 500)
+    }
+  }, [dispatch, dataComments.loading])
+
+  const [dataPendingComments, dataPendingCommentsLength] = filterDataComments(dataComments.list)
   const [dataPendingOrders, dataPendingOrdersLength] = filterDataOrders(dataOrders)
   const revenueMonthly = sumRevenueMonthly(dataOrders)
 

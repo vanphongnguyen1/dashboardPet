@@ -4,21 +4,24 @@ import { EditOutlined } from '@ant-design/icons'
 import BoxItemDele from '../../../../Components/BoxItemDele'
 import PropTypes from 'prop-types'
 import { date } from '../../../../Components/myMonment'
+
 import {
   fetchComments,
   setDataComment,
   defaultDataComment
 } from '../../../../rootReducers/commentSlice'
 
-import { useDispatch } from 'react-redux'
 import {
   useGetColumnSearchProps
 } from '../../../../Components/access/logic/searchColumn'
 
+import { useDispatch } from 'react-redux'
 import { customAxiosApi } from '../../../../customAxiosApi'
 import EditComments from './Edit/EditComments'
 import { API_NAME } from '../../../../dataDefault'
 import moment from 'moment'
+import { showLoading, hideLoading } from 'react-redux-loading-bar'
+import { openMessage } from '../../../../Components/openMessage'
 
 const TableContentTab = ({ data }) => {
   const dispatch = useDispatch()
@@ -104,12 +107,18 @@ const TableContentTab = ({ data }) => {
   ]
 
   const handleDeleteSelect = async () => {
+    dispatch(showLoading('sectionBar'))
+
     await selectedRowKeys.forEach(item => {
       customAxiosApi.delete(`${API_NAME.COMMENTS}/${item.id}`)
     })
 
+    openMessage('Delete Success')
     setSelectedRowKeys([])
-    await dispatch(fetchComments())
+    await setTimeout(() => {
+      dispatch(fetchComments())
+      dispatch(hideLoading('sectionBar'))
+    }, 500)
   }
 
   const handleCloseEdit = () => {
