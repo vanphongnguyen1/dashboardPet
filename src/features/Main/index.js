@@ -19,11 +19,11 @@ const Main = () => {
   const stateIsMenu = useSelector(state => state.stateIsMenu.isMenu)
 
   useEffect(() => {
-    // dispatch(fetchStatus())
-    // dispatch(fetchTrasport())
-    // dispatch(fetchStatusComments())
-    // dispatch(fetchGroup())
-    // dispatch(fetchLineage())
+    dispatch(fetchStatus())
+    dispatch(fetchTrasport())
+    dispatch(fetchStatusComments())
+    dispatch(fetchGroup())
+    dispatch(fetchLineage())
   }, [dispatch])
 
   return (

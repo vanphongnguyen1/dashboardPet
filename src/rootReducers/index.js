@@ -10,6 +10,7 @@ import { loadingBarReducer } from 'react-redux-loading-bar'
 import navbarScrolled from './navbarScrolled'
 import lineageSlice from './lineageSlice'
 import groupSlice from './groupSlice'
+import genderSlice from './genderSlice'
 
 export const rootReducers = {
   users: userReducer,
@@ -24,6 +25,7 @@ export const rootReducers = {
 
   lineage: lineageSlice,
   groups: groupSlice,
+  gender: genderSlice,
 
   stateIsMenu: menuAnimation,
   navbarScrolled: navbarScrolled,

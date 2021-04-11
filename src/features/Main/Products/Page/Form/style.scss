@@ -1,65 +1,6 @@
 .form {
   .box-tabs {
     margin: 2rem 0;
-
-    .box-file {
-      display: flex;
-      padding: 2rem;
-      width: 100%;
-      min-height: 15rem;
-      background-color: #F5F5F5;
-
-      input[type="file"] {
-        display: none;
-      }
-
-      &__image{
-        width: 11rem;
-        height: 12rem;
-      }
-
-
-      .label-file {
-        align-items: center;
-        display: flex;
-        flex-direction: column;
-        justify-content: center;
-
-        width: 11rem;
-        height: 12rem;
-
-        font-size: 1.6rem;
-        font-weight: 500;
-
-        border: 1px dashed #ccc;
-        background-color: rgba(255, 255, 255, 0.3);
-        cursor: pointer;
-        transition: all 0.3s ease-in-out;
-
-        &:hover {
-          border: 1px dashed #4F3CC9;
-        }
-
-        &:hover .label-file__icon {
-          color: #4F3CC9;
-        }
-
-        &__text {
-          display: block;
-          text-align: center;
-          font-size: 1.4rem;
-          font-weight: 400;
-          margin-top: 1.5rem;
-        }
-
-        &__icon {
-          display: block;
-          font-size: 1.4rem;
-          color: #b3b2b2;
-          transition: all 0.3s ease-in-out;
-        }
-      }
-    }
   }
 
   &__product {
@@ -69,6 +10,9 @@
   &__product-box {
     display: flex;
     margin-bottom: 2rem;
-    justify-content: space-between;
   }
+}
+
+.valide-label {
+  color: #F76C36;
 }

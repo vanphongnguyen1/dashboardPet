@@ -2,10 +2,10 @@ import { createSlice, createAsyncThunk } from '@reduxjs/toolkit'
 import { customAxiosApi } from '../customAxiosApi'
 import { STATUS_FETCH, API_NAME } from '../dataDefault'
 
-export const fetchLineage = createAsyncThunk(
-  'lineageSlice/fetchLineage',
-  async (id) => {
-    return customAxiosApi.get(`${API_NAME.LINEAGE}?groupID=${id || 1}`)
+export const fetchGender = createAsyncThunk(
+  'genderSlice/fetchGender',
+  async () => {
+    return customAxiosApi.get(API_NAME.GENDER)
       .then(response => {
         const { data } = response.data
         return data
@@ -13,7 +13,7 @@ export const fetchLineage = createAsyncThunk(
   }
 )
 
-export const lineageSlice = createSlice({
+export const genderSlice = createSlice({
   name: 'status',
   initialState: {
     list: [],
@@ -26,7 +26,7 @@ export const lineageSlice = createSlice({
       state.loading = 'idle'
     },
 
-    defaultListLineage: (state, action) => {
+    defaultListGender: (state, action) => {
       state.list = []
     },
 
@@ -36,28 +36,28 @@ export const lineageSlice = createSlice({
   },
 
   extraReducers: {
-    [fetchLineage.pending]: (state, action) => {
+    [fetchGender.pending]: (state, action) => {
       // Add user to the state array
       state.list = []
       state.loading = STATUS_FETCH.LOADING
     },
 
-    [fetchLineage.fulfilled]: (state, action) => {
+    [fetchGender.fulfilled]: (state, action) => {
       // Add user to the state array
 
       state.list = action.payload
       state.loading = STATUS_FETCH.SUCCESS
     },
 
-    [fetchLineage.rejected]: (state, action) => {
+    [fetchGender.rejected]: (state, action) => {
       // Add user to the state array
       state.loading = STATUS_FETCH.FAILED
     },
   }
 })
 
-const { actions, reducer } = lineageSlice
+const { actions, reducer } = genderSlice
 
-export const { defaultLoading, defaultState, defaultListLineage  } = actions
+export const { defaultLoading, defaultState, defaultListGender  } = actions
 
 export default reducer

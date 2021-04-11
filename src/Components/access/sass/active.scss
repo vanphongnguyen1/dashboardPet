@@ -1,3 +1,7 @@
+.disabled {
+  cursor: not-allowed;
+}
+
 .active-rotatez {
   transform: rotateZ(180deg);
 }

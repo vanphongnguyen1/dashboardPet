@@ -1,4 +1,5 @@
 import { Lable } from './Lable'
+import { ValidaError } from './ValidaError'
 import PropTypes from 'prop-types'
 
 export const Selector = props => {
@@ -8,17 +9,24 @@ export const Selector = props => {
     onChange,
     value,
     options,
-    disabled
+    disabled,
+    validateName
   } = props
   return (
     <div className="group">
       <select
         name={name}
-        className="group__select"
+        className={`group__select ${disabled ? 'disabled' : ''}`}
         onChange={onChange}
         value={value}
         disabled={disabled}
       >
+        {
+          name === 'lineage'
+           ? <option>Select...</option>
+           : ''
+        }
+
         {
           options.length > 0
             ? options.map(item => {
@@ -39,6 +47,17 @@ export const Selector = props => {
         text={title}
         className='group__label label-input-value'
       />
+
+      {
+        validateName ? (
+          <ValidaError
+            className="group__valide"
+            text={validateName}
+          />
+        ) : (
+          <span className="pseudo-input" />
+        )
+      }
     </div>
   )
 }
@@ -46,11 +65,14 @@ export const Selector = props => {
 Selector.propTypes = {
   name: PropTypes.string,
   title: PropTypes.string,
-  onChange: PropTypes.func,
+  validateName: PropTypes.string,
+
   value: PropTypes.oneOfType([
     PropTypes.string,
     PropTypes.number,
   ]),
+
+  onChange: PropTypes.func,
   options: PropTypes.array,
   disabled: PropTypes.bool
 }
@@ -58,8 +80,10 @@ Selector.propTypes = {
 Selector.defaultProps = {
   name: '',
   title: '',
-  onChange: () => {},
+  validateName: '',
   value: '',
+
+  onChange: () => {},
   options: [],
   disabled: false
 }

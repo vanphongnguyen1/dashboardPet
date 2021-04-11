@@ -1,3 +1,5 @@
+@import './upload.scss';
+
 .group {
   width: 100%;
   margin-bottom: 3rem;
@@ -84,6 +86,16 @@
 
     transition: all 0.3s ease-in-out;
     cursor: pointer;
+    position: relative;
+
+    &:hover,
+    &:focus {
+      background-color: #DEDEDE;
+    }
+
+    &:focus ~label {
+      @extend .label-input-value;
+    }
   }
 
   &__checkbox,
@@ -130,4 +142,5 @@
     display: flex;
     align-items: center;
     margin: 0 1rem;
+    width: 15rem;
   }

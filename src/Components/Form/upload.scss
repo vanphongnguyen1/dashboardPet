@@ -1,0 +1,107 @@
+.box-file {
+  display: flex;
+  flex-wrap: wrap;
+
+  padding: 2rem;
+  width: 100%;
+  min-height: 15rem;
+  background-color: #F5F5F5;
+
+  input[type="file"] {
+    display: none;
+  }
+  .product-item {
+    object-fit: contain;
+    position: relative;
+
+    border: 1px solid #ccc;
+    margin: 0.3rem;
+    overflow: hidden;
+
+    &__image{
+      width: 11rem;
+      height: 12rem;
+    }
+
+    &__icon {
+      position: absolute;
+      top: 0;
+      left: 0;
+      bottom: 0;
+      right: 0;
+      background-color: rgba(#000000, .3);
+
+      justify-content: center;
+      align-items: center;
+      display: flex;
+
+      transform: translateY(60%);
+      transition: all .3s ease-in-out;
+      opacity: 0;
+      visibility: hidden;
+
+      &--eye,
+      &--delete {
+        font-size: 1.4rem;
+        color: #e0e0e0;
+        padding: 0.5rem;
+
+        transition: all 0.3s ease-in-out;
+        cursor: pointer;
+
+        &:hover {
+          color: #fbfbfb;
+        }
+      }
+    }
+
+    &:hover .product-item__icon {
+      transform: translateY(0);
+      opacity: 1;
+      visibility: visible;
+      z-index: 2;
+    }
+  }
+
+  .label-file {
+    align-items: center;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+
+    width: 11rem;
+    height: 12rem;
+    margin: 0.3rem;
+
+    font-size: 1.6rem;
+    font-weight: 500;
+
+    border: 1px dashed #ccc;
+    background-color: rgba(255, 255, 255, 0.3);
+    cursor: pointer;
+    transition: all 0.3s ease-in-out;
+
+    &:hover {
+      border: 1px dashed #4F3CC9;
+    }
+
+    &:hover .label-file__icon {
+      color: #4F3CC9;
+    }
+
+    &__text {
+      display: block;
+      text-align: center;
+      font-size: 1.4rem;
+      font-weight: 400;
+      margin-top: 1.5rem;
+    }
+
+    &__icon {
+      display: block;
+      font-size: 1.4rem;
+      color: #b3b2b2;
+      transition: all 0.3s ease-in-out;
+    }
+  }
+}

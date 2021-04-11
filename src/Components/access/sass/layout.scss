@@ -8,6 +8,10 @@
   align-items: center;
 }
 
+.mr-center {
+  margin: 0 auto;
+}
+
 .box-4 {
   width: calc(100% * 4 / 12 - 0.5rem);
 }
@@ -16,7 +20,6 @@
 }
 .box-6 {
   width: calc(100% * 6 / 12 - 0.5rem);
-  margin: 0 auto;
 }
 .box-7 {
   width: calc(100% * 7 / 12 - 0.5rem);
