@@ -7,6 +7,7 @@ import Orders from './features/Main/Orders/Page'
 import EditOrder from './features/Main/Orders/Page/Edit'
 import Comments from './features/Main/Comments/Page'
 import Products from './features/Main/Products/Page'
+import EditProduct from './features/Main/Products/Page/Edit'
 
 export const routes = [
   // {
@@ -53,6 +54,11 @@ export const routes = [
     path: '/products',
     exact: true,
     main: ({ match }) => <Products match={match}/>
+  },
+  {
+    path: '/products/creat',
+    exact: true,
+    main: ({ match }) => <EditProduct match={match}/>
   },
   // {
   //   path: '/comments/edit',

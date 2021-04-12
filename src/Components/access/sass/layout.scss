@@ -12,6 +12,12 @@
   margin: 0 auto;
 }
 
+.box-2 {
+  width: calc(100% * 2 / 12 - 0.5rem);
+}
+.box-3 {
+  width: calc(100% * 3 / 12 - 0.5rem);
+}
 .box-4 {
   width: calc(100% * 4 / 12 - 0.5rem);
 }
@@ -26,6 +32,9 @@
 }
 .box-8 {
   width: calc(100% * 8 / 12 - 0.5rem);
+}
+.box-9 {
+  width: calc(100% * 9 / 12 - 0.5rem);
 }
 .box-12 {
   width: calc(100% - 1.5rem);

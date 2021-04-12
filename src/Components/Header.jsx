@@ -70,7 +70,7 @@ const Header = () => {
             <span className="header__sidebar--icon far fa-bars"  ref={refSidebar}/>
 
             <span className="header__sidebar--sub-text">
-              <PopuSubText title={ !stateIsMenu ? 'Open menu' : 'Close menu'}/>
+              <PopuSubText title={ stateIsMenu ? 'Open menu' : 'Close menu'}/>
             </span>
           </div>
 

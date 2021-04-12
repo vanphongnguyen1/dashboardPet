@@ -22,7 +22,7 @@ export const Selector = props => {
         disabled={disabled}
       >
         {
-          name === 'lineage'
+          name === 'lineageID'
            ? <option>Select...</option>
            : ''
         }

@@ -16,10 +16,10 @@ const Upload = props => {
     <div className="box-file">
       {
         dataProduct.length
-          ? dataProduct.map(item  => {
+          ? dataProduct.map((item, index)  => {
             return (
               <ItemImage
-                key={ item.id }
+                key={ index }
                 item={ item }
                 alt=""
                 handleDelete={ () => handleDeleteItem(item.id) }

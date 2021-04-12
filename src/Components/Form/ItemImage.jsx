@@ -4,7 +4,7 @@ export const ItemImage = ({ item, alt, handleView, handleDelete }) => {
   return (
     <div className="product-item">
       <img
-        src={ item.name }
+        src={ item }
         alt={ alt }
         className="product-item__image"
       />

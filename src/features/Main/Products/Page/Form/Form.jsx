@@ -30,11 +30,11 @@ function Form() {
     price: '',
     priceSale: '',
     groupID: '1',
-    lineage: '',
+    lineageID: '',
     genderID: '1',
     isStatus: '1',
-    new: '0',
-    hot: '0',
+    isNew: '0',
+    isHot: '0',
     files: [],
     description: ''
   }
@@ -44,7 +44,7 @@ function Form() {
     price: '',
     priceSale: '',
     groupID: '',
-    lineage: '',
+    lineageID: '',
     genderID: '',
   }
 
@@ -70,41 +70,41 @@ function Form() {
     }
   }, [dataLineage.loading, dispatch])
 
+  const handleOnBlur = e => {
+    const { value, name } = e.target
+
+    if ( !value ) {
+      setDataValide({
+        ...dataValide,
+        [name]: 'Requite *'
+      })
+    }
+  }
+
   const handleOnchange = async e => {
     const { value, files, type, name  } = e.target
     let newValue = value
 
     if ( type === 'file') {
-      const listFile = []
       const base64 = []
 
       for (let i = 0; i < files.length; i++) {
-        const { name } = files[i]
-
-        if (name) {
-          base64.push({
-            id: i,
-            name: await getBase64(files[i])
-          })
-
-          listFile.push({
-            id: i,
-            name
-          })
-        }
+        base64.push(
+          await getBase64(files[i])
+        )
       }
 
       setDataImageBase64(
         [...dataImageBase64, ...base64]
       )
-      newValue = listFile
+      newValue = [...dataProduct.files, ...files]
     }
 
     if (name === 'groupID') {
       setDataProduct({
         ...dataProduct,
         [name]: value,
-        lineage: ''
+        lineageID: ''
       })
 
       return ;
@@ -203,12 +203,78 @@ function Form() {
     }
   }
 
-  const onSubmit = () => {
+  const onSubmit = async () => {
     const isValide = handleValideTabs()
-    console.log("🚀 ~ file: Form.jsx ~ line 208 ~ onSubmit ~ isValide", isValide)
 
-    console.log(dataProduct)
+    if (isValide) {
+      dispatch(showLoading('sectionbar'))
+
+      const {
+        name,
+        price,
+        priceSale,
+        lineageID,
+        genderID,
+        isStatus,
+        isHot,
+        isNew,
+        description,
+      } = dataProduct
+
+      const postProduct = {
+        name,
+        price,
+        priceSale,
+        lineageID,
+        genderID,
+        isStatus,
+        isNew,
+        isHot,
+      }
+
+      const data = new FormData()
+
+      dataProduct.files.forEach(file => {
+        data.append('files[]', file)
+      })
+
+      await customAxiosApi.post(API_NAME.IMAGES, data)
+      .then(response => {
+        const { id } = response.data.data
+
+        customAxiosApi.post(API_NAME.TYPEPRODUCT, {
+          ...description,
+          imagesID: id,
+        })
+        .then(response => {
+          const { id } = response.data.data
+
+          customAxiosApi.post(API_NAME.PRODUCTS, {
+            ...postProduct,
+            typeProductID: id,
+          })
+          .then(() => {
+            openMessage('Push Success !')
+          })
+
+          .catch(err => {
+            messageError(err.messageError)
+          })
+        })
+
+        .catch(err => {
+          messageError(err.messageError)
+        })
+
+      })
+      .catch(err => {
+        messageError(err.messageError)
+      })
+
+      await dispatch(hideLoading('sectionbar'))
+    }
   }
+
 
   return (
     <>
@@ -224,6 +290,7 @@ function Form() {
                   validateName={ dataValide.name }
                   titleLabel="Name Product"
                   onChange={ handleOnchange }
+                  onBlur={ handleOnBlur }
                 />
               </div>
 
@@ -237,6 +304,7 @@ function Form() {
                       value={ dataProduct.price }
                       validateName={ dataValide.price }
                       onChange={ handleOnchange }
+                      onBlur={ handleOnBlur }
                     />
                   </div>
 
@@ -248,6 +316,7 @@ function Form() {
                       value={ dataProduct.priceSale }
                       validateName={ dataValide.priceSale }
                       onChange={ handleOnchange }
+                      onBlur={ handleOnBlur }
                     />
                   </div>
                 </div>
@@ -268,10 +337,10 @@ function Form() {
 
                   <div className="box-6">
                     <Selector
-                      name="lineage"
+                      name="lineageID"
                       title="Lineage"
-                      value={ dataProduct.lineage }
-                      validateName={ dataValide.lineage }
+                      value={ dataProduct.lineageID }
+                      validateName={ dataValide.lineageID }
                       onChange={ handleOnchange }
                       disabled={ dataLineage.list.length ? false : true }
                       options={ dataLineage.list }
@@ -318,7 +387,7 @@ function Form() {
 
                 <div className="form__product-box">
                   <InputRadio
-                    name="new"
+                    name="isNew"
                     id="onNew"
                     value="1"
                     lable="New"
@@ -327,7 +396,7 @@ function Form() {
                   />
 
                   <InputRadio
-                    name="new"
+                    name="isNew"
                     id="offNew"
                     value="0"
                     lable="Off New"
@@ -338,7 +407,7 @@ function Form() {
 
                 <div className="form__product-box">
                   <InputRadio
-                    name="hot"
+                    name="isHot"
                     id="onHot"
                     value="1"
                     lable="Hot"
@@ -347,7 +416,7 @@ function Form() {
                   />
 
                   <InputRadio
-                    name="hot"
+                    name="isHot"
                     id="offHot"
                     value="0"
                     lable="Off Hot"
