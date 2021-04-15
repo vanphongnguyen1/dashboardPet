@@ -22,7 +22,7 @@ const Upload = props => {
                 key={ index }
                 item={ item }
                 alt=""
-                handleDelete={ () => handleDeleteItem(item.id) }
+                handleDelete={ () => handleDeleteItem(index) }
                 handleView={ handleViewImage }
               />
             )

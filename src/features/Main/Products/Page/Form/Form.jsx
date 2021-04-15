@@ -121,14 +121,17 @@ function Form() {
     })
   }
 
-  const handleDeleteImage = id => {
-    const newDataBase64 = dataImageBase64.filter(item => item.id !== id)
-    const newDataFiles = dataProduct.files.filter(item => item.id !== id)
+  const handleDeleteImage = index => {
+    const [...newDataFile] = dataProduct.files
+    const [...newDataBase64] = dataImageBase64
 
-    setDataImageBase64(newDataBase64)
+    newDataBase64.splice(index, 1)
+    newDataFile.splice(index, 1)
+
+    setDataImageBase64([...newDataBase64])
     setDataProduct({
       ...dataProduct,
-      files: newDataFiles
+      files: newDataFile
     })
   }
 
@@ -274,7 +277,6 @@ function Form() {
       await dispatch(hideLoading('sectionbar'))
     }
   }
-
 
   return (
     <>

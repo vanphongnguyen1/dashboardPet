@@ -1,0 +1,23 @@
+.menu-product {
+  &__list {
+    padding: 1rem 0;
+  }
+
+  &__item {
+    font-size: 1.6rem;
+    padding: 1rem 1.5rem;
+    margin-bottom: 0.5rem;
+
+    position: relative;
+    transition: all .3s ease-in-out;
+    cursor: pointer;
+
+    &:hover {
+      background-color: #F2F2F4;
+    }
+
+    &:active::after {
+      @include background-action
+    }
+  }
+}

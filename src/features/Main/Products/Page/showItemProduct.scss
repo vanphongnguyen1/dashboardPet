@@ -1,0 +1,139 @@
+.product {
+  .product-box {
+    margin: 0.7rem .3rem;
+    position: relative;
+    cursor: pointer;
+    overflow: hidden;
+
+    &:hover .product__info {
+      transform: translateY(6rem);
+    }
+
+    &:hover .product__btn {
+      transform: translateY(0);
+      opacity: 1;
+      visibility: visible;
+    }
+  }
+
+  .list-product {
+    padding: 2rem 0;
+  }
+
+  &__image {
+    height: 30rem;
+    width: 100%;
+    object-fit: cover;
+  }
+
+  &__sale {
+    position: absolute;
+    top: 0;
+    right: 0;
+    transform: translateX(5px);
+    background: red;
+
+    &--text {
+      display: block;
+      padding: 1rem;
+      font-size: 1.6rem;
+      font-weight: 500;
+      color: #fff;
+      position: relative;
+
+      &::after {
+        content: "";
+        position: absolute;
+        top: 100%;
+        right: 0;
+
+        border-top: 0px solid transparent;
+        border-bottom: 5px solid transparent;
+        border-left: 6px solid #b9b9b9;
+      }
+    }
+
+
+  }
+
+  &__info {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+
+    width: 100%;
+    padding: 0.5rem 3rem;
+    background-color: rgba( #000000, .2);
+
+    transition: all .3s ease-in-out;
+    transform: translateY(0);
+
+    &--name {
+      font-size: 1.8rem;
+      font-weight: 500;
+      color: #fff;
+
+      display: -webkit-box;
+      -webkit-box-orient: vertical;
+      -webkit-line-clamp: 1;
+    }
+
+    &--price {
+      font-size: 1.4rem;
+      font-weight: 500;
+      color: #b3b2b2;
+      margin-left: 0.5rem;
+      text-decoration: line-through;
+    }
+
+    &--price-sale {
+      font-size: 1.6rem;
+      color: #fff;
+      font-weight: 500;
+    }
+  }
+
+  &__btn {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    z-index: 5;
+
+    width: 100%;
+    padding: 1.5rem 0;
+    background-color: rgba( #000000, .3);
+
+    display: flex;
+    justify-content: space-around;
+    transition: all .3s ease-in-out;
+
+    transform: translateY(6rem);
+    opacity: 0;
+    visibility: hidden;
+
+    &--icon {
+      color: #fff;
+      font-size: 1.6rem;
+      margin-right: 0.3rem;
+    }
+
+    &--text {
+      font-size: 1.6rem;
+      color: #fff;
+      font-weight: 500;
+      line-height: 1.8rem;
+    }
+  }
+
+  &__btn-box {
+    padding: 0.5rem 1rem;
+    border: 1px solid #e0e0e0;
+    transition: all .3s ease-in-out;
+    position: relative;
+
+    &:hover {
+      background-color: #4F3CC9;
+      border: 1px solid #4F3CC9;
+    }
+  }
+}

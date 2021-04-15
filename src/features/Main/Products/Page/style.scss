@@ -1,8 +1,10 @@
 @import './Edit/style.scss';
 @import './Form/style.scss';
+@import './menuProduct.scss';
+@import './showItemProduct.scss';
 
 .product {
-  border: 1px solid;
+  margin-top: 9rem;
+  border: 1px solid #E0E0E0;
   background-color: #fff;
-  height: 5rem;
 }
