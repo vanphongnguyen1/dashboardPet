@@ -1,11 +1,14 @@
 .box-row {
   display: flex;
-  justify-content: space-between;
   flex-wrap: wrap;
 }
 
 .height-center {
   align-items: center;
+}
+
+.justify-between {
+  justify-content: space-between;
 }
 
 .mr-center {
@@ -35,6 +38,9 @@
 }
 .box-9 {
   width: calc(100% * 9 / 12 - 0.5rem);
+}
+.box-10 {
+  width: calc(100% * 10 / 12 - 0.5rem);
 }
 .box-12 {
   width: calc(100% - 1.5rem);

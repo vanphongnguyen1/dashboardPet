@@ -7,9 +7,22 @@
     padding: 0 3rem;
   }
 
+  .box-switch {
+    display: flex;
+    flex-wrap: wrap;
+  }
+
   &__product-box {
     display: flex;
     margin-bottom: 2rem;
+    align-items: center;
+    margin-right: 3rem;
+
+    .title-status {
+      font-size: 1.6rem;
+      font-weight: 500;
+      margin-right: 0.5rem;
+    }
   }
 }
 

@@ -1,20 +1,49 @@
 import React from 'react'
-import img from '../../../../Components/access/upload/2-1-510x576.jpg'
+import PropTypes from 'prop-types'
+import { useDispatch } from 'react-redux'
+import { setProduct } from '../../../../rootReducers/productsSlice'
+import { Link } from 'react-router-dom'
 
-const ShowItemProduct = () => {
+const ShowItemProduct = ({ product, idGroup }) => {
+  const dispatch = useDispatch()
+  const urlImage = product.images.url.split('|')
+
+  const handleEdit = () => {
+    dispatch(setProduct({
+      ...product,
+      groupID: idGroup
+    }))
+  }
+
   return (
-    <div className="box-4">
+    <div className="box-3">
       <div className="product-box">
-        <img src={img} alt="aa" className="product__image"/>
+        <img
+          src={ urlImage[0] }
+          alt={ product.name }
+          className="product__image"
+        />
+
 
         <div className="product__sale">
           <span className="product__sale--text">20%</span>
         </div>
 
         <div className="product__info">
-          <p className="product__info--name">Mew mew</p>
-          <span className="product__info--price-sale">10000</span>
-          <span className="product__info--price">10000</span>
+          <p
+            className="product__info--name"
+            title={product.name}
+          >
+            { product.name }
+          </p>
+
+          <span className="product__info--price-sale">
+            { product.priceSale }
+          </span>
+
+          <span className="product__info--price">
+            { product.price }
+          </span>
         </div>
 
         <div className="product__btn">
@@ -25,12 +54,26 @@ const ShowItemProduct = () => {
 
           <div className="product__btn-box">
             <span className="product__btn--icon fas fa-edit" />
-            <span className="product__btn--text">Edit</span>
+            <Link
+              to="products/edit"
+              className="product__btn--text"
+              onClick={handleEdit}
+            >
+              Edit
+            </Link>
           </div>
         </div>
       </div>
     </div>
   )
+}
+
+ShowItemProduct.propTypes = {
+  product: PropTypes.object
+}
+
+ShowItemProduct.propsDefault = {
+  product: {}
 }
 
 export default ShowItemProduct

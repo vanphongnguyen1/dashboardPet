@@ -11,9 +11,12 @@ import navbarScrolled from './navbarScrolled'
 import lineageSlice from './lineageSlice'
 import groupSlice from './groupSlice'
 import genderSlice from './genderSlice'
+import productsSlice from './productsSlice'
 
 export const rootReducers = {
   users: userReducer,
+
+  products: productsSlice,
 
   orders: orderReducer,
   productDetailOrder: productDetailOrderSlice,

@@ -1,9 +1,10 @@
 .product {
   .product-box {
-    margin: 0.7rem .3rem;
+    margin: 0.5rem;
     position: relative;
     cursor: pointer;
     overflow: hidden;
+    height: 22rem;
 
     &:hover .product__info {
       transform: translateY(6rem);
@@ -24,6 +25,7 @@
     height: 30rem;
     width: 100%;
     object-fit: cover;
+    object-position: center;
   }
 
   &__sale {
@@ -72,6 +74,7 @@
       font-size: 1.8rem;
       font-weight: 500;
       color: #fff;
+      overflow: hidden;
 
       display: -webkit-box;
       -webkit-box-orient: vertical;

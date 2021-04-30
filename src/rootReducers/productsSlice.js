@@ -2,10 +2,10 @@ import { createSlice, createAsyncThunk } from '@reduxjs/toolkit'
 import { customAxiosApi } from '../customAxiosApi'
 import { STATUS_FETCH, API_NAME } from '../dataDefault'
 
-export const fetchLineage = createAsyncThunk(
-  'lineageSlice/fetchLineage',
-  async (id = '') => {
-    return customAxiosApi.get(`${API_NAME.LINEAGE}${id ? `?groupID=${id || 1}` : ''}`)
+export const fetchProducts = createAsyncThunk(
+  'products/fetchProducts',
+  async () => {
+    return customAxiosApi.get(API_NAME.PRODUCTS)
       .then(response => {
         const { data } = response.data
         return data
@@ -13,11 +13,12 @@ export const fetchLineage = createAsyncThunk(
   }
 )
 
-export const lineageSlice = createSlice({
-  name: 'status',
+export const productsSlice = createSlice({
+  name: 'products',
   initialState: {
     list: [],
-    loading: 'idle'
+    loading: 'idle',
+    product: {}
   },
 
   reducers: {
@@ -26,38 +27,52 @@ export const lineageSlice = createSlice({
       state.loading = 'idle'
     },
 
-    defaultListLineage: (state, action) => {
+    defaultListOrders: (state, action) => {
       state.list = []
     },
 
     defaultLoading: (state, action) => {
       state.loading = 'idle'
+    },
+
+    setProduct: (state, action) => {
+      state.product = action.payload
+    },
+
+    defaultProduct: (state, action) => {
+      state.product = {}
     }
   },
 
   extraReducers: {
-    [fetchLineage.pending]: (state, action) => {
+    [fetchProducts.pending]: (state, action) => {
       // Add user to the state array
-      state.list = []
+      state.list = [...state.list]
       state.loading = STATUS_FETCH.LOADING
     },
 
-    [fetchLineage.fulfilled]: (state, action) => {
+    [fetchProducts.fulfilled]: (state, action) => {
       // Add user to the state array
 
       state.list = action.payload
       state.loading = STATUS_FETCH.SUCCESS
     },
 
-    [fetchLineage.rejected]: (state, action) => {
+    [fetchProducts.rejected]: (state, action) => {
       // Add user to the state array
       state.loading = STATUS_FETCH.FAILED
     },
   }
 })
 
-const { actions, reducer } = lineageSlice
+const { actions, reducer } = productsSlice
 
-export const { defaultLoading, defaultState, defaultListLineage  } = actions
+export const {
+  defaultLoading,
+  defaultState,
+  defaultListOrders,
+  setProduct,
+  defaultProduct
+} = actions
 
 export default reducer

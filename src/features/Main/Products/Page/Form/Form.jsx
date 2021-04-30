@@ -9,34 +9,42 @@ import ClassicEditor from '@ckeditor/ckeditor5-build-classic'
 import { useDispatch, useSelector } from 'react-redux'
 import { fetchLineage } from '../../../../../rootReducers/lineageSlice'
 import { fetchGender } from '../../../../../rootReducers/genderSlice'
+import { fetchGroup } from '../../../../../rootReducers/groupSlice'
 import { showLoading, hideLoading } from 'react-redux-loading-bar'
 import Upload from '../../../../../Components/Form/Upload'
-import InputRadio from '../../../../../Components/Form/InputRadio'
 import { getBase64 } from '../../../../../Components/access/logic/getBase64'
 import { customAxiosApi } from '../../../../../customAxiosApi'
 import { API_NAME } from '../../../../../dataDefault'
 import { messageError, openMessage } from '../../../../../Components/openMessage'
+import { Switch } from 'antd'
+import PropTypes from 'prop-types'
+import { CREAT, EDIT } from '../../../../../dataDefault'
 
-function Form() {
+const Form = ({ url }) => {
+  const urlConvert = url.split('/')
+  const pathUrl = urlConvert[urlConvert.length - 1]
+
+  const isRequitEdit = pathUrl === EDIT
+  const isRequitCreat = pathUrl === CREAT
+
   const { TabPane } = Tabs
   const dispatch = useDispatch()
 
   const dataGender = useSelector(state => state.gender.list)
   const dataGroup = useSelector(state => state.groups.list)
   const dataLineage = useSelector(state => state.lineage)
+  const dataEdit = useSelector(state => state.products.product)
 
   const initialState = {
-    name: '',
-    price: '',
-    priceSale: '',
-    groupID: '1',
-    lineageID: '',
-    genderID: '1',
-    isStatus: '1',
-    isNew: '0',
-    isHot: '0',
-    files: [],
-    description: ''
+    name: isRequitEdit ? dataEdit.name : '',
+    price: isRequitEdit ? dataEdit.price : '',
+    priceSale: isRequitEdit ? dataEdit.priceSale : '',
+    groupID: isRequitEdit ? dataEdit.groupID : '1',
+    lineageID: isRequitEdit ? dataEdit.lineageID : '',
+    genderID: isRequitEdit ? dataEdit.genderID : '1',
+    isStatus: isRequitEdit ? dataEdit.isStatus : true,
+    isNew: isRequitEdit ? dataEdit.isNew : true,
+    isHot: isRequitEdit ? dataEdit.isHot : true,
   }
 
   const initialValide = {
@@ -50,10 +58,26 @@ function Form() {
 
   const [dataProduct, setDataProduct] = useState(initialState)
   const [dataValide, setDataValide] = useState(initialValide)
-  const [dataImageBase64, setDataImageBase64] = useState([])
+
+  const [
+    dataFiles,
+    setDataFiles
+  ] = useState(isRequitEdit ? dataEdit.images.url.split('|') : [])
+
+  const [
+    dataEditer,
+    setDataEditer
+  ] = useState(isRequitEdit ? dataEdit.type_product.description :'')
+
+  const [
+    dataImageBase64,
+    setDataImageBase64
+  ] = useState(isRequitEdit ? dataEdit.images.url.split('|') : [],)
+
   const typingTimeoutRef = useRef(null)
 
   useEffect(() => {
+    dispatch(fetchGroup())
     dispatch(fetchGender())
   }, [dispatch])
 
@@ -97,7 +121,9 @@ function Form() {
       setDataImageBase64(
         [...dataImageBase64, ...base64]
       )
-      newValue = [...dataProduct.files, ...files]
+      setDataFiles(
+        [...dataFiles, ...files]
+      )
     }
 
     if (name === 'groupID') {
@@ -122,17 +148,15 @@ function Form() {
   }
 
   const handleDeleteImage = index => {
-    const [...newDataFile] = dataProduct.files
+    const [...newDataFile] = dataFiles
     const [...newDataBase64] = dataImageBase64
 
     newDataBase64.splice(index, 1)
     newDataFile.splice(index, 1)
 
     setDataImageBase64([...newDataBase64])
-    setDataProduct({
-      ...dataProduct,
-      files: newDataFile
-    })
+
+    setDataFiles(newDataFile)
   }
 
   const handleViewImage = () => {}
@@ -145,18 +169,16 @@ function Form() {
     }
 
     typingTimeoutRef.current = setTimeout(() => {
-      setDataProduct({
-        ...dataProduct,
-        description: value,
-      })
+      setDataEditer(value)
     }, 300)
   }
 
   const valideChecked = () => {
     const { ...valide } = dataValide
+    const isChecked = true
 
     for( let key in dataProduct) {
-      if (!dataProduct[key] && key !== 'description') {
+      if (!dataProduct[key] && key !== 'isNew' && key !== 'isStatus' && key !== 'isHot') {
         valide[key] = 'Requite *'
       }
     }
@@ -165,49 +187,19 @@ function Form() {
 
     for( let key in valide) {
       if (valide[key]) {
-        return false
+        return !isChecked
       }
     }
 
-    return true
-  }
-
-  const handleValideTabs = () => {
-    const isValide = valideChecked()
-
-    if (!isValide || !dataProduct.files.length || !dataProduct.description.length) {
-      if (!isValide) {
-        const ele = document.querySelector('#rc-tabs-0-tab-1')
-        ele.classList.add('valide-label')
-      } else {
-        const ele = document.querySelector('#rc-tabs-0-tab-1')
-        ele.classList.remove('valide-label')
-      }
-
-      if (!dataProduct.files.length) {
-        const ele = document.querySelector('#rc-tabs-0-tab-2')
-        ele.classList.add('valide-label')
-      } else {
-        const ele = document.querySelector('#rc-tabs-0-tab-2')
-        ele.classList.remove('valide-label')
-      }
-
-      if (!dataProduct.description.length) {
-        const ele = document.querySelector('#rc-tabs-0-tab-3')
-        ele.classList.add('valide-label')
-      } else {
-        const ele = document.querySelector('#rc-tabs-0-tab-3')
-        ele.classList.remove('valide-label')
-      }
-
-      return false
-    } else {
-      return true
+    if (!dataFiles.length || !dataEditer) {
+      return !isChecked
     }
+
+    return isChecked
   }
 
   const onSubmit = async () => {
-    const isValide = handleValideTabs()
+    const isValide = valideChecked()
 
     if (isValide) {
       dispatch(showLoading('sectionbar'))
@@ -221,7 +213,6 @@ function Form() {
         isStatus,
         isHot,
         isNew,
-        description,
       } = dataProduct
 
       const postProduct = {
@@ -235,47 +226,132 @@ function Form() {
         isHot,
       }
 
-      const data = new FormData()
-
-      dataProduct.files.forEach(file => {
-        data.append('files[]', file)
-      })
-
-      await customAxiosApi.post(API_NAME.IMAGES, data)
-      .then(response => {
-        const { id } = response.data.data
-
-        customAxiosApi.post(API_NAME.TYPEPRODUCT, {
-          ...description,
-          imagesID: id,
+      if (isRequitCreat) {
+        const data = new FormData()
+        dataFiles.forEach(file => {
+          data.append('files[]', file)
         })
+
+        await customAxiosApi.post(API_NAME.IMAGES, data)
         .then(response => {
           const { id } = response.data.data
 
-          customAxiosApi.post(API_NAME.PRODUCTS, {
-            ...postProduct,
-            typeProductID: id,
+          return id
+        })
+        .then(id => {
+          const imagesID = id
+          customAxiosApi.post(API_NAME.TYPEPRODUCT, {
+            description: dataEditer,
           })
-          .then(() => {
-            openMessage('Push Success !')
+          .then(response => {
+            const { id } = response.data.data
+
+            customAxiosApi.post(API_NAME.PRODUCTS, {
+              ...postProduct,
+              typeProductID: id,
+              imagesID,
+            })
+            .then((respo) => {
+              openMessage('Push Success !')
+              console.log('adasdasd',respo.data.data );
+
+              setDataProduct({
+                name: '',
+                price: '',
+                priceSale: '',
+                groupID: '1',
+                lineageID: '',
+                genderID: '1',
+                isStatus: true,
+                isNew: true,
+                isHot: true
+              })
+
+              setDataFiles([])
+
+              setDataEditer('')
+
+              setDataImageBase64([])
+            })
+
+            .catch(err => {
+              messageError(err.message)
+            })
           })
 
           .catch(err => {
-            messageError(err.messageError)
+            messageError(err.message)
           })
         })
 
         .catch(err => {
-          messageError(err.messageError)
+          messageError(err.message)
+        })
+      }
+
+      if (isRequitEdit) {
+
+        const data = new FormData()
+
+        dataFiles.forEach(file => {
+          if (typeof file === 'string') {
+            data.append('filesString[]', file)
+            return ;
+          }
+
+          data.append('files[]', file)
         })
 
-      })
-      .catch(err => {
-        messageError(err.messageError)
-      })
+        data.append('_method', 'put')
+
+        customAxiosApi.post(
+          `${API_NAME.IMAGES}/${dataEdit.imagesID}`,
+          data,
+          {
+            headers: {
+              'Content-Type': 'multipart/form-data'
+            }
+          }
+        )
+        .then(() => {
+
+          customAxiosApi.put(`${API_NAME.TYPEPRODUCT}/${dataEdit.typeProductID}`, {
+            description: dataEditer,
+          })
+          .then(() => {
+
+            customAxiosApi.put(`${API_NAME.PRODUCTS}/${dataEdit.id}`, postProduct)
+            .then(() => {
+              openMessage('Push Success !')
+            })
+            .catch(err => {
+              messageError(err.message)
+            })
+
+          })
+          .catch(err => {
+            messageError(err.message)
+          })
+
+        })
+        .catch(err => {
+          messageError(err.message)
+        })
+      }
 
       await dispatch(hideLoading('sectionbar'))
+    } else {
+      messageError('Hãy điền đầy đủ form các Tabs !')
     }
+  }
+
+  const onChangeSwitch = (checked, e) => {
+    const { name } = e.currentTarget
+
+    setDataProduct({
+      ...dataProduct,
+      [name]: checked
+    })
   }
 
   return (
@@ -297,7 +373,7 @@ function Form() {
               </div>
 
               <div className="form__product">
-                <div className="box-row">
+                <div className="box-row justify-between">
                   <div className="box-6">
                     <GroupInput
                       type="number"
@@ -325,7 +401,7 @@ function Form() {
               </div>
 
               <div className="form__product">
-                <div className="box-row">
+                <div className="box-row justify-between">
                   <div className="box-6">
                     <Selector
                       name="groupID"
@@ -367,64 +443,36 @@ function Form() {
               </div>
 
               <div className="form__product">
-                <div className="form__product-box">
-                  <InputRadio
-                    name="isStatus"
-                    id="showProduct"
-                    lable="Show Product"
-                    value="1"
-                    onChange={ handleOnchange }
-                    checked={ dataProduct.isStatus === '1' }
-                  />
+                <div className="box-switch">
+                  <div className="form__product-box">
+                    <p className="title-status">Show</p>
 
-                  <InputRadio
-                    name="isStatus"
-                    id="hiddenProduct"
-                    lable="Hidden Product"
-                    value="0"
-                    onChange={ handleOnchange }
-                    checked={ dataProduct.isStatus === '0' }
-                  />
-                </div>
+                    <Switch
+                      defaultChecked={dataProduct.isStatus}
+                      onChange={onChangeSwitch}
+                      name="isStatus"
+                    />
+                  </div>
 
-                <div className="form__product-box">
-                  <InputRadio
-                    name="isNew"
-                    id="onNew"
-                    value="1"
-                    lable="New"
-                    onChange={ handleOnchange }
-                    checked={ dataProduct.new === '1' }
-                  />
+                  <div className="form__product-box">
+                    <p className="title-status">New</p>
 
-                  <InputRadio
-                    name="isNew"
-                    id="offNew"
-                    value="0"
-                    lable="Off New"
-                    onChange={ handleOnchange }
-                    checked={ dataProduct.new === '0' }
-                  />
-                </div>
+                    <Switch
+                      defaultChecked={dataProduct.isNew}
+                      onChange={onChangeSwitch}
+                      name="isNew"
+                    />
+                  </div>
 
-                <div className="form__product-box">
-                  <InputRadio
-                    name="isHot"
-                    id="onHot"
-                    value="1"
-                    lable="Hot"
-                    onChange={ handleOnchange }
-                    checked={ dataProduct.hot === '1' }
-                  />
+                  <div className="form__product-box">
+                    <p className="title-status">Hot</p>
 
-                  <InputRadio
-                    name="isHot"
-                    id="offHot"
-                    value="0"
-                    lable="Off Hot"
-                    onChange={ handleOnchange }
-                    checked={ dataProduct.hot === '0' }
-                  />
+                    <Switch
+                      defaultChecked={dataProduct.isHot}
+                      onChange={onChangeSwitch}
+                      name="isHot"
+                    />
+                  </div>
                 </div>
               </div>
             </div>
@@ -450,18 +498,8 @@ function Form() {
               <div className="form__product">
                 <CKEditor
                   editor={ ClassicEditor }
-                  // data="<p>Hello from CKEditor 5!</p>"
-                  onReady={  editor => {
-                      // You can store the "editor" and use when it is needed.
-                      // console.log( 'Editor is ready to use!', editor );
-                  }}
+                  data={ dataEditer }
                   onChange={ (event, editor) => handleChangeEditor(event, editor) }
-                  onBlur={ (event, editor) => {
-                      // console.log( 'Blur.', editor );
-                  }}
-                  onFocus={ (event, editor) => {
-                      // console.log( 'Focus.', editor );
-                  }}
                 />
               </div>
             </div>
@@ -489,6 +527,13 @@ function Form() {
       </form>
     </>
   )
+}
+
+Form.propTypes = {
+  url: PropTypes.string
+}
+Form.defaultProps = {
+  url: ''
 }
 
 export default Form

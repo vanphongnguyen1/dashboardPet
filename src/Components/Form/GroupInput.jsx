@@ -64,8 +64,12 @@ GroupInput.propTypes = {
   type: PropTypes.string,
   name: PropTypes.string,
   validateName: PropTypes.string,
-  value: PropTypes.string,
   titleLabel: PropTypes.string,
+
+  value: PropTypes.oneOfType([
+    PropTypes.string,
+    PropTypes.number
+  ]),
 
   onBlur: PropTypes.func,
   onChange: PropTypes.func

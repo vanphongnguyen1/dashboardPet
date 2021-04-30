@@ -11,8 +11,6 @@ import { routes } from '../../routers'
 import { fetchStatus } from '../../rootReducers/statusSlice'
 import { fetchTrasport } from '../../rootReducers/trasportSlice'
 import { fetchStatusComments } from '../../rootReducers/statusCommentsSlice'
-import { fetchLineage } from '../../rootReducers/lineageSlice'
-import { fetchGroup } from '../../rootReducers/groupSlice'
 
 const Main = () => {
   const dispatch = useDispatch()
@@ -22,8 +20,6 @@ const Main = () => {
     dispatch(fetchStatus())
     dispatch(fetchTrasport())
     dispatch(fetchStatusComments())
-    dispatch(fetchGroup())
-    dispatch(fetchLineage())
   }, [dispatch])
 
   return (

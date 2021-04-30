@@ -1,43 +1,86 @@
+import { useEffect } from 'react'
+import { useDispatch } from 'react-redux'
 import { Tabs } from 'antd'
 import { useSelector } from 'react-redux'
 import MenuProduct from './MenuProduct'
-import ShowItemProduct from './ShowItemProduct'
+import { BtnCreatExport } from '../../../../Components/Btn'
+import { CREAT, STATUS_FETCH } from '../../../../dataDefault'
+import { Link } from 'react-router-dom'
+import { fetchLineage } from '../../../../rootReducers/lineageSlice'
+import { fetchProducts } from '../../../../rootReducers/productsSlice'
+import { fetchGroup } from '../../../../rootReducers/groupSlice'
+import { hideLoading, showLoading } from 'react-redux-loading-bar'
+import ShowProducts from './ShowProducts'
 
-const Products = () => {
+const Products = ({ match }) => {
+  const url = match.url.slice(1)
+  const dispatch = useDispatch()
   const { TabPane } = Tabs
 
+  useEffect (() => {
+    dispatch(showLoading('sectionBar'))
+    dispatch(fetchGroup())
+    dispatch(fetchLineage())
+    dispatch(fetchProducts())
+  }, [dispatch])
+
   const dataGroup = useSelector(state => state.groups.list)
+  const dataProducts = useSelector(state => state.products.loading)
+
   // const data = "<li>aaaaa</li>, <li>aaaaa</li>, <li>aaaaa</li>, <li>aaaaa</li>"
   // const newData = data.split(',')
   /* { newData.map(item => {
         return <div className="editor" dangerouslySetInnerHTML={{__html:item}}/>
       })} */
 
+  useEffect (() => {
+    if (dataProducts === STATUS_FETCH.SUCCESS) {
+
+      setTimeout(() => {
+        dispatch(hideLoading('sectionBar'))
+      }, 500)
+    }
+  }, [dispatch, dataProducts])
+
   return (
     <div className="product">
-        <Tabs defaultActiveKey="1" centered>
-          {
-            dataGroup.length
-              ? dataGroup.map(item => (
-                  <TabPane tab={ item.name.toUpperCase() } key={ item.id }>
+      <div className="box-btn">
+        <Link
+          to={`/${url}/${CREAT.toLowerCase()}`}
+          className="box-btn--link"
+        >
+          <BtnCreatExport icon="fas fa-plus" title="Create"/>
+        </Link>
+
+        <div className="box-btn--link">
+          <BtnCreatExport
+            icon="fas fa-arrow-alt-to-bottom"
+            title="Export"
+          />
+        </div>
+      </div>
+
+      <Tabs type="card">
+        {
+          dataGroup.length
+            ? dataGroup.map(item => (
+                <TabPane tab={ item.name.toUpperCase() } key={ item.id }>
+                  <div className="box-products">
                     <div className="box-row">
                       <div className="box-3">
                         <MenuProduct id={ item.id } />
                       </div>
 
                       <div className="box-9">
-                        <div className="list-product">
-                          <div className="box-row">
-                            <ShowItemProduct />
-                          </div>
-                        </div>
+                        <ShowProducts id={ item.id } />
                       </div>
                     </div>
-                  </TabPane>
-                ))
-              : ''
-          }
-        </Tabs>
+                  </div>
+                </TabPane>
+              ))
+            : ''
+        }
+      </Tabs>
     </div>
   )
 }
