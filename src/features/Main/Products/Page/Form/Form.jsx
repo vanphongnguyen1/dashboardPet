@@ -1,8 +1,7 @@
 import { useState, useEffect, useRef } from 'react'
 import GroupInput from '../../../../../Components/Form/GroupInput'
 import { Selector } from '../../../../../Components/Form/Selector'
-import { Delete, Save } from '../../../../../Components/Btn'
-import DelayLink from '../../../../../Components/DelayLink'
+import { Save } from '../../../../../Components/Btn'
 import { Tabs } from 'antd'
 import { CKEditor } from '@ckeditor/ckeditor5-react'
 import ClassicEditor from '@ckeditor/ckeditor5-build-classic'
@@ -511,17 +510,6 @@ const Form = ({ url }) => {
             <div className="box-submit__save" onClick={onSubmit}>
               <Save />
             </div>
-              {/* {
-                isRequitEdit
-                  ? ( */}
-                      <DelayLink
-                        to=""
-                        className="box-submit__delete"
-                        delay={ 1000}
-                        children={ <Delete/>}
-                      />
-                  {/* ) : ''
-              } */}
           </div>
         </div>
       </form>

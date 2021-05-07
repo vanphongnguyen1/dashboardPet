@@ -3,16 +3,42 @@ import PropTypes from 'prop-types'
 import { useDispatch } from 'react-redux'
 import { setProduct } from '../../../../rootReducers/productsSlice'
 import { Link } from 'react-router-dom'
+import { customAxiosApi } from '../../../../customAxiosApi'
+import { API_NAME } from '../../../../dataDefault'
+import { openMessage, messageError } from '../../../../Components/openMessage'
+import { fetchProducts } from '../../../../rootReducers/productsSlice'
 
 const ShowItemProduct = ({ product, idGroup }) => {
   const dispatch = useDispatch()
   const urlImage = product.images.url.split('|')
+
+  const formatNumber = number => (
+    new Intl.NumberFormat(
+      'de-DE',
+      { style: 'currency', currency: 'vnd' }
+    ).format(number)
+  )
 
   const handleEdit = () => {
     dispatch(setProduct({
       ...product,
       groupID: idGroup
     }))
+  }
+
+  const handleDeleteProduct = () => {
+    customAxiosApi.delete(`${API_NAME.PRODUCTS}/${product.id}`)
+    .then( async () => {
+      customAxiosApi.delete(`${API_NAME.IMAGES}/${product.imagesID}`)
+      customAxiosApi.delete(`${API_NAME.IMAGES}/${product.typeProductID}`)
+
+      openMessage('Delete Product Success !')
+
+      await dispatch(fetchProducts())
+    })
+    .catch(rej => {
+      messageError(rej.message)
+    })
   }
 
   return (
@@ -38,30 +64,31 @@ const ShowItemProduct = ({ product, idGroup }) => {
           </p>
 
           <span className="product__info--price-sale">
-            { product.priceSale }
+            { formatNumber(product.priceSale) }
           </span>
 
           <span className="product__info--price">
-            { product.price }
+            { formatNumber(product.price) }
           </span>
         </div>
 
         <div className="product__btn">
-          <div className="product__btn-box">
-            <span className="product__btn--icon fas fa-images" />
-            <span className="product__btn--text">Product</span>
+          <div
+            className="product__btn-box box-delte"
+            onClick={handleDeleteProduct}
+          >
+            <span className="product__btn--icon fas fa-trash" />
+            <span className="product__btn--text">Delete</span>
           </div>
 
-          <div className="product__btn-box">
-            <span className="product__btn--icon fas fa-edit" />
-            <Link
-              to="products/edit"
-              className="product__btn--text"
-              onClick={handleEdit}
-            >
-              Edit
-            </Link>
-          </div>
+          <Link
+            to="products/edit"
+            onClick={handleEdit}
+            className="product__btn-box"
+          >
+              <span className="product__btn--icon fas fa-edit" />
+              <span className="product__btn--text">Edit</span>
+          </Link>
         </div>
       </div>
     </div>

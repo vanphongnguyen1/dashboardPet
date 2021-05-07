@@ -14,11 +14,17 @@ const MenuProduct = ({ id }) => {
     <>
       <div className="menu-product">
         <ul className="menu-product__list">
+          <ItemMenuProduct
+            title="Show All"
+            id={ 0 }
+          />
+
           {
             newDataLine.map(item => (
               <ItemMenuProduct
                 title={ item.name }
                 key={ item.id }
+                id={ item.id }
               />
             ))
           }

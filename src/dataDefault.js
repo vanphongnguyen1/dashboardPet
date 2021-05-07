@@ -45,7 +45,7 @@ export const TITLE_MENU = {
   DASHBOARD: 'Dashboard',
   ORDERS: 'Orders',
   USERS: 'Users',
-  PRODUCTPORFOLIO: 'Product portfolio',
+  SLIDE: 'Slide',
   PRODUCTS: 'Products',
   COMMENTS: 'Comments',
 }
@@ -70,10 +70,10 @@ export const MENU = [
   },
   {
     icon: 'fas fa-book',
-    title: TITLE_MENU.PRODUCTPORFOLIO
+    title: TITLE_MENU.SLIDE
   },
   {
-    icon: 'fas fa-tags',
+    icon: 'fas fa-images',
     title: TITLE_MENU.PRODUCTS
   },
   {

@@ -9,6 +9,7 @@ import { Link } from 'react-router-dom'
 import { fetchLineage } from '../../../../rootReducers/lineageSlice'
 import { fetchProducts } from '../../../../rootReducers/productsSlice'
 import { fetchGroup } from '../../../../rootReducers/groupSlice'
+import { setMenuLineageID } from '../../../../rootReducers/menuAnimation'
 import { hideLoading, showLoading } from 'react-redux-loading-bar'
 import ShowProducts from './ShowProducts'
 
@@ -42,6 +43,10 @@ const Products = ({ match }) => {
     }
   }, [dispatch, dataProducts])
 
+  const handleChangeTabs = () => {
+    dispatch(setMenuLineageID(0))
+  }
+
   return (
     <div className="product">
       <div className="box-btn">
@@ -60,7 +65,7 @@ const Products = ({ match }) => {
         </div>
       </div>
 
-      <Tabs type="card">
+      <Tabs type="card" onChange={handleChangeTabs} >
         {
           dataGroup.length
             ? dataGroup.map(item => (
