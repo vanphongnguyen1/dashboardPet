@@ -1,10 +1,11 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 import { openMessage } from '../../../../../Components/openMessage'
 import { Selector } from '../../../../../Components/Form/Selector'
 import { date } from '../../../../../Components/myMonment'
 import GroupInput from '../../../../../Components/Form/GroupInput'
-import { defaultOrder } from '../../../../../rootReducers/orderSlice'
+import { fetchOrder } from '../../../../../rootReducers/orderSlice'
+import { fetchDetailOrder } from '../../../../../rootReducers/productDetailOrderThunk'
 import { Delete, Save } from '../../../../../Components/Btn'
 import { customAxiosApi } from '../../../../../customAxiosApi'
 import { REGEX, TITLE_MENU, API_NAME } from '../../../../../dataDefault'
@@ -13,15 +14,16 @@ import DelayLink from '../../../../../Components/DelayLink'
 import ItemTotal from './ItemTotal'
 import ItemProduct from './ItemProduct'
 import { showLoading, hideLoading } from 'react-redux-loading-bar'
-import { Prompt } from 'react-router-dom'
+import { Prompt, useParams } from 'react-router-dom'
 import { resetScroll } from '../../../../../Components/access/logic/resetScroll'
+import { sectionData } from '../sectionData'
 
-const EditOrderContent = ()  =>{
+const EditOrderContent = () => {
   const dispatch = useDispatch()
+  const { id } = useParams()
 
   const dataStatus = useSelector(state => state.status)
   const dataTrasport = useSelector(state => state.trasport)
-  const data = useSelector(state => state.orders.order)
 
   const initialValidate = {
     name: '',
@@ -30,13 +32,34 @@ const EditOrderContent = ()  =>{
   }
 
   const [validate, setValidate] = useState(initialValidate)
-  const [dataEdit, setDataEdit] = useState(data)
+  const [dataEdit, setDataEdit] = useState({})
   const [isLocalPath, setIsLocalPath] = useState(false)
 
   const findPriceTrasport = id => {
     const newData = dataTrasport.list.find(item => item.id === id)
     return newData.price
   }
+
+  useEffect(() => {
+    dispatch(showLoading('sectionBar'))
+    if (id) {
+      dispatch(fetchOrder(id))
+      .then(data => {
+        const { payload } = data
+
+        dispatch(fetchDetailOrder(payload.detailOrderID))
+        .then(res => {
+          const newDataEdit = sectionData([payload], res.payload)
+
+          setDataEdit(newDataEdit[0])
+        })
+      })
+    }
+
+    setTimeout(() => {
+      dispatch(hideLoading('sectionBar'))
+    }, 700)
+  }, [dispatch, id])
 
   const handleOnBlur = e => {
     const { value, name } = e.target
@@ -199,7 +222,6 @@ const EditOrderContent = ()  =>{
       customAxiosApi.delete(`${API_NAME.PRODUCTDETAILORDER}/${productDetailOrder.id}`)
     })
 
-    await dispatch(defaultOrder())
     await dispatch(hideLoading('sectionBar'))
   }
 
@@ -284,6 +306,7 @@ const EditOrderContent = ()  =>{
               </div>
 
               {
+                dataEdit.hasOwnProperty('products') &&
                 dataEdit.products.map((product, index) => {
                   return (
                     <ItemProduct
@@ -336,10 +359,10 @@ const EditOrderContent = ()  =>{
         </div>
 
         <div className="box-submit">
-          <div className="box-row">
+          <div className="box-row justify-between">
             <div className="box-submit__save" onClick={handleSave}>
               <Save />
-            </div >
+            </div>
 
             <DelayLink
               to={`/${TITLE_MENU.ORDERS}`}

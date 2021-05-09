@@ -13,27 +13,29 @@ export const fetchUsers = createAsyncThunk(
   }
 )
 
+export const fetchUser = createAsyncThunk(
+  'users/fetchUser',
+  async (id) => {
+    return customAxiosApi.get(`${API_NAME.USERS}/${id}`)
+    .then(response => {
+      const { data } = response.data
+      return data
+    })
+  }
+)
+
 export const userSlice = createSlice({
   name: 'users',
   initialState: {
     list: [],
-    user: {},
     loading: 'idle'
   },
 
   reducers: {
-    setUser: (state, action) => {
-      state.user = action.payload
-    },
-
     defaultState: (state, action) => {
       state.list = []
       state.user = {}
       state.loading = 'idle'
-    },
-
-    defaultUser: (state, action) => {
-      state.user = {}
     },
 
     defaultUsers: (state, action) => {
@@ -61,6 +63,9 @@ export const userSlice = createSlice({
 })
 
 // Action creators are generated for each case reducer function
-export const { defaultUsers, defaultState, setUser, defaultUser } = userSlice.actions
+export const {
+  defaultUsers,
+  defaultState
+} = userSlice.actions
 
 export default userSlice.reducer

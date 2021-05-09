@@ -1,14 +1,13 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import { useDispatch } from 'react-redux'
-import { setProduct } from '../../../../rootReducers/productsSlice'
 import { Link } from 'react-router-dom'
 import { customAxiosApi } from '../../../../customAxiosApi'
-import { API_NAME } from '../../../../dataDefault'
+import { API_NAME, EDIT } from '../../../../dataDefault'
 import { openMessage, messageError } from '../../../../Components/openMessage'
 import { fetchProducts } from '../../../../rootReducers/productsSlice'
 
-const ShowItemProduct = ({ product, idGroup }) => {
+const ShowItemProduct = ({ product }) => {
   const dispatch = useDispatch()
   const urlImage = product.images.url.split('|')
 
@@ -18,13 +17,6 @@ const ShowItemProduct = ({ product, idGroup }) => {
       { style: 'currency', currency: 'vnd' }
     ).format(number)
   )
-
-  const handleEdit = () => {
-    dispatch(setProduct({
-      ...product,
-      groupID: idGroup
-    }))
-  }
 
   const handleDeleteProduct = () => {
     customAxiosApi.delete(`${API_NAME.PRODUCTS}/${product.id}`)
@@ -82,8 +74,7 @@ const ShowItemProduct = ({ product, idGroup }) => {
           </div>
 
           <Link
-            to="products/edit"
-            onClick={handleEdit}
+            to={`${API_NAME.PRODUCTS}/${product.id}/${EDIT}`}
             className="product__btn-box"
           >
               <span className="product__btn--icon fas fa-edit" />

@@ -7,7 +7,7 @@ import { EDIT, CREAT, API_NAME } from '../../../../dataDefault'
 import { useGetColumnSearchProps } from '../../../../Components/access/logic/searchColumn'
 import { Link } from 'react-router-dom'
 import { useSelector, useDispatch } from 'react-redux'
-import { fetchUsers, setUser } from '../../../../rootReducers/userSlice'
+import { fetchUsers } from '../../../../rootReducers/userSlice'
 import { customAxiosApi }  from '../../../../customAxiosApi'
 import PropTypes from 'prop-types'
 import { showLoading, hideLoading } from 'react-redux-loading-bar'
@@ -28,7 +28,7 @@ const Users = ({ match }) => {
     setTimeout(() => {
       if (dataUsers.loading === 'success') {
         dispatch(hideLoading('sectionBar'))
-        
+
       }
     }, 500)
   }, [dataUsers.loading, dispatch])
@@ -132,7 +132,7 @@ const Users = ({ match }) => {
 
     await selectedRowKeys.forEach(item => {
       customAxiosApi.delete(`${API_NAME.USERS}/${item.id}`)
-      .then(response => {
+      .then(() => {
         dispatch(fetchUsers())
       })
     })
@@ -142,7 +142,7 @@ const Users = ({ match }) => {
 
   return (
     <>
-      <div className="users">
+      <div className="users posi-relative">
         <div className="box-btn">
           <Link
             to={`/${url}/${CREAT.toLowerCase()}`}
@@ -169,11 +169,6 @@ const Users = ({ match }) => {
           rowSelection={rowSelection}
           columns={columns}
           dataSource={dataUsers.list}
-          onRow={record => {
-            return {
-              onClick: () => dispatch(setUser(record))
-            }
-          }}
         />
       </div>
     </>

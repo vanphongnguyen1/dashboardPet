@@ -39,8 +39,16 @@ const Dashboard = () => {
     }
   }, [dispatch, dataComments.loading])
 
-  const [dataPendingComments, dataPendingCommentsLength] = filterDataComments(dataComments.list)
-  const [dataPendingOrders, dataPendingOrdersLength] = filterDataOrders(dataOrders)
+  const [
+    dataPendingComments,
+    dataPendingCommentsLength
+  ] = filterDataComments(dataComments.list)
+
+  const [
+    dataPendingOrders,
+    dataPendingOrdersLength
+  ] = filterDataOrders(dataOrders)
+
   const revenueMonthly = sumRevenueMonthly(dataOrders)
 
   return (

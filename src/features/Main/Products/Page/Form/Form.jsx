@@ -9,6 +9,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import { fetchLineage } from '../../../../../rootReducers/lineageSlice'
 import { fetchGender } from '../../../../../rootReducers/genderSlice'
 import { fetchGroup } from '../../../../../rootReducers/groupSlice'
+import { fetchProduct } from '../../../../../rootReducers/productsSlice'
 import { showLoading, hideLoading } from 'react-redux-loading-bar'
 import Upload from '../../../../../Components/Form/Upload'
 import { getBase64 } from '../../../../../Components/access/logic/getBase64'
@@ -18,8 +19,10 @@ import { messageError, openMessage } from '../../../../../Components/openMessage
 import { Switch } from 'antd'
 import PropTypes from 'prop-types'
 import { CREAT, EDIT } from '../../../../../dataDefault'
+import { useParams } from 'react-router-dom'
 
 const Form = ({ url }) => {
+  const { id } = useParams()
   const urlConvert = url.split('/')
   const pathUrl = urlConvert[urlConvert.length - 1]
 
@@ -35,15 +38,15 @@ const Form = ({ url }) => {
   const dataEdit = useSelector(state => state.products.product)
 
   const initialState = {
-    name: isRequitEdit ? dataEdit.name : '',
-    price: isRequitEdit ? dataEdit.price : '',
-    priceSale: isRequitEdit ? dataEdit.priceSale : '',
-    groupID: isRequitEdit ? dataEdit.groupID : '1',
-    lineageID: isRequitEdit ? dataEdit.lineageID : '',
-    genderID: isRequitEdit ? dataEdit.genderID : '1',
-    isStatus: isRequitEdit ? dataEdit.isStatus : true,
-    isNew: isRequitEdit ? dataEdit.isNew : true,
-    isHot: isRequitEdit ? dataEdit.isHot : true,
+    name: '',
+    price: '',
+    priceSale: '',
+    groupID: '1',
+    lineageID: '',
+    genderID: '1',
+    isStatus: true,
+    isNew: true,
+    isHot: true,
   }
 
   const initialValide = {
@@ -58,27 +61,39 @@ const Form = ({ url }) => {
   const [dataProduct, setDataProduct] = useState(initialState)
   const [dataValide, setDataValide] = useState(initialValide)
 
-  const [
-    dataFiles,
-    setDataFiles
-  ] = useState(isRequitEdit ? dataEdit.images.url.split('|') : [])
-
-  const [
-    dataEditer,
-    setDataEditer
-  ] = useState(isRequitEdit ? dataEdit.type_product.description :'')
-
-  const [
-    dataImageBase64,
-    setDataImageBase64
-  ] = useState(isRequitEdit ? dataEdit.images.url.split('|') : [],)
+  const [dataFiles, setDataFiles] = useState([])
+  const [dataEditer, setDataEditer] = useState('')
+  const [dataImageBase64, setDataImageBase64] = useState([])
 
   const typingTimeoutRef = useRef(null)
 
   useEffect(() => {
     dispatch(fetchGroup())
     dispatch(fetchGender())
-  }, [dispatch])
+
+    if (id && isRequitEdit) {
+      dispatch(showLoading('sectionBar'))
+
+      dispatch(fetchProduct(id))
+      .then(data => {
+        const { payload } = data
+
+          setDataProduct({
+            ...payload,
+            groupID: payload.lineage.groupID
+          })
+          setDataEditer(payload.type_product.description)
+
+          setDataFiles(payload.images.url.split('|'))
+          setDataImageBase64(payload.images.url.split('|'))
+      })
+
+      setTimeout(() => {
+        dispatch(hideLoading('sectionBar'))
+      }, 700)
+    }
+
+  }, [dispatch, id, isRequitEdit])
 
   useEffect(() => {
     dispatch(showLoading('sectionBar'))
@@ -411,6 +426,8 @@ const Form = ({ url }) => {
                       options={ dataGroup }
                     />
                   </div>
+
+
 
                   <div className="box-6">
                     <Selector

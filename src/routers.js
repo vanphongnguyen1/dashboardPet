@@ -61,7 +61,7 @@ export const routes = [
     main: ({ match }) => <CreateProduct match={match}/>
   },
   {
-    path: '/products/edit',
+    path: '/products/:id/edit',
     exact: true,
     main: ({ match }) => <CreateProduct match={match}/>
   },

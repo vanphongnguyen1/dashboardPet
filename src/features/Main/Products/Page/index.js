@@ -77,7 +77,7 @@ const Products = ({ match }) => {
                       </div>
 
                       <div className="box-9">
-                        <ShowProducts id={ item.id } />
+                        <ShowProducts id={ item.id } url={url} />
                       </div>
                     </div>
                   </div>

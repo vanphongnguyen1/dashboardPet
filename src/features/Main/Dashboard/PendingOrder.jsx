@@ -1,3 +1,4 @@
+import { useMemo } from 'react'
 import PropTypes from 'prop-types'
 import { useSelector } from 'react-redux'
 import { sectionData } from '../Orders/Page/sectionData'
@@ -5,7 +6,16 @@ import ItemOrderPending from './ItemOrderPending'
 
 const PendingOrder = ({ data }) => {
   const dataProductDetailOrder = useSelector(state => state.productDetailOrder.list)
-  const [newData] = sectionData(data, dataProductDetailOrder)
+
+  const newData = useMemo(() => {
+    const [dataPendding] = sectionData(data, dataProductDetailOrder)
+
+    if (!Array.isArray(dataPendding)) {
+      return [dataPendding]
+    }
+
+    return dataPendding
+  }, [data, dataProductDetailOrder])
 
   return (
     <>

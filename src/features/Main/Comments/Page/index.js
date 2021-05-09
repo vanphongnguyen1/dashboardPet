@@ -33,7 +33,7 @@ const Comments = () => {
   ] = sectionData(dataComment.list)
 
   return (
-    <div className="posi-relative">
+    <div className="posi-relative comments">
       <div className="box-btn">
         <div className="box-btn--link">
           <BtnCreatExport

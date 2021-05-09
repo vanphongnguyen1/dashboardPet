@@ -13,27 +13,29 @@ export const fetchOrders = createAsyncThunk(
   }
 )
 
+export const fetchOrder = createAsyncThunk(
+  'orders/fetchOrder',
+  async (id) => {
+    return customAxiosApi.get(`${API_NAME.ORDERS}/${id}`)
+      .then(response => {
+        const { data } = response.data
+        return data
+      })
+  }
+)
+
 export const orderSlice = createSlice({
   name: 'orders',
   initialState: {
     list: [],
-    order: {},
     loading: 'idle'
   },
 
   reducers: {
     defaultState: (state, action) => {
       state.list = []
-      state.order = {}
       state.loading = 'idle'
     },
-    defaultOrder: (state, action) => {
-      state.order = {}
-    },
-
-    setOrder: (state, action) => {
-      state.order = action.payload
-    }
   },
 
   extraReducers: {
@@ -58,6 +60,6 @@ export const orderSlice = createSlice({
 
 const { actions, reducer } = orderSlice
 
-export const { setOrder, defaultState, defaultOrder } = actions
+export const { defaultState } = actions
 
 export default reducer

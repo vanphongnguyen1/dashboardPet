@@ -1,36 +1,37 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import PropTypes from 'prop-types'
-import { useSelector, useDispatch } from 'react-redux'
+import { useDispatch } from 'react-redux'
 import { TITLE_MENU, EDIT, CREAT, API_NAME } from '../../../../../dataDefault'
 import { Delete, Save } from '../../../../../Components/Btn'
-import { defaultUser, fetchUsers } from '../../../../../rootReducers/userSlice'
+import { fetchUsers } from '../../../../../rootReducers/userSlice'
 import { customAxiosApi } from '../../../../../customAxiosApi'
 import { REGEX } from '../../../../../dataDefault'
 import GroupInput from '../../../../../Components/Form/GroupInput'
 import { Lable } from '../../../../../Components/Form/Lable'
-import { messageError } from '../../../../../Components/openMessage'
+import { messageError, openMessage } from '../../../../../Components/openMessage'
 import DelayLink from '../../../../../Components/DelayLink'
 import { HeadingBox } from '../../../../../Components/HeadingBox'
 import { resetScroll } from '../../../../../Components/access/logic/resetScroll'
 import { showLoading, hideLoading } from 'react-redux-loading-bar'
 import { Prompt } from 'react-router-dom'
 
-const FormUser = ({ url }) => {
+const FormUser = ({ url, data }) => {
   const dispatch = useDispatch()
-  const dataUsers = useSelector(state => state.users.user)
+  // const { id } =  useParams()
+
   const urlConvert = url.split('/')
   const isRequitEdit = urlConvert[urlConvert.length - 1] === EDIT
   const isRequitCreat = urlConvert[urlConvert.length - 1] === CREAT
   const textUsers = API_NAME.USERS
 
   const initialValue = {
-    name: isRequitEdit ? dataUsers.name : '',
-    email: isRequitEdit ? dataUsers.email : '',
-    phone: isRequitEdit ? dataUsers.phone : '',
-    address: isRequitEdit ? dataUsers.address : '',
-    password: isRequitEdit ? dataUsers.password : '',
+    name: '',
+    email: '',
+    phone: '',
+    address: '',
+    password: '',
     confirmPassword: '',
-    role: isRequitEdit ? dataUsers.role : '0',
+    role: '0',
   }
 
   const initialErMes = {
@@ -45,6 +46,12 @@ const FormUser = ({ url }) => {
   const [state, setState] = useState(initialValue)
   const [validate, setValidate] = useState(initialErMes)
   const [isLocalPath, setIsLocalPath] = useState(false)
+
+  useEffect (() => {
+    if (isRequitEdit) {
+      setState(data)
+    }
+  }, [data, isRequitEdit])
 
   const handleOnBlur = e => {
     const { value, name } = e.target
@@ -120,10 +127,12 @@ const FormUser = ({ url }) => {
 
       dispatch(showLoading('sectionBar'))
 
-      customAxiosApi.put(`${textUsers}/${dataUsers.id}`, state)
+      customAxiosApi.put(`${textUsers}/${state.id}`, state)
       .then(async () => {
         setValidate(initialErMes)
         await dispatch(fetchUsers())
+
+        openMessage('Update Success !')
       })
       .catch(error => {
         messageError(error.message)
@@ -164,13 +173,11 @@ const FormUser = ({ url }) => {
     }
 
     dispatch(showLoading('sectionBar'))
-    customAxiosApi.delete(`${textUsers}/${dataUsers.id}`)
+    customAxiosApi.delete(`${textUsers}/${state.id}`)
 
     await setTimeout(() => {
       dispatch(hideLoading('sectionBar'))
     }, 500)
-
-    await dispatch(defaultUser())
   }
 
   return (
@@ -292,7 +299,7 @@ const FormUser = ({ url }) => {
           </div>
 
           <div className="box-submit">
-            <div className="box-row">
+            <div className="box-row justify-between">
               <div className="box-submit__save" onClick={handleSubmit}>
                 <Save />
               </div>
@@ -322,11 +329,13 @@ const FormUser = ({ url }) => {
 }
 
 FormUser.propTypes = {
-  url: PropTypes.string
+  url: PropTypes.string,
+  data: PropTypes.object
 }
 
 FormUser.defaultProps = {
-  url: ''
+  url: '',
+  data: {}
 }
 
 export default FormUser

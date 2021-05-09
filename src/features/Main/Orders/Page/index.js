@@ -6,9 +6,9 @@ import { useDispatch, useSelector } from 'react-redux'
 import { sectionData } from './sectionData'
 import PropTypes from 'prop-types'
 import { fetchOrders } from '../../../../rootReducers/orderSlice'
-import { fetchProductDetailOrder } from '../../../../rootReducers/productDetailOrderThunk'
+import { fetchProductDetailOrderAll } from '../../../../rootReducers/productDetailOrderThunk'
 import { showLoading, hideLoading } from 'react-redux-loading-bar'
- 
+
 const Orders = ({ match }) => {
   const url = match.url.slice(1)
   const { TabPane } = Tabs
@@ -17,7 +17,7 @@ const Orders = ({ match }) => {
   useEffect(() => {
     dispatch(showLoading('sectionBar'))
     dispatch(fetchOrders())
-    dispatch(fetchProductDetailOrder())
+    dispatch(fetchProductDetailOrderAll())
   }, [dispatch])
 
   const dataOrder = useSelector(state => state.orders)

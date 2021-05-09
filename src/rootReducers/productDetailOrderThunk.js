@@ -2,10 +2,21 @@ import { createSlice, createAsyncThunk } from '@reduxjs/toolkit'
 import { customAxiosApi } from '../customAxiosApi'
 import { STATUS_FETCH, API_NAME } from '../dataDefault'
 
-export const fetchProductDetailOrder = createAsyncThunk(
-  'productDetailOrder/fetchProductDetailOrder',
+export const fetchProductDetailOrderAll = createAsyncThunk(
+  'productDetailOrder/fetchProductDetailOrderAll',
   async () => {
     return customAxiosApi.get(API_NAME.PRODUCTDETAILORDER)
+      .then(response => {
+        const { data } = response.data
+        return data
+      })
+  }
+)
+
+export const fetchDetailOrder = createAsyncThunk(
+  'productDetailOrder/fetchDetailOrder',
+  async (id) => {
+    return customAxiosApi.get(`${API_NAME.PRODUCTDETAILORDER}?detailOrderID=${id}`)
       .then(response => {
         const { data } = response.data
         return data
@@ -36,20 +47,20 @@ export const productDetailOrderSlice = createSlice({
   },
 
   extraReducers: {
-    [fetchProductDetailOrder.pending]: (state, action) => {
+    [fetchProductDetailOrderAll.pending]: (state, action) => {
       // Add user to the state array
       state.list = [...state.list]
       state.loading = STATUS_FETCH.LOADING
     },
 
-    [fetchProductDetailOrder.fulfilled]: (state, action) => {
+    [fetchProductDetailOrderAll.fulfilled]: (state, action) => {
       // Add user to the state array
 
       state.list = action.payload
       state.loading = STATUS_FETCH.SUCCESS
     },
 
-    [fetchProductDetailOrder.rejected]: (state, action) => {
+    [fetchProductDetailOrderAll.rejected]: (state, action) => {
       // Add user to the state array
       state.loading = STATUS_FETCH.FAILED
     },

@@ -1,17 +1,13 @@
 import PropTypes from 'prop-types'
 import Avarta from '../../../Components/Avarta'
-import { useDispatch } from 'react-redux'
 import { Link } from 'react-router-dom'
 import { TITLE_MENU, EDIT} from '../../../dataDefault'
-import { setUser } from '../../../rootReducers/userSlice'
 
 const ItemCustommer = ({ name, avarta, data }) => {
-  const dispatch = useDispatch()
 
   return (
     <li
       className="show-customer__item"
-      onClick={() => dispatch(setUser(data))}
     >
       <Link
         className="show-customer__link"

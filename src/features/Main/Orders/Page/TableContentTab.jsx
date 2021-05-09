@@ -6,8 +6,8 @@ import { API_NAME, EDIT } from '../../../../dataDefault'
 import BoxItemDele from '../../../../Components/BoxItemDele'
 import PropTypes from 'prop-types'
 import { date } from '../../../../Components/myMonment'
-import { fetchOrders, setOrder } from '../../../../rootReducers/orderSlice'
-import { fetchProductDetailOrder } from '../../../../rootReducers/productDetailOrderThunk'
+import { fetchOrders } from '../../../../rootReducers/orderSlice'
+import { fetchProductDetailOrderAll } from '../../../../rootReducers/productDetailOrderThunk'
 import { useDispatch } from 'react-redux'
 import { useGetColumnSearchProps } from '../../../../Components/access/logic/searchColumn'
 import { customAxiosApi } from '../../../../customAxiosApi'
@@ -198,7 +198,7 @@ const TableContentTab = ({ data, url }) => {
 
     setSelectedRowKeys([])
     await dispatch(fetchOrders())
-    await dispatch(fetchProductDetailOrder())
+    await dispatch(fetchProductDetailOrderAll())
   }
 
   return (
@@ -215,13 +215,6 @@ const TableContentTab = ({ data, url }) => {
           columns={columns}
           dataSource={data}
           scroll={{ x: 1700 }}
-          onRow={record => {
-            return {
-              onClick: () => {
-                dispatch(setOrder(record))
-              }
-            }
-          }}
         />
       </div>
     </>

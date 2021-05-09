@@ -1,10 +1,9 @@
-import { useSelector } from 'react-redux'
 import { date } from '../../../../../Components/myMonment'
 import ItemHistory from './ItemHistory'
 import { HeadingBox } from '../../../../../Components/HeadingBox'
+import PropTypes from 'prop-types'
 
-const HistoryUser = () => {
-  const user = useSelector(state => state.users.user)
+const HistoryUser = ({ data }) => {
 
   return (
     <div className="history">
@@ -15,7 +14,7 @@ const HistoryUser = () => {
           <ItemHistory
             icon='far fa-clock'
             title='First seen'
-            date={date(user.created_at)}
+            date={date(data.created_at)}
           />
         </div>
 
@@ -23,7 +22,7 @@ const HistoryUser = () => {
           <ItemHistory
             icon='far fa-clock'
             title='Last seen'
-            date={date(user.updated_at)}
+            date={date(data.updated_at)}
           />
         </div>
 
@@ -37,6 +36,14 @@ const HistoryUser = () => {
       </div>
     </div>
   )
+}
+
+HistoryUser.propTypes = {
+  data: PropTypes.object
+}
+
+HistoryUser.defaultProps = {
+  data: {}
 }
 
 export default HistoryUser

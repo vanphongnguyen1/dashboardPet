@@ -13,12 +13,22 @@ export const fetchProducts = createAsyncThunk(
   }
 )
 
+export const fetchProduct = createAsyncThunk(
+  'products/fetchProduct',
+  async (id) => {
+    return customAxiosApi.get(`${API_NAME.PRODUCTS}/${id}`)
+      .then(response => {
+        const { data } = response.data
+        return data
+      })
+  }
+)
+
 export const productsSlice = createSlice({
   name: 'products',
   initialState: {
     list: [],
     loading: 'idle',
-    product: {}
   },
 
   reducers: {
@@ -33,14 +43,6 @@ export const productsSlice = createSlice({
 
     defaultLoading: (state, action) => {
       state.loading = 'idle'
-    },
-
-    setProduct: (state, action) => {
-      state.product = action.payload
-    },
-
-    defaultProduct: (state, action) => {
-      state.product = {}
     }
   },
 
@@ -70,9 +72,7 @@ const { actions, reducer } = productsSlice
 export const {
   defaultLoading,
   defaultState,
-  defaultListOrders,
-  setProduct,
-  defaultProduct
+  defaultListOrders
 } = actions
 
 export default reducer

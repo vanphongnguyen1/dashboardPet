@@ -1,16 +1,12 @@
 import PropTypes from 'prop-types'
 import Avarta from '../../../Components/Avarta'
-import { useDispatch } from 'react-redux'
 import { Link } from 'react-router-dom'
 import { TITLE_MENU, EDIT } from '../../../dataDefault'
-import { setOrder } from '../../../rootReducers/orderSlice'
 import { dateTime } from '../../../Components/myMonment'
 
 const ItemOrderPending = ({ data }) => {
-  const dispatch = useDispatch()
-
   return (
-    <li className="pending-order__item" onClick={() => dispatch(setOrder(data))}>
+    <li className="pending-order__item">
       <Link
         className="pending-order__link"
         to={`${TITLE_MENU.ORDERS}/${data.id}/${EDIT}`}

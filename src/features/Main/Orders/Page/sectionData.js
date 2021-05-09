@@ -1,6 +1,9 @@
 import { STATUS_HANDLE } from '../../../../dataDefault'
 
 export const sectionData = (dataOrder, dataProductDetailOrder) => {
+  // console.log('aadad', dataOrder);
+  // console.log('dataProductDetailOrder', dataProductDetailOrder);
+
   const dataPending = []
   const dataDelivered = []
   const dataCanselled = []
@@ -68,6 +71,22 @@ export const sectionData = (dataOrder, dataProductDetailOrder) => {
       dataCanselled.push(newOrder)
     }
   })
+
+  if (dataOrder.length === 1) {
+    if (dataPending.length === 1) {
+      console.log('232', dataPending);
+      return dataPending
+    }
+
+    if (dataDelivered.length === 1) {
+      return dataDelivered
+    }
+
+    if (dataCanselled.length === 1) {
+      return dataCanselled
+    }
+
+  }
 
   return [
     dataPending,

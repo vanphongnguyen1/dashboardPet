@@ -4,9 +4,16 @@
 @import './showItemProduct.scss';
 
 .product {
-  margin-top: 2rem;
   .box-products {
-    // border: 1px solid #E0E0E0;
     background-color: #fff;
+  }
+
+  .box__not-products {
+    width: 100%;
+    height: 100vh;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
   }
 }
