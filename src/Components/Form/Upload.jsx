@@ -4,10 +4,10 @@ import { ItemImage } from './ItemImage'
 
 const Upload = props => {
   const {
-    dataProduct,
-    id,
+    data,
     onChange,
     multiple,
+    url,
     handleDeleteItem,
     handleViewImage,
   } = props
@@ -15,12 +15,13 @@ const Upload = props => {
   return (
     <div className="box-file">
       {
-        dataProduct.length
-          ? dataProduct.map((item, index)  => {
+        data.length
+          ? data.map((item, index)  => {
             return (
               <ItemImage
                 key={ index }
                 item={ item }
+                slide={ url }
                 alt=""
                 handleDelete={ () => handleDeleteItem(index) }
                 handleView={ handleViewImage }
@@ -34,13 +35,13 @@ const Upload = props => {
         type="file"
         name="files"
         className="group__files"
-        id={id}
+        id="files"
         onChange={onChange}
         multiple={multiple}
       />
 
       <label
-        htmlFor={id}
+        htmlFor="files"
         className="group__checkbox--title label-file"
       >
         <span className="label-file__icon fas fa-plus" />
@@ -53,9 +54,9 @@ const Upload = props => {
 }
 
 Upload.propTypes = {
-  dataProduct: PropTypes.array,
-  id: PropTypes.string,
+  data: PropTypes.array,
   multiple: PropTypes.bool,
+  url:PropTypes.string,
 
   onChange: PropTypes.func,
   handleViewImage: PropTypes.func,
@@ -63,9 +64,9 @@ Upload.propTypes = {
 }
 
 Upload.defaultProps = {
-  dataProduct: [],
-  id: '',
+  data: [],
   multiple: false,
+  url: '',
 
   onChange: () => {},
   handleDeleteItem: () => {},

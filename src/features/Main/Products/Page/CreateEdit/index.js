@@ -1,12 +1,12 @@
 import PropTypes from 'prop-types'
-import CreateForm from './CreateForm'
+import BoxForm from './BoxForm'
 
 const CreateProduct = ({ match }) => {
   const { url } = match
 
   return (
     <div>
-      <CreateForm url={url} />
+      <BoxForm url={url} />
     </div>
   )
 }

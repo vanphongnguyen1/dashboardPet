@@ -5,7 +5,7 @@ import { showLoading, hideLoading } from 'react-redux-loading-bar'
 import { fetchGroup } from '../../../../../rootReducers/groupSlice'
 import PropTypes from 'prop-types'
 
-const CreateForm = ({ url }) => {
+const BoxForm = ({ url }) => {
   const dispatch = useDispatch()
   const isHideLoading = useSelector(state => state.groups.loading)
 
@@ -27,11 +27,11 @@ const CreateForm = ({ url }) => {
   )
 }
 
-CreateForm.propTypes = {
+BoxForm.propTypes = {
   url: PropTypes.string
 }
-CreateForm.defaultProps = {
+BoxForm.defaultProps = {
   url: ''
 }
 
-export default CreateForm
+export default BoxForm

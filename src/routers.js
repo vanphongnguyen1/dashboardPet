@@ -3,11 +3,16 @@ import Dashboard from './features/Main/Dashboard'
 import Users from './features/Main/Users/Page'
 import CreactUser from './features/Main/Users/Page/Creat/CreactUser'
 import EditUser from './features/Main/Users/Page/Edit/EditUser'
+
 import Orders from './features/Main/Orders/Page'
 import EditOrder from './features/Main/Orders/Page/Edit'
+
 import Comments from './features/Main/Comments/Page'
 import Products from './features/Main/Products/Page'
-import CreateProduct from './features/Main/Products/Page/Create'
+import CreateProduct from './features/Main/Products/Page/CreateEdit'
+
+import Slide from './features/Main/Slide/Page'
+import EditCreat from './features/Main/Slide/Page/EditCreat'
 
 export const routes = [
   // {
@@ -65,6 +70,23 @@ export const routes = [
     exact: true,
     main: ({ match }) => <CreateProduct match={match}/>
   },
+
+  {
+    path: '/slider',
+    exact: true,
+    main: ({ match }) => <Slide match={match}/>
+  },
+  {
+    path: '/slider/creat',
+    exact: true,
+    main: ({ match }) => <EditCreat match={match}/>
+  },
+  {
+    path: '/slider/:id/edit',
+    exact: true,
+    main: ({ match }) => <EditCreat match={match}/>
+  },
+
   // {
   //   path: '/comments/edit',
   //   exact: true,

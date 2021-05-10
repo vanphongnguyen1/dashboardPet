@@ -12,6 +12,7 @@ import lineageSlice from './lineageSlice'
 import groupSlice from './groupSlice'
 import genderSlice from './genderSlice'
 import productsSlice from './productsSlice'
+import sliderSlice from './sliderSlice'
 
 export const rootReducers = {
   users: userReducer,
@@ -32,6 +33,8 @@ export const rootReducers = {
 
   stateIsMenu: menuAnimation,
   navbarScrolled: navbarScrolled,
+
+  slider: sliderSlice,
 
   loadingBar: loadingBarReducer,
 }

@@ -27,7 +27,7 @@ const ShowProducts = ({ id, url }) => {
       <div className="list-product">
         <div className="box-row">
           {
-            !filterProducts.length
+            filterProducts.length
               ? filterProducts.map(product => {
                 return <ShowItemProduct
                   idGroup={id}

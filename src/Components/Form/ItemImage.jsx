@@ -1,12 +1,17 @@
 import PropTypes from 'prop-types'
+import { API_NAME } from '../../dataDefault'
 
-export const ItemImage = ({ item, alt, handleView, handleDelete }) => {
+export const ItemImage = ({ item, alt, handleView, handleDelete, slider }) => {
+
   return (
     <div className="product-item">
       <img
         src={ item }
         alt={ alt }
-        className="product-item__image"
+        className={
+          API_NAME.SLIDER === slider
+          ? 'product-item__image'
+          : 'product-item__image'}
       />
 
       <div className="product-item__icon">
@@ -26,6 +31,7 @@ export const ItemImage = ({ item, alt, handleView, handleDelete }) => {
 ItemImage.propTypes = {
   item: PropTypes.string,
   alt: PropTypes.string,
+  slider: PropTypes.string,
 
   handleDelete: PropTypes.func,
   handleView: PropTypes.func,
@@ -34,6 +40,7 @@ ItemImage.propTypes = {
 ItemImage.defaultProps = {
   item: '',
   alt: '',
+  slider: '',
 
   handleDelete: () => {},
   handleView: () => {},

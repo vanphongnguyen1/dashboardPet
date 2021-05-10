@@ -267,7 +267,7 @@ const Form = ({ url }) => {
             })
             .then((respo) => {
               openMessage('Push Success !')
-              console.log('adasdasd',respo.data.data );
+              console.log('adasdasd',respo );
 
               setDataProduct({
                 name: '',
@@ -498,7 +498,7 @@ const Form = ({ url }) => {
             <div className="box-tabs">
               <div className="form__product">
                 <Upload
-                  dataProduct={ dataImageBase64 }
+                  data={ dataImageBase64 }
                   id="files"
                   onChange={ handleOnchange }
                   handleDeleteItem={handleDeleteImage}

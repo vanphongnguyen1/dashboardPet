@@ -45,7 +45,7 @@ export const TITLE_MENU = {
   DASHBOARD: 'Dashboard',
   ORDERS: 'Orders',
   USERS: 'Users',
-  SLIDE: 'Slide',
+  SLIDE: 'Slider',
   PRODUCTS: 'Products',
   COMMENTS: 'Comments',
 }

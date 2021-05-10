@@ -1,0 +1,8 @@
+@import './Form/style.scss';
+
+.slide {
+  &__image {
+    height: 12rem;
+    object-fit: contain;
+  }
+}
