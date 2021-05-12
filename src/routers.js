@@ -11,7 +11,7 @@ import Comments from './features/Main/Comments/Page'
 import Products from './features/Main/Products/Page'
 import CreateProduct from './features/Main/Products/Page/CreateEdit'
 
-import Slide from './features/Main/Slide/Page'
+import Slider from './features/Main/Slide/Page'
 import EditCreat from './features/Main/Slide/Page/EditCreat'
 
 export const routes = [
@@ -74,7 +74,7 @@ export const routes = [
   {
     path: '/slider',
     exact: true,
-    main: ({ match }) => <Slide match={match}/>
+    main: ({ match }) => <Slider match={match}/>
   },
   {
     path: '/slider/creat',

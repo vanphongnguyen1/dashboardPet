@@ -10,8 +10,9 @@ export const ItemImage = ({ item, alt, handleView, handleDelete, slider }) => {
         alt={ alt }
         className={
           API_NAME.SLIDER === slider
-          ? 'product-item__image'
-          : 'product-item__image'}
+          ? 'product-item__image-slider'
+          : 'product-item__image'
+        }
       />
 
       <div className="product-item__icon">

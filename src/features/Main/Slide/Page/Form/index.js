@@ -1,11 +1,10 @@
-import { useState, useEffect, useRef } from 'react'
+import { useState, useEffect } from 'react'
 import GroupInput from '../../../../../Components/Form/GroupInput'
 import { Save } from '../../../../../Components/Btn'
 import { Tabs } from 'antd'
 import { Textarea } from '../../../../../Components/Form/Textarea'
-import { useDispatch, useSelector } from 'react-redux'
+import { useDispatch } from 'react-redux'
 import { fetchSlider } from '../../../../../rootReducers/sliderSlice'
-import { showLoading, hideLoading } from 'react-redux-loading-bar'
 import Upload from '../../../../../Components/Form/Upload'
 import { getBase64 } from '../../../../../Components/access/logic/getBase64'
 import { customAxiosApi } from '../../../../../customAxiosApi'
@@ -15,6 +14,7 @@ import { Switch } from 'antd'
 import PropTypes from 'prop-types'
 import { CREAT, EDIT } from '../../../../../dataDefault'
 import { useParams } from 'react-router-dom'
+import { showLoading, hideLoading } from 'react-redux-loading-bar'
 
 const Form = ({ url }) => {
   const { id } = useParams()
@@ -46,14 +46,22 @@ const Form = ({ url }) => {
   const [dataImageBase64, setDataImageBase64] = useState([])
 
   useEffect(() => {
-    dispatch(fetchSlider(id))
-    .then(res => {
-      const { data } = res.payload
-      setDataSlider(data)
-      setDataImageBase64([data.imageUrl])
-      setDataFiles([data.imageUrl])
-    })
-  }, [id])
+    if (id) {
+      dispatch(showLoading('sectionBar'))
+      dispatch(fetchSlider(id))
+      .then(res => {
+
+        const { data } = res.payload
+        setDataSlider(data)
+        setDataImageBase64([data.imageUrl])
+        setDataFiles([data.imageUrl])
+
+        setTimeout(() => {
+          dispatch(hideLoading('sectionBar'))
+        }, 500)
+      })
+    }
+  }, [dispatch, id])
 
   const handleOnBlur = e => {
     const { value, name } = e.target
@@ -172,27 +180,23 @@ const Form = ({ url }) => {
             })
           }
 
-      // if (isRequitEdit) {
+      if (isRequitEdit) {
+        const data = new FormData()
+        data.append('files', dataFiles[0])
+        data.append('title', dataSlider.title)
+        data.append('subTitle', dataSlider.subTitle)
+        data.append('url', dataSlider.url)
+        data.append('isStatus', dataSlider.isStatus ? 1 : 0)
+        data.append('_method', 'put')
 
-      //   const data = new FormData()
-
-      //   dataFiles.forEach(file => {
-      //     if (typeof file === 'string') {
-      //       data.append('filesString[]', file)
-      //       return ;
-      //     }
-
-      //     data.append('files[]', file)
-      //   })
-
-      //   customAxiosApi.put(`${API_NAME.SLIDER}/id`, dataSlider)
-      //   .then(() => {
-      //     openMessage('Push Success !')
-      //   })
-      //   .catch(err => {
-      //     messageError(err.message)
-      //   })
-      // }
+        customAxiosApi.post(`${API_NAME.SLIDER}/${id}`, data)
+        .then(() => {
+          openMessage('Push Success !')
+        })
+        .catch(err => {
+          messageError(err.message)
+        })
+      }
 
       await dispatch(hideLoading('sectionbar'))
     } else {

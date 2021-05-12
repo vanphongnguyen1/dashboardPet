@@ -1,6 +1,5 @@
 import { useState, useEffect, useMemo } from 'react'
-import { Table, Space } from 'antd'
-import { EditOutlined } from '@ant-design/icons'
+import { Table, Button } from 'antd'
 import { BtnCreatExport } from '../../../../Components/Btn'
 import BoxItemDele from '../../../../Components/BoxItemDele'
 import { EDIT, CREAT, API_NAME } from '../../../../dataDefault'
@@ -8,7 +7,8 @@ import { useGetColumnSearchProps } from '../../../../Components/access/logic/sea
 import { Link } from 'react-router-dom'
 import { useSelector, useDispatch } from 'react-redux'
 import { fetchUsers } from '../../../../rootReducers/userSlice'
-import { customAxiosApi }  from '../../../../customAxiosApi'
+import { customAxiosApi } from '../../../../customAxiosApi'
+import { openMessage, messageError } from '../../../../Components/openMessage'
 import PropTypes from 'prop-types'
 import { showLoading, hideLoading } from 'react-redux-loading-bar'
 
@@ -86,7 +86,7 @@ const Users = ({ match }) => {
     {
       title: 'Address',
       dataIndex: 'address',
-      width: '35%',
+      width: '30%',
       ...useGetColumnSearchProps('address'),
       render: (text, record) => (
         <Link
@@ -111,32 +111,51 @@ const Users = ({ match }) => {
       )
     },
     {
-      title: 'Edit',
+      title: 'Action',
       dataIndex: 'action',
-      width: '10%',
+      width: '15%',
       render: (text, record) => (
-        <Link
-          to={`/${url}/${record.id}/${EDIT.toLowerCase()}`}
+        <div
           className="antd-link"
         >
-          <Space size="middle">
-            <EditOutlined className="icon-edit"/>
-          </Space>
-        </Link>
+          <Link to={`/${url}/${record.id}/${EDIT.toLowerCase()}`}>
+            <Button type="primary">Edit</Button>
+          </Link>&nbsp;
+
+          <Button
+            type="primary"
+            danger
+            onClick={() => handleDelete(record.id)}
+          >
+            Delete
+          </Button>
+        </div>
       )
     },
   ]
+
+  const handleDelete = async id => {
+    dispatch(showLoading('sectionBar'))
+    await customAxiosApi.delete(`${API_NAME.USERS}/${id}`)
+    .catch(rej => {
+      messageError(rej.messageError)
+    })
+
+    openMessage('Delete Success!')
+
+    dispatch(fetchUsers())
+  }
 
   const handleDeleteSelect = async () => {
     dispatch(showLoading('sectionBar'))
 
     await selectedRowKeys.forEach(item => {
       customAxiosApi.delete(`${API_NAME.USERS}/${item.id}`)
-      .then(() => {
-        dispatch(fetchUsers())
-      })
     })
 
+    openMessage('Delete Success!')
+
+    dispatch(fetchUsers())
     setSelectedRowKeys([])
   }
 

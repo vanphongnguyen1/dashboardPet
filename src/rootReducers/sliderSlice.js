@@ -7,7 +7,7 @@ export const fetchSliderAll = createAsyncThunk(
   async () => {
     return customAxiosApi.get(API_NAME.SLIDER)
       .then(response => {
-        const { data } = response
+        const { data } = response.data
         return data
       })
   }

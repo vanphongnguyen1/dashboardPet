@@ -1,36 +1,38 @@
 import { useState, useEffect, useMemo } from 'react'
-import { Table, Space } from 'antd'
-import { EditOutlined } from '@ant-design/icons'
+import { Table, Button } from 'antd'
 import { BtnCreatExport } from '../../../../Components/Btn'
 import BoxItemDele from '../../../../Components/BoxItemDele'
 import { EDIT, CREAT, API_NAME } from '../../../../dataDefault'
 import { useGetColumnSearchProps } from '../../../../Components/access/logic/searchColumn'
 import { Link } from 'react-router-dom'
-// import { useSelector, useDispatch } from 'react-redux'
-import { fetchUsers } from '../../../../rootReducers/userSlice'
-import { customAxiosApi }  from '../../../../customAxiosApi'
-// import PropTypes from 'prop-types'
+import { useSelector, useDispatch } from 'react-redux'
+import { fetchSliderAll } from '../../../../rootReducers/sliderSlice'
+import { customAxiosApi } from '../../../../customAxiosApi'
+import { date } from '../../../../Components/myMonment'
+import { openMessage, messageError } from '../../../../Components/openMessage'
+import moment from 'moment'
+import PropTypes from 'prop-types'
 import { showLoading, hideLoading } from 'react-redux-loading-bar'
 
-const Slide = () => {
-  // const dispatch = useDispatch()
+const Slider = ({ match }) => {
+  const url = match.url.slice(1)
+  const dispatch = useDispatch()
 
   const [selectedRowKeys, setSelectedRowKeys] = useState([])
-  // const dataUsers = useSelector(state => state.users)
+  const dataSlider = useSelector(state => state.slider)
 
-  // useEffect(() => {
-  //   dispatch(showLoading('sectionBar'))
-  //   dispatch(fetchUsers())
-  // }, [dispatch])
+  useEffect(() => {
+    dispatch(showLoading('sectionBar'))
+    dispatch(fetchSliderAll())
+  }, [dispatch])
 
-  // useMemo(() => {
-  //   setTimeout(() => {
-  //     if (dataUsers.loading === 'success') {
-  //       dispatch(hideLoading('sectionBar'))
-
-  //     }
-  //   }, 500)
-  // }, [dataUsers.loading, dispatch])
+  useMemo(() => {
+    setTimeout(() => {
+      if (dataSlider.loading === 'success') {
+        dispatch(hideLoading('sectionBar'))
+      }
+    }, 500)
+  }, [dataSlider.loading, dispatch])
 
   const onSelectChange = (index, item) => {
     setSelectedRowKeys(item)
@@ -43,128 +45,139 @@ const Slide = () => {
   const columns = [
     {
       title: 'Date',
-      dataIndex: 'date',
-      width: '10%',
-      // ...useGetColumnSearchProps('name'),
-      // render: (text, record) => (
-      //   <Link
-      //     // to={`/${url}/${record.id}/${EDIT.toLowerCase()}`}
-      //     className="antd-link"
-      //   >
-      //     { text }
-      //   </Link>
-      // )
+      dataIndex: 'update_at',
+      width: '8%',
+      fixed: 'left',
+      sorter: {
+        compare: (a, b) => moment(a.updated).format('x') - moment(b.updated).format('x'),
+      },
+      render: (text, record) => (
+        <Link
+          to={`/${url}/${record.id}/${EDIT.toLowerCase()}`}
+          className="antd-link"
+        >
+          { date(text) }
+        </Link>
+      )
     },
     {
       title: 'Title',
       dataIndex: 'title',
-      width: '15%',
-      // ...useGetColumnSearchProps('name'),
-      // render: (text, record) => (
-      //   <Link
-      //     // to={`/${url}/${record.id}/${EDIT.toLowerCase()}`}
-      //     className="antd-link"
-      //   >
-      //     { text }
-      //   </Link>
-      // )
+      fixed: 'left',
+      width: '12%',
+      ...useGetColumnSearchProps('title'),
+      render: (text, record) => (
+        <Link
+          to={`/${url}/${record.id}/${EDIT.toLowerCase()}`}
+          className="antd-link"
+        >
+          { text }
+        </Link>
+      )
     },
     {
       title: 'Image',
-      dataIndex: 'image',
-      width: '30%',
+      dataIndex: 'imageUrl',
+      width: '25%',
       render: (text, record) => (
-        <Link
-          // to={`/${url}/${record.id}/${EDIT.toLowerCase()}`}
-          to=""
+        <div
           className="antd-link"
         >
-          {/* { text } */}
-          <img src={text} alt="a" className="slide__image" />
-        </Link>
+          <img src={text} alt="a" className="slider__image" />
+        </div>
       )
     },
 
     {
       title: 'Sub Title',
       dataIndex: 'subTitle',
-      // width: '15%',
-      // ...useGetColumnSearchProps('phone'),
-      // render: (text, record) => (
-      //   <Link
-      //     // to={`/${url}/${record.id}/${EDIT.toLowerCase()}`}
-      //     className="antd-link"
-      //   >
-      //     { text }
-      //   </Link>
-      // )
-    },
-    {
-      title: 'Edit',
-      dataIndex: 'action',
-      width: '10%',
       render: (text, record) => (
-        <Link
-          // to={`/${url}/${record.id}/${EDIT.toLowerCase()}`}
+        <div
           className="antd-link"
         >
-          <Space size="middle">
-            <EditOutlined className="icon-edit"/>
-          </Space>
-        </Link>
+          { text }
+        </div>
+      )
+    },
+    {
+      title: 'Link URL',
+      dataIndex: 'url',
+      render: (text, record) => (
+        <div
+          className="antd-link"
+        >
+          { text }
+        </div>
+      )
+    },
+    {
+      title: 'Status',
+      dataIndex: 'isStatus',
+      width: '5%',
+      render: (text, record) => (
+        <div
+          className="antd-link"
+        >
+          { text }
+        </div>
+      )
+    },
+    {
+      title: 'Action',
+      dataIndex: 'action',
+      fixed: 'right',
+      width: '10%',
+      render: (text, record) => (
+        <div
+          className="antd-link"
+        >
+          <Link to={`/${url}/${record.id}/${EDIT.toLowerCase()}`}>
+            <Button type="primary">Edit</Button>
+          </Link>&nbsp;
+
+          <Button
+            type="primary"
+            danger
+            onClick={() => handleDelete(record.id)}
+          >
+            Delete
+          </Button>
+        </div>
       )
     },
   ]
-  const data = [
-    {
-      id: 1,
-      title: 'sile1',
-      image:'https://www.infographic24h.com/wp-content/uploads/2014/03/Kute-Cat.jpg',
-      subTitle: '',
-      date: '9/05/2021'
-    },
-    {
-      id: 2,
-      title: 'sile1',
-      image:'https://www.infographic24h.com/wp-content/uploads/2014/03/Kute-Cat.jpg',
-      subTitle: '',
-      date: '9/05/2021'
-    },
-    {
-      id: 3,
-      title: 'sile1',
-      image:'https://www.infographic24h.com/wp-content/uploads/2014/03/Kute-Cat.jpg',
-      subTitle: '',
-      date: '9/05/2021'
-    },
-    {
-      id: 4,
-      title: 'sile1',
-      image:'https://www.infographic24h.com/wp-content/uploads/2014/03/Kute-Cat.jpg',
-      subTitle: '',
-      date: '9/05/2021'
-    },
-  ]
+
+  const handleDelete = async id => {
+    dispatch(showLoading('sectionBar'))
+    await customAxiosApi.delete(`${API_NAME.SLIDER}/${id}`)
+    .catch(rej => {
+      messageError(rej.messageError)
+    })
+
+    openMessage('Delete Success!')
+
+    dispatch(fetchSliderAll())
+  }
 
   const handleDeleteSelect = async () => {
-    // dispatch(showLoading('sectionBar'))
+    dispatch(showLoading('sectionBar'))
 
-    // await selectedRowKeys.forEach(item => {
-    //   customAxiosApi.delete(`${API_NAME.USERS}/${item.id}`)
-    //   .then(() => {
-    //     dispatch(fetchUsers())
-    //   })
-    // })
+    await selectedRowKeys.forEach(item => {
+      customAxiosApi.delete(`${API_NAME.SLIDER}/${item.id}`)
+    })
 
-    // setSelectedRowKeys([])
+    openMessage('Delete Success!')
+
+    await dispatch(fetchSliderAll())
+    dispatch(hideLoading('sectionBar'))
+    setSelectedRowKeys([])
   }
 
   return (
-    <div className="slide posi-relative">
+    <div className="slider posi-relative">
       <div className="box-btn">
           <Link
-            // to={`/${url}/${CREAT.toLowerCase()}`}
-            to='slider/creat'
+            to={`/${url}/${CREAT.toLowerCase()}`}
             className="box-btn--link"
           >
             <BtnCreatExport icon="fas fa-plus" title="Create"/>
@@ -180,10 +193,21 @@ const Slide = () => {
         rowKey="id"
         rowSelection={rowSelection}
         columns={columns}
-        dataSource={data}
+        dataSource={dataSlider.list}
+        scroll={{ x: 1600 }}
       />
     </div>
   )
 }
 
-export default Slide
+Slider.propTypes = {
+  match: PropTypes.object
+}
+
+Slider.defaultProps = {
+  match: {
+    url: ''
+  }
+}
+
+export default Slider

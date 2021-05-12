@@ -1,6 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import { ItemImage } from './ItemImage'
+import { API_NAME } from '../../dataDefault'
 
 const Upload = props => {
   const {
@@ -12,6 +13,8 @@ const Upload = props => {
     handleViewImage,
   } = props
 
+  console.log('aasdas', data);
+
   return (
     <div className="box-file">
       {
@@ -21,7 +24,7 @@ const Upload = props => {
               <ItemImage
                 key={ index }
                 item={ item }
-                slide={ url }
+                slider={ url }
                 alt=""
                 handleDelete={ () => handleDeleteItem(index) }
                 handleView={ handleViewImage }
@@ -31,24 +34,30 @@ const Upload = props => {
           : ''
       }
 
-      <input
-        type="file"
-        name="files"
-        className="group__files"
-        id="files"
-        onChange={onChange}
-        multiple={multiple}
-      />
+      {
+        API_NAME.SLIDER === url && data.length ? '' : (
+          <>
+            <input
+              type="file"
+              name="files"
+              className="group__files"
+              id="files"
+              onChange={onChange}
+              multiple={multiple}
+            />
 
-      <label
-        htmlFor="files"
-        className="group__checkbox--title label-file"
-      >
-        <span className="label-file__icon fas fa-plus" />
-        <span className="label-file__text">
-          Upload
-        </span>
-      </label>
+            <label
+              htmlFor="files"
+              className="group__checkbox--title label-file"
+            >
+              <span className="label-file__icon fas fa-plus" />
+              <span className="label-file__text">
+                Upload
+              </span>
+            </label>
+          </>
+        )
+      }
     </div>
   )
 }
