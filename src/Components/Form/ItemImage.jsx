@@ -1,13 +1,18 @@
+import { useState } from 'react'
+import { Modal } from 'antd'
 import PropTypes from 'prop-types'
 import { API_NAME } from '../../dataDefault'
 
-export const ItemImage = ({ item, alt, handleView, handleDelete, slider }) => {
+export const ItemImage = ({ item, handleDelete, slider }) => {
+  const [previewVisible, setPreviewVisible] = useState(false)
+  const indexAlt = item.lastIndexOf('/')
+  const alt = item.slice(indexAlt + 1)
 
   return (
     <div className="product-item">
       <img
-        src={ item }
-        alt={ alt }
+        src={item}
+        alt={alt}
         className={
           API_NAME.SLIDER === slider
           ? 'product-item__image-slider'
@@ -18,20 +23,34 @@ export const ItemImage = ({ item, alt, handleView, handleDelete, slider }) => {
       <div className="product-item__icon">
         <span
           className="product-item__icon--eye far fa-eye"
-          onClick={ handleView }
+          onClick={ () => setPreviewVisible(true) }
         />
         <span
           className="product-item__icon--delete far fa-trash"
           onClick={ handleDelete }
         />
       </div>
+
+      <Modal
+        visible={previewVisible}
+        title={null}
+        footer={null}
+        style={{'object-fit': 'cover', 'object-position': 'center'}}
+        width={API_NAME.SLIDER === slider ? '70%' : '520px'}
+        onCancel={() => setPreviewVisible(false)}
+      >
+        <img
+          alt={alt}
+          className="modal-image"
+          src={item}
+        />
+      </Modal>
     </div>
   )
 }
 
 ItemImage.propTypes = {
   item: PropTypes.string,
-  alt: PropTypes.string,
   slider: PropTypes.string,
 
   handleDelete: PropTypes.func,
@@ -40,7 +59,6 @@ ItemImage.propTypes = {
 
 ItemImage.defaultProps = {
   item: '',
-  alt: '',
   slider: '',
 
   handleDelete: () => {},

@@ -1,12 +1,21 @@
-import { useMemo } from 'react'
+import { useMemo, useState } from 'react'
 import ShowItemProduct from './ShowItemProduct'
 import { useSelector } from 'react-redux'
 import PropTypes from 'prop-types'
 import { BtnCreatExport } from '../../../../Components/Btn'
 import { CREAT } from '../../../../dataDefault'
 import { Link } from 'react-router-dom'
+import { Pagination } from 'antd'
 
 const ShowProducts = ({ id, url }) => {
+  const initial = {
+    page: 1,
+    pageSize: 2
+  }
+
+  const [paginationSize, setPaginationSize] = useState(initial)
+  const [defaultDataPagination , setDefaultDataPagination ] = useState([])
+
   const dataProducts = useSelector(state => state.products.list)
   const menuLineageId = useSelector(state => state.stateIsMenu.menuLineageID)
 
@@ -22,19 +31,46 @@ const ShowProducts = ({ id, url }) => {
     return dataShowProducts.filter(item => item.lineageID === menuLineageId)
   }, [dataShowProducts, menuLineageId])
 
+  useMemo(() => {
+    const { page, pageSize } = paginationSize
+    const defaule = page * pageSize
+
+    const newData = filterProducts.slice(defaule - pageSize, defaule)
+    setDefaultDataPagination(newData)
+  }, [paginationSize, filterProducts])
+
+  const onChange = (page, pageSize) => {
+    setPaginationSize({
+      page,
+      pageSize
+    })
+  }
+
   return (
     <>
       <div className="list-product">
-        <div className="box-row">
+        <div>
           {
-            filterProducts.length
-              ? filterProducts.map(product => {
-                return <ShowItemProduct
-                  idGroup={id}
-                  product={product}
-                  key={product.id}
-                />
-              })
+            defaultDataPagination.length
+              ? (
+                <>
+                  <div className="box-row">
+                    {
+                      defaultDataPagination.map(product => {
+                        return <ShowItemProduct
+                          idGroup={id}
+                          product={product}
+                          key={product.id}
+                        />
+                      })
+                    }
+                  </div>
+
+                  <div className="my-pagination">
+                    <Pagination defaultCurrent={1} onChange={onChange} total={filterProducts.length} pageSize="2" />
+                  </div>
+              </>
+              )
               : (
                 <div className="box__not-products">
                   <Link

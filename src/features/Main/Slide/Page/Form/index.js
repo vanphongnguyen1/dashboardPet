@@ -104,8 +104,6 @@ const Form = ({ url }) => {
     })
   }
 
-  const handleViewImage = () => {}
-
   const handleDeleteImage = index => {
     const [...newDataFile] = dataFiles
     const [...newDataBase64] = dataImageBase64
@@ -277,8 +275,7 @@ const Form = ({ url }) => {
                   data={ dataImageBase64 }
                   onChange={ handleOnchange }
                   handleDeleteItem={handleDeleteImage}
-                  handleViewImage={handleViewImage}
-                  url={urlConvert[1]}
+                  nameUrl={urlConvert[1]}
                 />
               </div>
             </div>

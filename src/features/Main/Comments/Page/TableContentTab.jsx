@@ -15,7 +15,7 @@ import {
   useGetColumnSearchProps
 } from '../../../../Components/access/logic/searchColumn'
 
-import { useDispatch } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import { customAxiosApi } from '../../../../customAxiosApi'
 import EditComments from './Edit/EditComments'
 import { API_NAME } from '../../../../dataDefault'
@@ -26,7 +26,8 @@ import { openMessage } from '../../../../Components/openMessage'
 const TableContentTab = ({ data }) => {
   const dispatch = useDispatch()
   const [selectedRowKeys, setSelectedRowKeys] = useState([])
-  const [isEditComments, setIsEditComments] = useState(false)
+  const isEdit = useSelector(state => state.comments.dataEdit.isEdit)
+  console.log('aaaa', isEdit);
 
   const onSelectChange = (index, item) => {
     setSelectedRowKeys(item)
@@ -121,11 +122,6 @@ const TableContentTab = ({ data }) => {
     }, 500)
   }
 
-  const handleCloseEdit = () => {
-    setIsEditComments(false)
-    dispatch(defaultDataComment())
-  }
-
   return (
     <>
       <div className="table-pendding">
@@ -143,22 +139,18 @@ const TableContentTab = ({ data }) => {
             return {
               onClick: () => {
                 dispatch(setDataComment(record))
-                setIsEditComments(true)
               }
             }
           }}
         />
 
-        <EditComments
-          handleCloseEdit={handleCloseEdit}
-          isEditComments={isEditComments}
-        />
+        <EditComments />
         <div
           className={`
             overflow
-            ${isEditComments ? 'translateZero' : ''}
+            ${isEdit ? 'translateZero' : ''}
           `}
-          onClick={handleCloseEdit}
+          onClick={() => dispatch(defaultDataComment())}
         />
       </div>
     </>

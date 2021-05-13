@@ -17,8 +17,12 @@ export const commentSlice = createSlice({
   name: 'comments',
   initialState: {
     list: [],
-    comment: {},
-    loading: 'idle'
+    loading: 'idle',
+
+    dataEdit: {
+      comment: {},
+      isEdit: false
+    }
   },
 
   reducers: {
@@ -33,11 +37,13 @@ export const commentSlice = createSlice({
     },
 
     setDataComment: (state, action) => {
-      state.comment = action.payload
+      state.dataEdit.comment = action.payload
+      state.dataEdit.isEdit = true
     },
 
     defaultDataComment: (state, action) => {
-      state.comment = {}
+      state.dataEdit.comment = {}
+      state.dataEdit.isEdit = false
     }
   },
 

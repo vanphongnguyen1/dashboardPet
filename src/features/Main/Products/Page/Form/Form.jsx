@@ -173,8 +173,6 @@ const Form = ({ url }) => {
     setDataFiles(newDataFile)
   }
 
-  const handleViewImage = () => {}
-
   const handleChangeEditor = (e, editor) => {
     const value = editor.getData()
 
@@ -502,7 +500,6 @@ const Form = ({ url }) => {
                   id="files"
                   onChange={ handleOnchange }
                   handleDeleteItem={handleDeleteImage}
-                  handleViewImage={handleViewImage}
                   multiple
                 />
               </div>

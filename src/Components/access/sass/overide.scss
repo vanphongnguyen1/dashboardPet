@@ -124,3 +124,20 @@
   border: none;
   box-shadow: initial;
 }
+
+// -------------------------------------Modal form image------------------------------------------------------------
+.ant-modal-body {
+  padding: 15px;
+}
+
+.ant-modal-body .modal-image {
+  width: 100%;
+  height: 45rem;
+  object-fit: cover;
+  object-position: center;
+}
+
+// --------------------------------------------Pagination------------------------------------------------------------------
+.ant-pagination-options {
+  display: none;
+}

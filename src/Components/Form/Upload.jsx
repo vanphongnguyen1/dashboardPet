@@ -8,12 +8,9 @@ const Upload = props => {
     data,
     onChange,
     multiple,
-    url,
+    nameUrl,
     handleDeleteItem,
-    handleViewImage,
   } = props
-
-  console.log('aasdas', data);
 
   return (
     <div className="box-file">
@@ -24,10 +21,8 @@ const Upload = props => {
               <ItemImage
                 key={ index }
                 item={ item }
-                slider={ url }
-                alt=""
+                slider={ nameUrl }
                 handleDelete={ () => handleDeleteItem(index) }
-                handleView={ handleViewImage }
               />
             )
           })
@@ -35,7 +30,7 @@ const Upload = props => {
       }
 
       {
-        API_NAME.SLIDER === url && data.length ? '' : (
+        API_NAME.SLIDER === nameUrl && data.length ? '' : (
           <>
             <input
               type="file"
@@ -65,22 +60,19 @@ const Upload = props => {
 Upload.propTypes = {
   data: PropTypes.array,
   multiple: PropTypes.bool,
-  url:PropTypes.string,
+  nameUrl:PropTypes.string,
 
   onChange: PropTypes.func,
-  handleViewImage: PropTypes.func,
   handleDeleteItem: PropTypes.func,
 }
 
 Upload.defaultProps = {
   data: [],
   multiple: false,
-  url: '',
+  nameUrl: '',
 
   onChange: () => {},
   handleDeleteItem: () => {},
-  handleViewImage: () => {},
-
 }
 
 export default Upload

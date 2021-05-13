@@ -6,14 +6,14 @@ import { Delete, Save } from '../../../../../Components/Btn'
 import { useSelector, useDispatch } from 'react-redux'
 import { date } from '../../../../../Components/myMonment'
 import { customAxiosApi } from '../../../../../customAxiosApi'
-import PropTypes from 'prop-types'
 import { openMessage } from '../../../../../Components/openMessage'
 import { fetchComments } from '../../../../../rootReducers/commentSlice'
+import { defaultDataComment } from '../../../../../rootReducers/commentSlice'
 import BoxInfo from './BoxInfo'
 import { API_NAME } from '../../../../../dataDefault'
 import { showLoading, hideLoading } from 'react-redux-loading-bar'
 
-const EditComments = ({ isEditComments, handleCloseEdit }) => {
+const EditComments = () => {
   const initial = {
     statusCommentsID: '',
     title: ''
@@ -21,15 +21,16 @@ const EditComments = ({ isEditComments, handleCloseEdit }) => {
 
   const dispatch = useDispatch()
   const dataStatus = useSelector(state => state.statusComments.list)
-  const dataEdit = useSelector(state => state.comments.comment)
+  const dataEdit = useSelector(state => state.comments.dataEdit)
+  const { comment, isEdit } = dataEdit
   const [newData, setNewData] = useState(initial)
 
   useEffect(() => {
     setNewData({
-      statusCommentsID: dataEdit.statusCommentsID ,
-      title: dataEdit.title
+      statusCommentsID: comment.statusCommentsID ,
+      title: comment.title
     })
-  }, [dataEdit])
+  }, [comment])
 
   const handleOnChange = e => {
     const { name, value } = e.target
@@ -43,7 +44,7 @@ const EditComments = ({ isEditComments, handleCloseEdit }) => {
   const handleSave = async () => {
     dispatch(showLoading('sectionBar'))
 
-    customAxiosApi.put(`${API_NAME.COMMENTS}/${dataEdit.id}`, newData)
+    customAxiosApi.put(`${API_NAME.COMMENTS}/${comment.id}`, newData)
 
     openMessage('Edit Success !')
 
@@ -56,13 +57,13 @@ const EditComments = ({ isEditComments, handleCloseEdit }) => {
   const handleDelete = async () => {
     dispatch(showLoading('sectionBar'))
 
-    customAxiosApi.delete(`${API_NAME.COMMENTS}/${dataEdit.id}`)
+    customAxiosApi.delete(`${API_NAME.COMMENTS}/${comment.id}`)
 
     openMessage('Delete Success !')
 
     await setTimeout(() => {
       dispatch(fetchComments())
-      handleCloseEdit()
+      dispatch(defaultDataComment())
       dispatch(hideLoading('sectionBar'))
     }, 500)
   }
@@ -71,27 +72,27 @@ const EditComments = ({ isEditComments, handleCloseEdit }) => {
     <>
       <div className={`
         edit-comments
-        ${isEditComments ? 'translateZero' : ''}
+        ${isEdit ? 'translateZero' : ''}
       `}>
-        <div className="box-row">
+        <div className="box-row justify-between">
           <HeadingBox title="Comments Detail" />
 
           <span
             className="close-icon far fa-times"
-            onClick={handleCloseEdit}
+            onClick={() => dispatch(defaultDataComment())}
           />
         </div>
 
         <div className="edit-comments__box">
           <div className="box-row">
             <div className="box-6">
-              <BoxInfo title="Custommer" info={dataEdit.userName} />
+              <BoxInfo title="Custommer" info={comment.userName} />
 
-              <BoxInfo title="Date" info={date(dataEdit.updated)} />
+              <BoxInfo title="Date" info={date(comment.updated)} />
             </div>
 
             <div className="box-6">
-              <BoxInfo title="Product" info={dataEdit.nameProduct} />
+              <BoxInfo title="Product" info={comment.nameProduct} />
 
               <div className="box-info">
                 <Selector
@@ -116,10 +117,10 @@ const EditComments = ({ isEditComments, handleCloseEdit }) => {
         </div>
 
         <div className="box-submit">
-          <div className="box-row">
+          <div className="box-row justify-between">
             <div className="box-submit__save" onClick={handleSave}>
               <Save />
-            </div >
+            </div>
 
             <div className="box-submit__delete" onClick={handleDelete}>
               <Delete/>
@@ -129,16 +130,6 @@ const EditComments = ({ isEditComments, handleCloseEdit }) => {
       </div>
     </>
   )
-}
-
-EditComments.propTypes = {
-  isEditComments: PropTypes.bool,
-  handleCloseEdit: PropTypes.func
-}
-
-EditComments.defaultProps = {
-  isEditComments: false,
-  handleCloseEdit: () => {}
 }
 
 export default EditComments
