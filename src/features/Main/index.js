@@ -1,6 +1,7 @@
 import { useEffect } from 'react'
 import Sidebar from './Sidebar'
 import ScrollToTop from '../../Components/ScrollToTop'
+import MyBackTop from '../../Components/MyBackTop'
 import { useSelector, useDispatch } from 'react-redux'
 import {
   Switch,
@@ -58,6 +59,8 @@ const Main = () => {
           </Switch>
         </div>
       </div>
+
+      <MyBackTop />
     </>
   )
 }

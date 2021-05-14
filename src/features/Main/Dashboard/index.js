@@ -12,6 +12,7 @@ import { fetchComments } from '../../../rootReducers/commentSlice'
 import { fetchUsers } from '../../../rootReducers/userSlice'
 import { STATUS_FETCH } from '../../../dataDefault'
 import { hideLoading, showLoading } from 'react-redux-loading-bar'
+import MyLineChart from './MyLineChart'
 import {
   filterDataComments,
   filterDataOrders,
@@ -73,6 +74,8 @@ const Dashboard = () => {
             </Link>
           </div>
 
+          <MyLineChart />
+
           {
             dataPendingOrdersLength
             ? <PendingOrder data={dataPendingOrders}/>
@@ -93,6 +96,8 @@ const Dashboard = () => {
                       subTotal={dataPendingCommentsLength}
                     />
                   </Link>
+
+
 
                   {
                     dataPendingCommentsLength

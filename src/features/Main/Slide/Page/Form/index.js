@@ -60,6 +60,9 @@ const Form = ({ url }) => {
           dispatch(hideLoading('sectionBar'))
         }, 500)
       })
+      .catch(() => {
+        
+      })
     }
   }, [dispatch, id])
 
