@@ -5,6 +5,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import TableContentTab from './TableContentTab'
 import { sectionData } from './sectionData'
 import { fetchComments } from '../../../../rootReducers/commentSlice'
+import { fetchStatusComments } from '../../../../rootReducers/statusCommentsSlice'
 import { showLoading, hideLoading } from 'react-redux-loading-bar'
 import { STATUS_FETCH } from '../../../../dataDefault'
 
@@ -15,6 +16,7 @@ const Comments = () => {
 
   useEffect(() => {
     dispatch(showLoading('sectionBar'))
+    dispatch(fetchStatusComments())
     dispatch(fetchComments())
   }, [dispatch])
 

@@ -9,7 +9,7 @@ const ItemHistory = ({ icon, title, date, lengthItem }) => {
       <span className="history__box-text">
         <span className="history__box-text--text">
           {
-            lengthItem ? `${lengthItem} ${title}` : title
+            lengthItem || lengthItem === 0 ? `${lengthItem} ${title}` : title
           }
         </span>
 
@@ -36,7 +36,7 @@ ItemHistory.defaultProps = {
   icon: '',
   title: '',
   date: '',
-  lengthItem: 0
+  // lengthItem: 0
 }
 
 export default ItemHistory

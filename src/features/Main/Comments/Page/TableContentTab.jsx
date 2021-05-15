@@ -27,7 +27,6 @@ const TableContentTab = ({ data }) => {
   const dispatch = useDispatch()
   const [selectedRowKeys, setSelectedRowKeys] = useState([])
   const isEdit = useSelector(state => state.comments.dataEdit.isEdit)
-  console.log('aaaa', isEdit);
 
   const onSelectChange = (index, item) => {
     setSelectedRowKeys(item)
@@ -139,6 +138,7 @@ const TableContentTab = ({ data }) => {
             return {
               onClick: () => {
                 dispatch(setDataComment(record))
+                console.log('ewqe', record)
               }
             }
           }}

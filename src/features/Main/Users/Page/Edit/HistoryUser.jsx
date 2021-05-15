@@ -3,7 +3,7 @@ import ItemHistory from './ItemHistory'
 import { HeadingBox } from '../../../../../Components/HeadingBox'
 import PropTypes from 'prop-types'
 
-const HistoryUser = ({ data }) => {
+const HistoryUser = ({ data, lengthOrderUser }) => {
 
   return (
     <div className="history">
@@ -30,7 +30,7 @@ const HistoryUser = ({ data }) => {
           <ItemHistory
             icon='far fa-dollar-sign'
             title='orders'
-            lengthItem={3}
+            lengthItem={lengthOrderUser}
           />
         </div>
       </div>
@@ -39,11 +39,13 @@ const HistoryUser = ({ data }) => {
 }
 
 HistoryUser.propTypes = {
-  data: PropTypes.object
+  data: PropTypes.object,
+  lengthOrderUser: PropTypes.number
 }
 
 HistoryUser.defaultProps = {
-  data: {}
+  data: {},
+  lengthOrderUser: 0
 }
 
 export default HistoryUser

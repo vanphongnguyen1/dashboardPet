@@ -15,8 +15,8 @@ export const getDataOrderMonth = data => {
   const flathy = false
 
   return data.filter(item => {
-    const moth = moment(item.created_at).format('M')
-    const monthNow = moment().format('M')
+    const moth = moment(item.created_at).format('MM')
+    const monthNow = moment().format('MM')
     if (moth === monthNow) {
       return item
     } else {

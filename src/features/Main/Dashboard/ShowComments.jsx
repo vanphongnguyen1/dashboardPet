@@ -16,6 +16,7 @@ const ShowComments = ({ data }) => {
                   name={item.users.name}
                   comment={item.title}
                   avarta={item.users.avarta}
+                  item={item}
                 />
               )
             })

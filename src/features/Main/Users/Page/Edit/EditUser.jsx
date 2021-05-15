@@ -6,17 +6,31 @@ import PropTypes from 'prop-types'
 import { useDispatch } from 'react-redux'
 import { useParams } from 'react-router-dom'
 import { fetchUser } from '../../../../../rootReducers/userSlice'
+import { fetchOrderFollowUser } from '../../../../../rootReducers/orderSlice'
+import { showLoading, hideLoading } from 'react-redux-loading-bar'
 
 const EditUser = ({ match }) => {
   const dispatch = useDispatch()
   const { id } =  useParams()
 
   const [state, setState] = useState({})
+  const [lengthOrderUser, setLengthOrderUser] = useState(0)
 
   useEffect (() => {
     if (id) {
+      dispatch(showLoading('sectionBar'))
       dispatch(fetchUser(id))
       .then(data => setState(data.payload))
+
+      dispatch(fetchOrderFollowUser(id))
+      .then(data => {
+        const lengthOrder = data.payload.length
+        setLengthOrderUser(lengthOrder)
+      })
+
+      setTimeout(() => {
+        dispatch(hideLoading('sectionBar'))
+      }, 1000)
     }
   }, [dispatch, id])
 
@@ -30,7 +44,7 @@ const EditUser = ({ match }) => {
 
           <Desktop>
             <div className="box-4">
-              <HistoryUser data={state} />
+              <HistoryUser data={state} lengthOrderUser={lengthOrderUser} />
             </div>
           </Desktop>
         </div>

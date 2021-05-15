@@ -10,7 +10,7 @@ import { Pagination } from 'antd'
 const ShowProducts = ({ id, url }) => {
   const initial = {
     page: 1,
-    pageSize: 2
+    pageSize: 12
   }
 
   const [paginationSize, setPaginationSize] = useState(initial)
@@ -67,12 +67,19 @@ const ShowProducts = ({ id, url }) => {
                   </div>
 
                   <div className="my-pagination">
-                    <Pagination defaultCurrent={1} onChange={onChange} total={filterProducts.length} pageSize="2" />
+                    <Pagination
+                      defaultCurrent={1}
+                      onChange={onChange}
+                      total={filterProducts.length}
+                      pageSize={paginationSize.pageSize}
+                    />
                   </div>
               </>
               )
               : (
                 <div className="box__not-products">
+                  <div className="box__not-products--icon fas fa-dizzy"/>
+
                   <Link
                     to={`/${url}/${CREAT.toLowerCase()}`}
                     className="box-btn--link"

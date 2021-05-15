@@ -11,7 +11,6 @@ import {
 import { routes } from '../../routers'
 import { fetchStatus } from '../../rootReducers/statusSlice'
 import { fetchTrasport } from '../../rootReducers/trasportSlice'
-import { fetchStatusComments } from '../../rootReducers/statusCommentsSlice'
 
 const Main = () => {
   const dispatch = useDispatch()
@@ -20,7 +19,6 @@ const Main = () => {
   useEffect(() => {
     dispatch(fetchStatus())
     dispatch(fetchTrasport())
-    dispatch(fetchStatusComments())
   }, [dispatch])
 
   return (

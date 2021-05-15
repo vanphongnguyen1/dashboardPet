@@ -24,6 +24,17 @@ export const fetchOrder = createAsyncThunk(
   }
 )
 
+export const fetchOrderFollowUser = createAsyncThunk(
+  'orders/fetchOrderFollowUser',
+  async (id) => {
+    return customAxiosApi.get(`${API_NAME.ORDERS}?usersID=${id}`)
+      .then(response => {
+        const { data } = response.data
+        return data
+      })
+  }
+)
+
 export const orderSlice = createSlice({
   name: 'orders',
   initialState: {
