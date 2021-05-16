@@ -8,11 +8,21 @@ import PropTypes from 'prop-types'
 import { fetchOrders } from '../../../../rootReducers/orderSlice'
 import { fetchProductDetailOrderAll } from '../../../../rootReducers/productDetailOrderThunk'
 import { showLoading, hideLoading } from 'react-redux-loading-bar'
+import { useHistory } from 'react-router-dom'
 
 const Orders = ({ match }) => {
   const url = match.url.slice(1)
   const { TabPane } = Tabs
   const dispatch = useDispatch()
+  const history = useHistory()
+
+  const dataToken = useSelector(state => state.login.token)
+
+  useEffect(() => {
+    if (!dataToken) {
+      history.replace("/")
+    }
+  }, [dataToken, history])
 
   useEffect(() => {
     dispatch(showLoading('sectionBar'))

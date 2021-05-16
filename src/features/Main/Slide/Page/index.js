@@ -4,7 +4,7 @@ import { BtnCreatExport } from '../../../../Components/Btn'
 import BoxItemDele from '../../../../Components/BoxItemDele'
 import { EDIT, CREAT, API_NAME } from '../../../../dataDefault'
 import { useGetColumnSearchProps } from '../../../../Components/access/logic/searchColumn'
-import { Link } from 'react-router-dom'
+import { Link, useHistory } from 'react-router-dom'
 import { useSelector, useDispatch } from 'react-redux'
 import { fetchSliderAll } from '../../../../rootReducers/sliderSlice'
 import { customAxiosApi } from '../../../../customAxiosApi'
@@ -17,9 +17,17 @@ import { showLoading, hideLoading } from 'react-redux-loading-bar'
 const Slider = ({ match }) => {
   const url = match.url.slice(1)
   const dispatch = useDispatch()
+  const history = useHistory()
 
   const [selectedRowKeys, setSelectedRowKeys] = useState([])
   const dataSlider = useSelector(state => state.slider)
+  const dataToken = useSelector(state => state.login.token)
+
+  useEffect(() => {
+    if (!dataToken) {
+      history.replace("/")
+    }
+  }, [dataToken, history])
 
   useEffect(() => {
     dispatch(showLoading('sectionBar'))

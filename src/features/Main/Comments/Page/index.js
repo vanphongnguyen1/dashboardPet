@@ -8,11 +8,21 @@ import { fetchComments } from '../../../../rootReducers/commentSlice'
 import { fetchStatusComments } from '../../../../rootReducers/statusCommentsSlice'
 import { showLoading, hideLoading } from 'react-redux-loading-bar'
 import { STATUS_FETCH } from '../../../../dataDefault'
+import { useHistory } from 'react-router-dom'
 
 const Comments = () => {
   const dispatch = useDispatch()
+  const history = useHistory()
   const { TabPane } = Tabs
+
   const dataComment = useSelector(state => state.comments)
+  const dataToken = useSelector(state => state.login.token)
+
+  useEffect(() => {
+    if (!dataToken) {
+      history.replace("/")
+    }
+  }, [dataToken, history])
 
   useEffect(() => {
     dispatch(showLoading('sectionBar'))

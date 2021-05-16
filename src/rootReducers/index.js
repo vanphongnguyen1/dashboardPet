@@ -13,6 +13,7 @@ import groupSlice from './groupSlice'
 import genderSlice from './genderSlice'
 import productsSlice from './productsSlice'
 import sliderSlice from './sliderSlice'
+import loginSlice from './loginSlice'
 
 export const rootReducers = {
   users: userReducer,
@@ -37,4 +38,5 @@ export const rootReducers = {
   slider: sliderSlice,
 
   loadingBar: loadingBarReducer,
+  login: loginSlice
 }

@@ -6,7 +6,7 @@ import ShowCustomers from './ShowCustomers'
 import { Tablet } from '../../../Components/responsive'
 import { useSelector, useDispatch } from 'react-redux'
 import { TITLE_MENU } from '../../../dataDefault'
-import { Link } from 'react-router-dom'
+import { Link, useHistory } from 'react-router-dom'
 import { fetchOrders } from '../../../rootReducers/orderSlice'
 import { fetchComments } from '../../../rootReducers/commentSlice'
 import { fetchUsers } from '../../../rootReducers/userSlice'
@@ -21,9 +21,18 @@ import {
 
 const Dashboard = () => {
   const dispatch = useDispatch()
+  const history = useHistory()
+
   const dataOrders = useSelector(state => state.orders.list)
   const dataComments = useSelector(state => state.comments)
   const dataUsers = useSelector(state => state.users.list)
+  const dataToken = useSelector(state => state.login.token)
+
+  useEffect(() => {
+    if (!dataToken) {
+      history.replace("/")
+    }
+  }, [dataToken, history])
 
   useEffect(() => {
     dispatch(showLoading('sectionBar'))

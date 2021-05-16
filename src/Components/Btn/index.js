@@ -27,6 +27,14 @@ export const Save = () => {
   )
 }
 
+export const BtnLogin = () => {
+  return (
+    <div className="btn__login">
+      <p className="btn__login--text">Sign In</p>
+    </div>
+  )
+}
+
 BtnCreatExport.propTypes = {
   icon: PropTypes.string,
   title: PropTypes.string,

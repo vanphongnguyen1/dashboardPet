@@ -4,7 +4,7 @@ import { BtnCreatExport } from '../../../../Components/Btn'
 import BoxItemDele from '../../../../Components/BoxItemDele'
 import { EDIT, CREAT, API_NAME } from '../../../../dataDefault'
 import { useGetColumnSearchProps } from '../../../../Components/access/logic/searchColumn'
-import { Link } from 'react-router-dom'
+import { Link, useHistory } from 'react-router-dom'
 import { useSelector, useDispatch } from 'react-redux'
 import { fetchUsers } from '../../../../rootReducers/userSlice'
 import { customAxiosApi } from '../../../../customAxiosApi'
@@ -15,9 +15,17 @@ import { showLoading, hideLoading } from 'react-redux-loading-bar'
 const Users = ({ match }) => {
   const url = match.url.slice(1)
   const dispatch = useDispatch()
+  const history = useHistory()
 
   const [selectedRowKeys, setSelectedRowKeys] = useState([])
   const dataUsers = useSelector(state => state.users)
+  const dataToken = useSelector(state => state.login.token)
+
+  useEffect(() => {
+    if (!dataToken) {
+      history.replace("/")
+    }
+  }, [dataToken, history])
 
   useEffect(() => {
     dispatch(showLoading('sectionBar'))

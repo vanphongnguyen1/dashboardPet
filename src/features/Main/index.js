@@ -15,6 +15,7 @@ import { fetchTrasport } from '../../rootReducers/trasportSlice'
 const Main = () => {
   const dispatch = useDispatch()
   const stateIsMenu = useSelector(state => state.stateIsMenu.isMenu)
+  const dataToken = useSelector(state => state.login.token)
 
   useEffect(() => {
     dispatch(fetchStatus())
@@ -43,13 +44,22 @@ const Main = () => {
           }
         >
           <Switch>
-            <Redirect exact from="/" to="/dashboard" />
+            { dataToken
+              ? <Redirect exact from="/" to="/dashboard" />
+              : <Redirect exact from="/" to="/login" />
+            }
+
+            {/* <Redirect exact from="/" to="/login" /> */}
+
             {
               routes.map((item, index) => {
                 return <Route
                   path={item.path}
                   exact={item.exact}
                   component={item.main}
+                  // render={() => {
+                  //   return dataToken ? item.main : <Redirect exact to="/" />
+                  // }}
                   key={index}
                 />
               })

@@ -5,7 +5,7 @@ import { useSelector } from 'react-redux'
 import MenuProduct from './MenuProduct'
 import { BtnCreatExport } from '../../../../Components/Btn'
 import { CREAT, STATUS_FETCH } from '../../../../dataDefault'
-import { Link } from 'react-router-dom'
+import { Link, useHistory } from 'react-router-dom'
 import { fetchLineage } from '../../../../rootReducers/lineageSlice'
 import { fetchProducts } from '../../../../rootReducers/productsSlice'
 import { fetchGroup } from '../../../../rootReducers/groupSlice'
@@ -17,6 +17,15 @@ const Products = ({ match }) => {
   const url = match.url.slice(1)
   const dispatch = useDispatch()
   const { TabPane } = Tabs
+  const history = useHistory()
+
+  const dataToken = useSelector(state => state.login.token)
+
+  useEffect(() => {
+    if (!dataToken) {
+      history.replace("/")
+    }
+  }, [dataToken, history])
 
   useEffect (() => {
     dispatch(showLoading('sectionBar'))

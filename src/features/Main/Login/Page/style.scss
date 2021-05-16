@@ -1,0 +1,102 @@
+.login {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 1000;
+  background: #ccc;
+
+  background-image: url(https://source.unsplash.com/random/1600x900);
+  background-repeat: no-repeat;
+  background-size: cover;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  .modal-login {
+    width: 45rem;
+    background: #fff;
+    padding: 3rem 2rem;
+
+    &__heading {
+      font-size: 2.4rem;
+      text-align: center;
+      margin-bottom: 2rem;
+    }
+
+    &__box {
+      margin-bottom: 1rem;
+
+      .modal-text {
+        font-weight: 500;
+      }
+      .link-text {
+        color: #202c86;
+        cursor: pointer;
+        transition: all .3s ease-in-out;
+
+        &:hover {
+          color: #13194a;
+        }
+      }
+    }
+
+    .box-icon {
+      margin-left: 1rem;
+
+      .login-icon {
+        font-size: 2rem;
+        color: #fff;
+        width: 3.5rem;
+        height: 3rem;
+
+        line-height: 3rem;
+        text-align: center;
+        cursor: pointer;
+      }
+
+      .icon-facebook {
+        background: #2f467b;
+        transition: all .3s ease-in-out;
+
+        &:hover {
+          background: #13194a;
+        }
+      }
+
+      .icon-google {
+        background: #e84028;
+        margin-left: 3px;
+        transition: all .3s ease-in-out;
+
+        &:hover {
+          background: #94210f;
+        }
+      }
+    }
+  }
+
+  .box-input-identify {
+    position: relative;
+
+    &__icon {
+      position: absolute;
+      right: 0;
+      top: 50%;
+      transform: translateY(-50%);
+
+      padding: 1.5rem;
+      font-size: 1.7rem;
+      color: #a0a1a9;
+      cursor: pointer;
+      transition: all .3s ease-in-out;
+
+      &:hover {
+        color: #4F3CC9;
+      }
+
+    }
+  }
+}

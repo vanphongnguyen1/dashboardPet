@@ -13,13 +13,20 @@ import CreateProduct from './features/Main/Products/Page/CreateEdit'
 
 import Slider from './features/Main/Slide/Page'
 import EditCreat from './features/Main/Slide/Page/EditCreat'
+import Login from './features/Main/Login/Page'
+import LoginIdentify from './features/Main/Login/Page/LoginIdentify'
 
 export const routes = [
-  // {
-  //   path: '/',
-  //   exact: true,
-  //   main: ({ match }) => <Dashboard match={match}/>
-  // },
+  {
+    path: '/login',
+    exact: true,
+    main: ({ match }) => <Login match={match}/>
+  },
+  {
+    path: '/login/identify',
+    exact: true,
+    main: ({ match }) => <LoginIdentify match={match}/>
+  },
   {
     path: '/dashboard',
     exact: true,
