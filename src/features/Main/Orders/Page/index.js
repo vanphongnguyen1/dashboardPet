@@ -17,12 +17,13 @@ const Orders = ({ match }) => {
   const history = useHistory()
 
   const dataToken = useSelector(state => state.login.token)
+  const idLogin = sessionStorage.getItem('id')
 
   useEffect(() => {
-    if (!dataToken) {
+    if (!dataToken && !idLogin) {
       history.replace("/")
     }
-  }, [dataToken, history])
+  }, [dataToken, history, idLogin])
 
   useEffect(() => {
     dispatch(showLoading('sectionBar'))

@@ -15,6 +15,8 @@ import Slider from './features/Main/Slide/Page'
 import EditCreat from './features/Main/Slide/Page/EditCreat'
 import Login from './features/Main/Login/Page'
 import LoginIdentify from './features/Main/Login/Page/LoginIdentify'
+import SecurityCode from './features/Main/Login/Page/SecurityCode'
+import RestPassword from './features/Main/Login/Page/RestPassword'
 
 export const routes = [
   {
@@ -26,6 +28,16 @@ export const routes = [
     path: '/login/identify',
     exact: true,
     main: ({ match }) => <LoginIdentify match={match}/>
+  },
+  {
+    path: '/login/security-code',
+    exact: true,
+    main: ({ match }) => <SecurityCode match={match}/>
+  },
+  {
+    path: '/login/passs',
+    exact: true,
+    main: ({ match }) => <RestPassword match={match}/>
   },
   {
     path: '/dashboard',

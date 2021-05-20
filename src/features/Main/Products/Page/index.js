@@ -19,13 +19,16 @@ const Products = ({ match }) => {
   const { TabPane } = Tabs
   const history = useHistory()
 
+  const dataGroup = useSelector(state => state.groups.list)
+  const dataProducts = useSelector(state => state.products.loading)
   const dataToken = useSelector(state => state.login.token)
+  const idLogin = sessionStorage.getItem('id')
 
   useEffect(() => {
-    if (!dataToken) {
+    if (!dataToken && !idLogin) {
       history.replace("/")
     }
-  }, [dataToken, history])
+  }, [dataToken, history, idLogin])
 
   useEffect (() => {
     dispatch(showLoading('sectionBar'))
@@ -33,9 +36,6 @@ const Products = ({ match }) => {
     dispatch(fetchLineage())
     dispatch(fetchProducts())
   }, [dispatch])
-
-  const dataGroup = useSelector(state => state.groups.list)
-  const dataProducts = useSelector(state => state.products.loading)
 
   // const data = "<li>aaaaa</li>, <li>aaaaa</li>, <li>aaaaa</li>, <li>aaaaa</li>"
   // const newData = data.split(',')

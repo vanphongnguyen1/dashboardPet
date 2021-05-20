@@ -1,27 +1,38 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import GroupInput from '../../../../Components/Form/GroupInput'
-import { setToken } from '../../../../rootReducers/loginSlice'
+import { setToken, fetchLogin, setError, defaulrError } from '../../../../rootReducers/loginSlice'
 import { BtnLogin } from '../../../../Components/Btn'
 import { Link } from 'react-router-dom'
-import { useDispatch } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import { useHistory } from 'react-router-dom'
+import { REGEX } from '../../../../dataDefault'
 
 const Login = () => {
   const dispatch = useDispatch()
   const history = useHistory()
+
   const initialValue = {
-    name: '',
+    email: '',
     password: '',
+    title: 'dashboard'
   }
 
   const initialErMes = {
-    name: '',
+    email: '',
     password: ''
   }
 
 
   const [state, setState] = useState(initialValue)
   const [validate, setValidate] = useState(initialErMes)
+  const dataError = useSelector(state => state.login.error)
+  const idLogin = sessionStorage.getItem('id')
+
+  useEffect(() => {
+    if (idLogin) {
+      history.replace("/dashboard")
+    }
+  }, [idLogin, history])
 
   const handleOnBlur = e => {
     const { value, name } = e.target
@@ -29,7 +40,7 @@ const Login = () => {
     if ( !value ) {
       setValidate({
         ...validate,
-        [name]: 'Requite *'
+        [name]: 'This field is required to enter *'
       })
     }
   }
@@ -46,14 +57,20 @@ const Login = () => {
       ...validate,
       [name]:  ''
     })
+
+    dispatch(defaulrError(''))
   }
 
   const checkValidated = () => {
     const { ...newValidate } = validate
 
+    if (!REGEX.EMAIL.test(state.email)) {
+      newValidate.email = 'Please re-enter your email !'
+    }
+
     for (let key in state) {
       if (!state[key]) {
-        newValidate[key] = 'Requite *'
+        newValidate[key] = 'This field is required to enter *'
       }
     }
 
@@ -71,44 +88,74 @@ const Login = () => {
     const isInputValida = checkValidated()
 
     if (isInputValida) {
-      console.log('aaaaa', state);
-      dispatch(setToken(true))
-      history.replace("/dashboard")
-      return
+      const data = new FormData()
+      data.append('email', state.email)
+      data.append('password', state.password)
+      data.append('title', state.title)
+
+      dispatch(fetchLogin(data))
+      .then(data => {
+        const { payload } = data
+
+        if (typeof payload === 'object') {
+          dispatch(setToken(payload.id))
+
+          sessionStorage.setItem('id', payload.id)
+          history.replace("/dashboard")
+          return
+        }
+
+        dispatch(setError(payload))
+      })
     }
-
-    console.log('bbbbb', validate);
-
   }
 
   return (
     <div className="login">
       <div className="modal-login">
-        <h1 className="modal-login__heading">Login Now</h1>
+        <h1
+          className={`
+            modal-login__heading
+            ${dataError ? 'mb-1' : 'mb-3'}
+          `}
+        >
+          Login Now
+        </h1>
+
+        <p className="valide-label modal-login__text-err">
+          { dataError }
+        </p>
 
         <form onSubmit={handleSubmit}>
           <GroupInput
-            type="text"
-            name="name"
-            validateName={validate.name}
-            value={state.name}
+            login
+            type="email"
+            name="email"
+            titleLabel="Email *"
+
+            validateName={validate.email}
+            value={state.email}
             onBlur={handleOnBlur}
             onChange={handleOnChange}
-            titleLabel="UserName *"
           />
 
           <GroupInput
+            login
             type="password"
             name="password"
+            titleLabel="Password *"
+
             validateName={validate.password}
             value={state.password}
             onBlur={handleOnBlur}
             onChange={handleOnChange}
-            titleLabel="Password *"
           />
 
           <div className="modal-login__box">
-            <span className="modal-text">Forgot Password?</span>&nbsp;
+            <span className="modal-text">
+              Forgot Password?
+            </span>&nbsp;
+
             <Link
               to="/login/identify"
               className="modal-text link-text">
@@ -121,14 +168,14 @@ const Login = () => {
           </div>
         </form>
 
-        <div className="modal-login__box">
+        {/* <div className="modal-login__box">
           <span className="modal-text">Or Login with</span>
 
           <span className="box-icon">
             <span className="login-icon icon-facebook fab fa-facebook-f" />
             <span className="login-icon icon-google fab fa-google" />
           </span>
-        </div>
+        </div> */}
 
       </div>
     </div>

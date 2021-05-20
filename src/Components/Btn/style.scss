@@ -112,22 +112,27 @@
   }
 
   &__login {
-    background-color: #4F3CC9;
-    padding: 1rem 2rem;
+    background-color: rgba(#4F3CC9, .7);
     text-align: center;
     color: #fff;
     margin-bottom: 1.5rem;
     cursor: pointer;
     transition: all .3s ease-in-out;
+    position: relative;
 
     &--text {
+      padding: 0.7rem 0;
       font-size: 1.8rem;
       font-weight: 500;
     }
 
     &:hover {
-      box-shadow: 0px 1px 5px 1px #735ff7;
-      background-color: #3d2e9e;
+      box-shadow: 0px 1px 2px 1px #735ff7;
+      background-color: #5445b9;
+    }
+
+    &:active::after {
+      @include background-action;
     }
   }
 }

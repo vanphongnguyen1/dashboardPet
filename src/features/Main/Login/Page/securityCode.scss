@@ -1,0 +1,51 @@
+.login {
+  &__security-modal.login__security-modal {
+    padding: 0;
+  }
+
+  &__security-heading.login__security-heading {
+    padding: 1rem 2rem;
+    text-align: left;
+    border-bottom: 1px solid #ccc;
+  }
+
+  &__security-text.login__security-text {
+    padding: 0 2rem;
+    margin-top: 1rem;
+    font-size: 1.6rem;
+    font-weight: 400;
+  }
+
+  .box-form {
+    display: flex;
+    justify-content: space-between;
+    padding: 0 2rem;
+  }
+
+  .box-info {
+    margin-left: 1rem;
+
+    .info-title {
+      font-size: 1.5rem;
+      font-weight: 500;
+    }
+  }
+
+  .box-received {
+    border-top: 1px solid #ccc;
+    padding: 1rem 2rem;
+
+    .received-link {
+      color: #106EF4;
+      display: inline-block;
+      cursor: pointer;
+      transition: all .3s ease;
+
+      &:hover {
+        font-weight: 500;
+        text-decoration: underline;
+
+      }
+    }
+  }
+}

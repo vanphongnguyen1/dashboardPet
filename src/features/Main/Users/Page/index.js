@@ -20,12 +20,13 @@ const Users = ({ match }) => {
   const [selectedRowKeys, setSelectedRowKeys] = useState([])
   const dataUsers = useSelector(state => state.users)
   const dataToken = useSelector(state => state.login.token)
+  const idLogin = sessionStorage.getItem('id')
 
   useEffect(() => {
-    if (!dataToken) {
+    if (!dataToken && !idLogin) {
       history.replace("/")
     }
-  }, [dataToken, history])
+  }, [dataToken, history, idLogin])
 
   useEffect(() => {
     dispatch(showLoading('sectionBar'))

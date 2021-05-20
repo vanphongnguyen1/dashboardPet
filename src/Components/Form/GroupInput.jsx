@@ -10,7 +10,8 @@ const GroupInput = props => {
     value,
     onBlur,
     onChange,
-    titleLabel
+    titleLabel,
+    login
   } = props
 
   return (
@@ -24,6 +25,7 @@ const GroupInput = props => {
             ? 'valide-input'
             : ''
           }
+          ${login ? 'input-login' : ''}
         `}
         value={ value }
         onBlur={onBlur}
@@ -65,6 +67,7 @@ GroupInput.propTypes = {
   name: PropTypes.string,
   validateName: PropTypes.string,
   titleLabel: PropTypes.string,
+  login: PropTypes.bool,
 
   value: PropTypes.oneOfType([
     PropTypes.string,
@@ -81,6 +84,7 @@ GroupInput.defaultProps = {
   validateName: '',
   value: '',
   titleLabel: '',
+  login: false,
 
   onBlur: () => {},
   onChange: () => {}

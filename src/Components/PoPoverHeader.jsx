@@ -5,13 +5,15 @@ import { deleteTokenLogOut } from '../rootReducers/loginSlice'
 import PropTypes from 'prop-types'
 import { useDispatch } from 'react-redux'
 
-const PoPoverHeader = ({ isPopover }) => {
+const PoPoverHeader = ({ isPopover, handleClosePopover }) => {
   const history = useHistory()
   const dispatch = useDispatch()
 
-  const handleLogOut = () => {
+  const handleLogOut = (e) => {
+    handleClosePopover(e)
+    // console.log(handleClosePopover);
     dispatch(deleteTokenLogOut(false))
-
+    sessionStorage.removeItem('id')
     history.replace("/")
   }
   return (
@@ -36,11 +38,13 @@ const PoPoverHeader = ({ isPopover }) => {
 }
 
 PoPoverHeader.propTypes = {
-  isPopover: PropTypes.bool
+  isPopover: PropTypes.bool,
+  handleClosePopover: PropTypes.func
 }
 
 PoPoverHeader.defaultProps = {
-  isPopover: false
+  isPopover: false,
+  handleClosePopover: () => {}
 }
 
 export default PoPoverHeader

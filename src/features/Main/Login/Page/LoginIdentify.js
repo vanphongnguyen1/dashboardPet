@@ -1,7 +1,10 @@
 import { useState } from 'react'
 import GroupInput from '../../../../Components/Form/GroupInput'
+import { useHistory } from 'react-router-dom'
+import BoxTextLogin from './BoxTextLogin'
 
 const LoginIdentify = () => {
+  const history = useHistory()
   const [state, setState] = useState('')
   const [validate, setValidate] = useState('')
 
@@ -9,7 +12,7 @@ const LoginIdentify = () => {
     const { value } = e.target
 
     if ( !value ) {
-      setValidate('Requite *')
+      setValidate('This field is required to enter *')
     }
   }
 
@@ -25,7 +28,7 @@ const LoginIdentify = () => {
     let err = ''
 
       if (!validate) {
-        err = 'Requite *'
+        err = 'This field is required to enter *'
       }
 
     setValidate(err)
@@ -40,6 +43,8 @@ const LoginIdentify = () => {
   const handleSubmitEmail = () => {
     const isInputValida = checkValidated()
 
+    history.replace('/login/security-code')
+
     if (isInputValida) {
       console.log('aaaaa', state);
 
@@ -53,25 +58,31 @@ const LoginIdentify = () => {
   return (
     <div className = "login">
       <div className="modal-login">
-        <h1 className="modal-login__heading">Forgot Password ?</h1>
+        <h1 className="modal-login__heading">
+          Forgot Password ?
+        </h1>
 
-        <div className="modal-login__box">
-          <p className="modal-text">
-            Please enter your email or mobile number to search for your account.
-          </p>
-        </div>
+        <BoxTextLogin
+          className="modal-text"
+          text={`
+            Please enter your email or mobile number
+            to search for your account.
+          `}
+        />
 
 
         <form action="" onSubmit={handleSubmitEmail}>
           <div className="box-input-identify">
             <GroupInput
+              login
               type="text"
               name="email"
+              titleLabel="Enter email *"
+
               validateName={validate}
               value={state}
               onBlur={handleOnBlur}
               onChange={handleOnChange}
-              titleLabel="email or Phone Number *"
             />
 
             <span
@@ -79,15 +90,6 @@ const LoginIdentify = () => {
               onClick={handleSubmitEmail}
             />
           </div>
-{/*
-          <div className="modal-login__box">
-            <span className="modal-text">Forgot Password?</span>&nbsp;
-            <span className="modal-text link-text">Click here</span>
-          </div> */}
-
-          {/* <div onClick={handleSubmit}>
-            <BtnLogin />
-          </div> */}
         </form>
       </div>
     </div>
