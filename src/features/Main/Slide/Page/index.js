@@ -21,14 +21,13 @@ const Slider = ({ match }) => {
 
   const [selectedRowKeys, setSelectedRowKeys] = useState([])
   const dataSlider = useSelector(state => state.slider)
-  const dataToken = useSelector(state => state.login.token)
   const idLogin = sessionStorage.getItem('id')
 
   useEffect(() => {
-    if (!dataToken && !idLogin) {
+    if (!idLogin) {
       history.replace("/")
     }
-  }, [dataToken, history, idLogin])
+  }, [history, idLogin])
 
   useEffect(() => {
     dispatch(showLoading('sectionBar'))

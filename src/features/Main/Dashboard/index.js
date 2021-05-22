@@ -26,14 +26,13 @@ const Dashboard = () => {
   const dataOrders = useSelector(state => state.orders.list)
   const dataComments = useSelector(state => state.comments)
   const dataUsers = useSelector(state => state.users.list)
-  const dataToken = useSelector(state => state.login.token)
   const idLogin = sessionStorage.getItem('id')
 
   useEffect(() => {
-    if (!dataToken && !idLogin) {
+    if (!idLogin) {
       history.replace("/")
     }
-  }, [dataToken, history, idLogin])
+  }, [history, idLogin])
 
   useEffect(() => {
     dispatch(showLoading('sectionBar'))

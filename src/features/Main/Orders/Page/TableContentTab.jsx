@@ -1,9 +1,9 @@
 import { useState } from 'react'
-import { Table, Space } from 'antd'
-import { EditOutlined } from '@ant-design/icons'
+import { Table, Button } from 'antd'
 import { Link } from 'react-router-dom'
 import { API_NAME, EDIT } from '../../../../dataDefault'
 import BoxItemDele from '../../../../Components/BoxItemDele'
+import { openMessage } from '../../../../Components/openMessage'
 import PropTypes from 'prop-types'
 import { date } from '../../../../Components/myMonment'
 import { fetchOrders } from '../../../../rootReducers/orderSlice'
@@ -12,6 +12,7 @@ import { useDispatch } from 'react-redux'
 import { useGetColumnSearchProps } from '../../../../Components/access/logic/searchColumn'
 import { customAxiosApi } from '../../../../customAxiosApi'
 import moment from 'moment'
+import { hideLoading, showLoading} from 'react-redux-loading-bar'
 
 const TableContentTab = ({ data, url }) => {
   const dispatch = useDispatch()
@@ -35,12 +36,9 @@ const TableContentTab = ({ data, url }) => {
         compare: (a, b) => moment(a.updated).format('x') - moment(b.updated).format('x'),
       },
       render: (text, record) => (
-        <Link
-          to={`/${url}/${record.id}/${EDIT.toLowerCase()}`}
-          className="antd-link"
-        >
+        <p className="antd-link">
           { date(text) }
-        </Link>
+        </p>
       )
     },
     {
@@ -50,12 +48,9 @@ const TableContentTab = ({ data, url }) => {
       width: 120,
       ...useGetColumnSearchProps('name'),
       render: (text, record) => (
-        <Link
-          to={`/${url}/${record.id}/${EDIT.toLowerCase()}`}
-          className="antd-link"
-        >
+        <p className="antd-link">
           { text }
-        </Link>
+        </p>
       )
     },
     {
@@ -63,12 +58,9 @@ const TableContentTab = ({ data, url }) => {
       dataIndex: 'phone',
       ...useGetColumnSearchProps('phone'),
       render: (text, record) => (
-        <Link
-          to={`/${url}/${record.id}/${EDIT.toLowerCase()}`}
-          className="antd-link"
-        >
+        <p className="antd-link">
           { text }
-        </Link>
+        </p>
       )
     },
     {
@@ -77,12 +69,9 @@ const TableContentTab = ({ data, url }) => {
       width: 350,
       ...useGetColumnSearchProps('address'),
       render: (text, record) => (
-        <Link
-          to={`/${url}/${record.id}/${EDIT.toLowerCase()}`}
-          className="antd-link"
-        >
+        <p className="antd-link">
           { text }
-        </Link>
+        </p>
       )
     },
     {
@@ -90,10 +79,7 @@ const TableContentTab = ({ data, url }) => {
       dataIndex: 'products',
       width: 350,
       render: (text, record) => (
-        <Link
-          to={`/${url}/${record.id}/${EDIT.toLowerCase()}`}
-          className="antd-link"
-        >
+        <div className="antd-link">
           {
             text.map((item, index) => {
               return (
@@ -103,55 +89,43 @@ const TableContentTab = ({ data, url }) => {
               )
             })
           }
-        </Link>
+        </div>
       )
     },
     {
       title: 'TotalCount',
       dataIndex: 'totalCount',
       render: (text, record) => (
-        <Link
-          to={`/${url}/${record.id}/${EDIT.toLowerCase()}`}
-          className="antd-link"
-        >
+        <p className="antd-link">
           { text }
-        </Link>
+        </p>
       )
     },
     {
       title: 'TotalPrice',
       dataIndex: 'totalPrice',
       render: (text, record) => (
-        <Link
-          to={`/${url}/${record.id}/${EDIT.toLowerCase()}`}
-          className="antd-link"
-        >
+        <p className="antd-link">
           { text }
-        </Link>
+        </p>
       )
     },
     {
       title: 'trasport',
       dataIndex: 'trasport',
       render: (text, record) => (
-        <Link
-          to={`/${url}/${record.id}/${EDIT.toLowerCase()}`}
-          className="antd-link"
-        >
+        <p className="antd-link">
           { text }
-        </Link>
+        </p>
       )
     },
     {
       title: 'intoMeny',
       dataIndex: 'intoMeny',
       render: (text, record) => (
-        <Link
-          to={`/${url}/${record.id}/${EDIT.toLowerCase()}`}
-          className="antd-link"
-        >
+        <p className="antd-link">
           { text }
-        </Link>
+        </p>
       )
     },
     {
@@ -160,12 +134,9 @@ const TableContentTab = ({ data, url }) => {
       width: 100,
       fixed: 'right',
       render: (text, record) => (
-        <Link
-          to={`/${url}/${record.id}/${EDIT.toLowerCase()}`}
-          className="antd-link"
-        >
+        <p className="antd-link">
           { text }
-        </Link>
+        </p>
       )
     },
     {
@@ -173,23 +144,22 @@ const TableContentTab = ({ data, url }) => {
       dataIndex: 'action',
       fixed: 'right',
       width: 70,
-      render: () => (
-        <Link
-          to={`/${url}/${EDIT.toLowerCase()}`}
-          className="antd-link"
-        >
-          <Space size="middle">
-            <EditOutlined className="icon-edit"/>
-          </Space>
-        </Link>
+      render: (text, record) => (
+          <Link
+            to={`/${url}/${record.id}/${EDIT.toLowerCase()}`}
+            className="antd-link"
+          >
+            <Button type="primary">Edit</Button>
+          </Link>
       )
     },
   ]
 
   const handleDeleteSelect = async () => {
+    dispatch(showLoading('sectionBar'))
     await selectedRowKeys.forEach(item => {
-      customAxiosApi.delete(`${API_NAME.ORDERS}/${item.id}`)
       customAxiosApi.delete(`${API_NAME.DETAILORDER}/${item.detailOrderID}`)
+      customAxiosApi.delete(`${API_NAME.ORDERS}/${item.id}`)
 
       item.products.forEach(product => {
         customAxiosApi.delete(`${API_NAME.PRODUCTDETAILORDER}/${product.productDetailOrderID}`)
@@ -197,8 +167,10 @@ const TableContentTab = ({ data, url }) => {
     })
 
     setSelectedRowKeys([])
+    openMessage('Delete Success!')
     await dispatch(fetchOrders())
     await dispatch(fetchProductDetailOrderAll())
+    await dispatch(hideLoading('sectionBar'))
   }
 
   return (

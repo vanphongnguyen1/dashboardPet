@@ -16,14 +16,13 @@ const Comments = () => {
   const { TabPane } = Tabs
 
   const dataComment = useSelector(state => state.comments)
-  const dataToken = useSelector(state => state.login.token)
   const idLogin = sessionStorage.getItem('id')
 
   useEffect(() => {
-    if (!dataToken && !idLogin) {
+    if (!idLogin) {
       history.replace("/")
     }
-  }, [dataToken, history, idLogin])
+  }, [history, idLogin])
 
   useEffect(() => {
     dispatch(showLoading('sectionBar'))

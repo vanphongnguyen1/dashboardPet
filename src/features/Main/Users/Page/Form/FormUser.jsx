@@ -1,23 +1,24 @@
 import { useState, useEffect } from 'react'
 import PropTypes from 'prop-types'
-import { useDispatch } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import { TITLE_MENU, EDIT, CREAT, API_NAME } from '../../../../../dataDefault'
+import { fetchGender } from '../../../../../rootReducers/genderSlice'
 import { Delete, Save } from '../../../../../Components/Btn'
 import { fetchUsers } from '../../../../../rootReducers/userSlice'
 import { customAxiosApi } from '../../../../../customAxiosApi'
 import { REGEX } from '../../../../../dataDefault'
 import GroupInput from '../../../../../Components/Form/GroupInput'
 import { Lable } from '../../../../../Components/Form/Lable'
+import { Selector } from '../../../../../Components/Form/Selector'
 import { messageError, openMessage } from '../../../../../Components/openMessage'
-import DelayLink from '../../../../../Components/DelayLink'
 import { HeadingBox } from '../../../../../Components/HeadingBox'
 import { resetScroll } from '../../../../../Components/access/logic/resetScroll'
 import { showLoading, hideLoading } from 'react-redux-loading-bar'
-import { Prompt } from 'react-router-dom'
+import { Prompt, useHistory } from 'react-router-dom'
 
 const FormUser = ({ url, data }) => {
   const dispatch = useDispatch()
-  // const { id } =  useParams()
+  const history =  useHistory()
 
   const urlConvert = url.split('/')
   const isRequitEdit = urlConvert[urlConvert.length - 1] === EDIT
@@ -32,6 +33,7 @@ const FormUser = ({ url, data }) => {
     password: '',
     confirmPassword: '',
     role: '0',
+    genderID: '1',
   }
 
   const initialErMes = {
@@ -46,12 +48,17 @@ const FormUser = ({ url, data }) => {
   const [state, setState] = useState(initialValue)
   const [validate, setValidate] = useState(initialErMes)
   const [isLocalPath, setIsLocalPath] = useState(false)
+  const dataGender = useSelector(state => state.gender.list)
 
   useEffect (() => {
     if (isRequitEdit) {
       setState(data)
     }
   }, [data, isRequitEdit])
+
+  useEffect (() => {
+    dispatch(fetchGender())
+  }, [dispatch])
 
   const handleOnBlur = e => {
     const { value, name } = e.target
@@ -60,7 +67,7 @@ const FormUser = ({ url, data }) => {
     if ( !value ) {
       setValidate({
         ...validate,
-        [name]: 'Requite *'
+        [name]: 'This field is required to enter *'
       })
     }
   }
@@ -90,6 +97,9 @@ const FormUser = ({ url, data }) => {
     if (!REGEX.PHONE.test(state.phone)) {
       newValidate.phone = 'Đầu số 09|03|08|05|07 gồm 10 số !'
     }
+    if (!REGEX.PASSWORD.test(state.password)) {
+      newValidate.password = 'Tối thiểu 8 ký tự, ít nhất một chữ cái và một số!'
+    }
 
     if (isRequitCreat && !(state.confirmPassword === state.password)) {
       newValidate.confirmPassword = 'Bạn nhập sai Mật khẩu'
@@ -98,7 +108,7 @@ const FormUser = ({ url, data }) => {
     if (isRequitCreat) {
       for (let key in state) {
         if (!state[key] && key !== 'address' && key !== 'role') {
-          newValidate[key] = 'Requite *'
+          newValidate[key] = 'This field is required to enter *'
         }
       }
     }
@@ -148,17 +158,20 @@ const FormUser = ({ url, data }) => {
         setIsLocalPath(false)
       }
 
-      dispatch(showLoading('sectionBar'))
-
       customAxiosApi.post(textUsers, state)
-      .then(async() => {
+      .then(response => {
+        const { data } = response
+
+        if (typeof data === 'string') {
+            setValidate({
+              ...initialErMes,
+              email: 'Email đã tồn tại !'
+            })
+            return
+        }
+        openMessage('Created Success!')
         setValidate(initialErMes)
         setState(initialValue)
-
-        await setTimeout(() => {
-          dispatch(hideLoading('sectionBar'))
-        }, 500)
-
         resetScroll()
       })
       .catch(error => {
@@ -177,6 +190,7 @@ const FormUser = ({ url, data }) => {
 
     await setTimeout(() => {
       dispatch(hideLoading('sectionBar'))
+      history.replace(`/${TITLE_MENU.USERS}`)
     }, 500)
   }
 
@@ -238,6 +252,17 @@ const FormUser = ({ url, data }) => {
                   className='group__label label-input-value'
                 />
               </div>
+            </div>
+
+            <div className="info-user__box">
+              <Selector
+                name="genderID"
+                title="Gender"
+                value={ state.genderID }
+                validateName={ validate.genderID }
+                onChange={ handleOnChange }
+                options={ dataGender }
+              />
             </div>
           </div>
 
@@ -306,13 +331,12 @@ const FormUser = ({ url, data }) => {
                 {
                   isRequitEdit
                     ? (
-                        <DelayLink
-                          to={`/${TITLE_MENU.USERS}`}
+                        <div
                           className="box-submit__delete"
                           onClick={handleDelete}
-                          delay={1000}
-                          children={<Delete/>}
-                        />
+                        >
+                          <Delete/>
+                        </div>
                     ) : ''
                 }
             </div>

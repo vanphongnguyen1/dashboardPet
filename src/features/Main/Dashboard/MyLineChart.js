@@ -40,19 +40,19 @@ const MyLineChart = () => {
     return [
       {
         day: '01-04-2021',
-        thousandMeny: 20000
+        thousandMeny: 2000
       },
       {
         day: '02-04-2021',
-        thousandMeny: 550000
+        thousandMeny: 55000
       },
       {
         day: '03-04-2021',
-        thousandMeny: 2000000
+        thousandMeny: 20000
       },
       {
         day: '04-04-2021',
-        thousandMeny: 2000700
+        thousandMeny: 2000
       },
       {
         day: '05-04-2021',
@@ -60,79 +60,79 @@ const MyLineChart = () => {
       },
       {
         day: '06-04-2021',
-        thousandMeny: 123456
+        thousandMeny: 12345
       },
       {
         day: '07-04-2021',
-        thousandMeny: 186054
+        thousandMeny: 18604
       },
       {
         day: '08-04-2021',
-        thousandMeny: 3364464
+        thousandMeny: 3364
       },
       {
         day: '09-04-2021',
-        thousandMeny: 879651
+        thousandMeny: 8796
       },
       {
         day: '10-04-2021',
-        thousandMeny: 21236984
+        thousandMeny: 21236
       },
       {
         day: '11-04-2021',
-        thousandMeny: 78979
+        thousandMeny: 7897
       },
       {
         day: '12-04-2021',
-        thousandMeny: 123123
+        thousandMeny: 1231
       },
       {
         day: '13-04-2021',
-        thousandMeny: 345435
+        thousandMeny: 34543
       },
       {
         day: '14-04-2021',
-        thousandMeny: 654345
+        thousandMeny: 6543
       },
       {
         day: '15-04-2021',
-        thousandMeny: 100
+        thousandMeny: 10000
       },
       {
         day: '16-04-2021',
-        thousandMeny: 123456
+        thousandMeny: 1234
       },
       {
         day: '17-04-2021',
-        thousandMeny: 186054
+        thousandMeny: 1860
       },
       {
         day: '18-04-2021',
-        thousandMeny: 3364464
+        thousandMeny: 33644
       },
       {
         day: '19-04-2021',
-        thousandMeny: 879651
+        thousandMeny: 87965
       },
       {
         day: '20-04-2021',
-        thousandMeny: 88979
+        thousandMeny: 8897
       },
       {
         day: '21-04-2021',
-        thousandMeny: 20000
+        thousandMeny: 2000
       },
       {
         day: '22-04-2021',
-        thousandMeny: 550000
+        thousandMeny: 5500
       },
       {
         day: '23-04-2021',
-        thousandMeny: 2000000
+        thousandMeny: 2000
       },
       {
         day: '24-04-2021',
-        thousandMeny: 2000700
+        thousandMeny: 2000
       },
       {
         day: '25-04-2021',
@@ -140,23 +140,23 @@ const MyLineChart = () => {
       },
       {
         day: '26-04-2021',
-        thousandMeny: 123456
+        thousandMeny: 1234
       },
       {
         day: '27-04-2021',
-        thousandMeny: 186054
+        thousandMeny: 1860
       },
       {
         day: '28-04-2021',
-        thousandMeny: 3364464
+        thousandMeny: 3364
       },
       {
         day: '29-04-2021',
-        thousandMeny: 879651
+        thousandMeny: 8796
       },
       {
         day: '30-04-2021',
-        thousandMeny: 21236984
+        thousandMeny: 2123
       },
     ]
 

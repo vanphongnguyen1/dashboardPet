@@ -11,6 +11,13 @@ export const STATUS_HANDLE = {
   ACCEPTED: 'accepted'
 }
 
+export const NAME_URL_LOGIN = {
+  login: 'login',
+  identify: 'identify',
+  securityCode: 'security-code',
+  resetPassword: 'reset-password'
+}
+
 export const API_NAME = {
   USERS: 'users',
   ORDERS: 'orders',
@@ -42,17 +49,18 @@ export const STATUS_FETCH = {
 }
 
 export const TITLE_MENU = {
-  DASHBOARD: 'Dashboard',
-  ORDERS: 'Orders',
-  USERS: 'Users',
-  SLIDE: 'Slider',
-  PRODUCTS: 'Products',
-  COMMENTS: 'Comments',
+  DASHBOARD: 'dashboard',
+  ORDERS: 'orders',
+  USERS: 'users',
+  SLIDE: 'slider',
+  PRODUCTS: 'products',
+  COMMENTS: 'comments',
 }
 
 export const REGEX = {
   EMAIL: /^[a-zA-Z0-9]+@+[a-zA-Z0-9]+.+[A-z]/,
   PHONE: /(09|03|08|05|07)+([0-9]{8})\b/,
+  PASSWORD: /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$/
 }
 
 export const MENU = [

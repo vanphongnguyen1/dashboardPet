@@ -4,11 +4,9 @@ import { customAxiosApi } from '../customAxiosApi'
 export const fetchLogin = createAsyncThunk(
   'login/fetchLogin',
   async (data) => {
-    // console.log('aad', data);
     return customAxiosApi.post('auth/login', data)
       .then(response => {
         const { data } = response
-        console.log('response', response);
         return data
       })
   }

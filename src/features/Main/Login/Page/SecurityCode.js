@@ -1,17 +1,29 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import GroupInput from '../../../../Components/Form/GroupInput'
 import { useHistory } from 'react-router-dom'
+import { useSelector } from 'react-redux'
+import { v4 as uuid } from 'uuid'
+import { NAME_URL_LOGIN } from '../../../../dataDefault'
 
 const SecurityCode = () => {
   const history = useHistory()
+  const { login, identify, resetPassword } = NAME_URL_LOGIN
+
   const [state, setState] = useState('')
   const [validate, setValidate] = useState('')
+  const dataCheckCode = useSelector(state => state.forgotPassword.data)
+
+  useEffect(() => {
+    if (!dataCheckCode.hasOwnProperty('code')) {
+      history.replace(`/${login}/${identify}`)
+    }
+  }, [history, dataCheckCode, login, identify])
 
   const handleOnBlur = e => {
     const { value } = e.target
 
     if ( !value ) {
-      setValidate('Requite *')
+      setValidate('This field is required to enter *')
     }
   }
 
@@ -25,31 +37,32 @@ const SecurityCode = () => {
 
   const checkValidated = () => {
     let err = ''
+    const status = true
 
-      if (!validate) {
-        err = 'Requite *'
-      }
+    if (dataCheckCode.code !== state) {
+      err = 'Bạn nhập sai Code !'
+    }
+
+    if (!state) {
+      err = 'This field is required to enter *'
+    }
 
     setValidate(err)
 
     if (err) {
-      return false
+      return !status
     }
 
-    return true
+    return status
   }
 
-  const handleSubmitEmail = () => {
+  const handleSubmitEmail = e => {
+    e.preventDefault()
     const isInputValida = checkValidated()
-    history.replace('/login/passs')
+
     if (isInputValida) {
-      console.log('aaaaa', state);
-
-      return
+      history.replace(`/${login}/${resetPassword}?ph?=${uuid()}?pass=${uuid()}`)
     }
-
-    console.log('bbbbb', validate);
-
   }
 
   return (
@@ -72,7 +85,7 @@ const SecurityCode = () => {
               <GroupInput
                 login
                 type="text"
-                name="email"
+                name="code"
                 validateName={validate}
                 value={state}
                 onBlur={handleOnBlur}
@@ -91,7 +104,9 @@ const SecurityCode = () => {
             <p className="info-title">
               We have sent your code to:
             </p>
-            <p className="info-gmail">a@gmail.com</p>
+            <p className="info-gmail">
+              { dataCheckCode.email }
+            </p>
           </div>
         </div>
 

@@ -3,7 +3,7 @@ import FormUser from '../Form/FormUser'
 import HistoryUser from './HistoryUser'
 import { Desktop } from '../../../../../Components/responsive'
 import PropTypes from 'prop-types'
-import { useDispatch, useSelector } from 'react-redux'
+import { useDispatch } from 'react-redux'
 import { useParams, useHistory } from 'react-router-dom'
 import { fetchUser } from '../../../../../rootReducers/userSlice'
 import { fetchOrderFollowUser } from '../../../../../rootReducers/orderSlice'
@@ -17,13 +17,13 @@ const EditUser = ({ match }) => {
   const [state, setState] = useState({})
   const [lengthOrderUser, setLengthOrderUser] = useState(0)
 
-  const dataToken = useSelector(state => state.login.token)
+  const idLogin = sessionStorage.getItem('id')
 
   useEffect(() => {
-    if (!dataToken) {
+    if (!idLogin) {
       history.replace("/")
     }
-  }, [dataToken, history])
+  }, [idLogin, history])
 
   useEffect (() => {
     if (id) {

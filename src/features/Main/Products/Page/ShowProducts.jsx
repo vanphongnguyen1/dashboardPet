@@ -15,6 +15,7 @@ const ShowProducts = ({ id, url }) => {
 
   const [paginationSize, setPaginationSize] = useState(initial)
   const [defaultDataPagination , setDefaultDataPagination ] = useState([])
+  const lengthDataPagination = defaultDataPagination.length
 
   const dataProducts = useSelector(state => state.products.list)
   const menuLineageId = useSelector(state => state.stateIsMenu.menuLineageID)
@@ -51,7 +52,7 @@ const ShowProducts = ({ id, url }) => {
       <div className="list-product">
         <div>
           {
-            defaultDataPagination.length
+            lengthDataPagination
               ? (
                 <>
                   <div className="box-row">
@@ -66,14 +67,18 @@ const ShowProducts = ({ id, url }) => {
                     }
                   </div>
 
-                  <div className="my-pagination">
-                    <Pagination
-                      defaultCurrent={1}
-                      onChange={onChange}
-                      total={filterProducts.length}
-                      pageSize={paginationSize.pageSize}
-                    />
-                  </div>
+                  {
+                    lengthDataPagination > 12 && (
+                      <div className="my-pagination">
+                        <Pagination
+                          defaultCurrent={1}
+                          onChange={onChange}
+                          total={filterProducts.length}
+                          pageSize={paginationSize.pageSize}
+                        />
+                      </div>
+                    )
+                  }
               </>
               )
               : (

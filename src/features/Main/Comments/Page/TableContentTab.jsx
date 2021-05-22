@@ -138,7 +138,6 @@ const TableContentTab = ({ data }) => {
             return {
               onClick: () => {
                 dispatch(setDataComment(record))
-                console.log('ewqe', record)
               }
             }
           }}

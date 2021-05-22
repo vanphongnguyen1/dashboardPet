@@ -2,11 +2,21 @@ import { useState } from 'react'
 import GroupInput from '../../../../Components/Form/GroupInput'
 import { useHistory } from 'react-router-dom'
 import BoxTextLogin from './BoxTextLogin'
+import { useDispatch, useSelector } from 'react-redux'
+import { fetchForgotPassword } from '../../../../rootReducers/forgotPassword'
+import { STATUS_FETCH, NAME_URL_LOGIN } from '../../../../dataDefault'
+import { REGEX } from '../../../../dataDefault'
+import { TransverseLoading } from 'react-loadingg'
+import { v4 as uuid } from 'uuid'
 
 const LoginIdentify = () => {
   const history = useHistory()
+  const dispatch = useDispatch()
+  const { login, securityCode } = NAME_URL_LOGIN
+
   const [state, setState] = useState('')
   const [validate, setValidate] = useState('')
+  const isForgotPassword = useSelector(state => state.forgotPassword.loading)
 
   const handleOnBlur = e => {
     const { value } = e.target
@@ -20,16 +30,19 @@ const LoginIdentify = () => {
     const { value } = e.target
 
     setState(value)
-
     setValidate('')
   }
 
   const checkValidated = () => {
     let err = ''
 
-      if (!validate) {
-        err = 'This field is required to enter *'
-      }
+    if (!REGEX.EMAIL.test(state)) {
+      err = 'Please re-enter your email !'
+    }
+
+    if (!state) {
+      err = 'This field is required to enter *'
+    }
 
     setValidate(err)
 
@@ -40,19 +53,28 @@ const LoginIdentify = () => {
     return true
   }
 
-  const handleSubmitEmail = () => {
+  const handleSubmitEmail = e => {
+    e.preventDefault()
     const isInputValida = checkValidated()
 
-    history.replace('/login/security-code')
-
     if (isInputValida) {
-      console.log('aaaaa', state);
+      const data = new FormData()
+      data.append('email', state)
 
-      return
+      dispatch(fetchForgotPassword(data))
+      .then(data => {
+        const { payload } = data
+
+        if (typeof payload === 'string') {
+          setValidate(payload)
+          return
+        }
+
+        if (typeof payload === 'object') {
+          history.replace(`/${login}/${securityCode}?smtp=${uuid()}`)
+        }
+      })
     }
-
-    console.log('bbbbb', validate);
-
   }
 
   return (
@@ -75,7 +97,7 @@ const LoginIdentify = () => {
           <div className="box-input-identify">
             <GroupInput
               login
-              type="text"
+              type="email"
               name="email"
               titleLabel="Enter email *"
 
@@ -91,6 +113,15 @@ const LoginIdentify = () => {
             />
           </div>
         </form>
+
+        {
+        isForgotPassword === STATUS_FETCH.LOADING &&
+        (
+          <div className="modal-login__loading">
+            <TransverseLoading />
+          </div>
+        )
+      }
       </div>
     </div>
   )

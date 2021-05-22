@@ -1,17 +1,16 @@
 import { useEffect } from 'react'
 import EditOrderContent from './EditOrderContent'
-import { useSelector } from 'react-redux'
 import { useHistory } from 'react-router-dom'
 
 const EditOrder = () => {
   const history = useHistory()
-  const dataToken = useSelector(state => state.login.token)
+  const idLogin = sessionStorage.getItem('id')
 
   useEffect(() => {
-    if (!dataToken) {
+    if (!idLogin) {
       history.replace("/")
     }
-  }, [dataToken, history])
+  }, [idLogin, history])
 
   return (
     <>

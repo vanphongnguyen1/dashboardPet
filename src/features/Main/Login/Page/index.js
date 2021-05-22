@@ -5,11 +5,13 @@ import { BtnLogin } from '../../../../Components/Btn'
 import { Link } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux'
 import { useHistory } from 'react-router-dom'
-import { REGEX } from '../../../../dataDefault'
+import { REGEX, NAME_URL_LOGIN, TITLE_MENU } from '../../../../dataDefault'
 
 const Login = () => {
   const dispatch = useDispatch()
   const history = useHistory()
+  const { login, identify } = NAME_URL_LOGIN
+  const { DASHBOARD } = TITLE_MENU
 
   const initialValue = {
     email: '',
@@ -30,9 +32,9 @@ const Login = () => {
 
   useEffect(() => {
     if (idLogin) {
-      history.replace("/dashboard")
+      history.replace(`/${DASHBOARD}`)
     }
-  }, [idLogin, history])
+  }, [idLogin, history, DASHBOARD])
 
   const handleOnBlur = e => {
     const { value, name } = e.target
@@ -157,7 +159,7 @@ const Login = () => {
             </span>&nbsp;
 
             <Link
-              to="/login/identify"
+              to={`${login}/${identify}`}
               className="modal-text link-text">
                 Click here
             </Link>

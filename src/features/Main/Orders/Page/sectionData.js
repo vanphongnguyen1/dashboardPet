@@ -1,8 +1,6 @@
 import { STATUS_HANDLE } from '../../../../dataDefault'
 
 export const sectionData = (dataOrder, dataProductDetailOrder) => {
-  // console.log('aadad', dataOrder);
-  // console.log('dataProductDetailOrder', dataProductDetailOrder);
 
   const dataPending = []
   const dataDelivered = []
@@ -74,7 +72,6 @@ export const sectionData = (dataOrder, dataProductDetailOrder) => {
 
   if (dataOrder.length === 1) {
     if (dataPending.length === 1) {
-      console.log('232', dataPending);
       return dataPending
     }
 

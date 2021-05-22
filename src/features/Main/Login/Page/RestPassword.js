@@ -1,10 +1,25 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import GroupInput from '../../../../Components/Form/GroupInput'
 import BoxTextLogin from './BoxTextLogin'
+import { useSelector } from 'react-redux'
+import { useHistory } from 'react-router-dom'
+import { API_NAME } from '../../../../dataDefault'
+import { customAxiosApi } from '../../../../customAxiosApi'
+import { NAME_URL_LOGIN } from '../../../../dataDefault'
 
 const RestPassword = () => {
+  const history = useHistory()
+  const { login, identify } = NAME_URL_LOGIN
+
   const [state, setState] = useState('')
   const [validate, setValidate] = useState('')
+  const dataCheckCode = useSelector(state => state.forgotPassword.data)
+
+  useEffect(() => {
+    if (!dataCheckCode.hasOwnProperty('code')) {
+      history.replace(`/${login}/${identify}`)
+    }
+  }, [dataCheckCode, history, login, identify])
 
   const handleOnBlur = e => {
     const { value } = e.target
@@ -25,7 +40,7 @@ const RestPassword = () => {
   const checkValidated = () => {
     let err = ''
 
-      if (!validate) {
+      if (!state) {
         err = 'This field is required to enter *'
       }
 
@@ -38,17 +53,19 @@ const RestPassword = () => {
     return true
   }
 
-  const handleSubmitEmail = () => {
+  const handleSubmitEmail = e => {
+    e.preventDefault()
     const isInputValida = checkValidated()
 
     if (isInputValida) {
-      console.log('aaaaa', state);
-
-      return
+      customAxiosApi.put(`${API_NAME.USERS}/${dataCheckCode.id}`, {password: state})
+      .then (() => {
+        history.replace(`/${login}`)
+      })
+      .catch(rej => {
+        setValidate(rej.message)
+      })
     }
-
-    console.log('bbbbb', validate);
-
   }
 
   return (

@@ -54,70 +54,35 @@ const Users = ({ match }) => {
     {
       title: 'Name',
       dataIndex: 'name',
-      width: '15%',
+      width: '12%',
       ...useGetColumnSearchProps('name'),
-      render: (text, record) => (
-        <Link
-          to={`/${url}/${record.id}/${EDIT.toLowerCase()}`}
-          className="antd-link"
-        >
-          { text }
-        </Link>
-      )
     },
     {
       title: 'Email',
       dataIndex: 'email',
       width: '20%',
-      render: (text, record) => (
-        <Link
-          to={`/${url}/${record.id}/${EDIT.toLowerCase()}`}
-          className="antd-link"
-        >
-          { text }
-        </Link>
-      )
     },
     {
       title: 'Phone',
       dataIndex: 'phone',
-      width: '15%',
+      width: '12%',
       ...useGetColumnSearchProps('phone'),
-      render: (text, record) => (
-        <Link
-          to={`/${url}/${record.id}/${EDIT.toLowerCase()}`}
-          className="antd-link"
-        >
-          { text }
-        </Link>
-      )
     },
     {
       title: 'Address',
       dataIndex: 'address',
       width: '30%',
       ...useGetColumnSearchProps('address'),
-      render: (text, record) => (
-        <Link
-          to={`/${url}/${record.id}/${EDIT.toLowerCase()}`}
-          className="antd-link"
-        >
-          { text }
-        </Link>
-      )
+    },
+    {
+      title: 'Gender',
+      dataIndex: 'genderID',
+      width: '5%',
     },
     {
       title: 'Role',
       dataIndex: 'role',
       width: '5%',
-      render: (text, record) => (
-        <Link
-          to={`/${url}/${record.id}/${EDIT.toLowerCase()}`}
-          className="antd-link"
-        >
-          { text }
-        </Link>
-      )
     },
     {
       title: 'Action',
@@ -134,7 +99,7 @@ const Users = ({ match }) => {
           <Button
             type="primary"
             danger
-            onClick={() => handleDelete(record.id)}
+            onClick={e => handleDelete(e, record.id)}
           >
             Delete
           </Button>
@@ -143,7 +108,9 @@ const Users = ({ match }) => {
     },
   ]
 
-  const handleDelete = async id => {
+  const handleDelete = async (e, id) => {
+    e.stopPropagation()
+
     dispatch(showLoading('sectionBar'))
     await customAxiosApi.delete(`${API_NAME.USERS}/${id}`)
     .catch(rej => {
@@ -152,7 +119,8 @@ const Users = ({ match }) => {
 
     openMessage('Delete Success!')
 
-    dispatch(fetchUsers())
+    await dispatch(fetchUsers())
+    dispatch(hideLoading('sectionBar'))
   }
 
   const handleDeleteSelect = async () => {
@@ -164,7 +132,8 @@ const Users = ({ match }) => {
 
     openMessage('Delete Success!')
 
-    dispatch(fetchUsers())
+    await dispatch(fetchUsers())
+    dispatch(hideLoading('sectionBar'))
     setSelectedRowKeys([])
   }
 
@@ -197,6 +166,11 @@ const Users = ({ match }) => {
           rowSelection={rowSelection}
           columns={columns}
           dataSource={dataUsers.list}
+          onRow={(record) => ({
+            onClick: () => {
+              history.replace(`/${url}/${record.id}/${EDIT.toLowerCase()}`)
+            },
+          })}
         />
       </div>
     </>
