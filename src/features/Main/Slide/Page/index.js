@@ -1,8 +1,8 @@
-import { useState, useEffect, useMemo } from 'react'
+import { useState, useEffect } from 'react'
 import { Table, Button } from 'antd'
 import { BtnCreatExport } from '../../../../Components/Btn'
 import BoxItemDele from '../../../../Components/BoxItemDele'
-import { EDIT, CREAT, API_NAME } from '../../../../dataDefault'
+import { EDIT, CREAT, API_NAME, STATUS_FETCH } from '../../../../dataDefault'
 import { useGetColumnSearchProps } from '../../../../Components/access/logic/searchColumn'
 import { Link, useHistory } from 'react-router-dom'
 import { useSelector, useDispatch } from 'react-redux'
@@ -34,13 +34,13 @@ const Slider = ({ match }) => {
     dispatch(fetchSliderAll())
   }, [dispatch])
 
-  useMemo(() => {
-    setTimeout(() => {
-      if (dataSlider.loading === 'success') {
+  useEffect(() => {
+    if (dataSlider.loading === STATUS_FETCH.SUCCESS) {
+      setTimeout(() => {
         dispatch(hideLoading('sectionBar'))
-      }
-    }, 500)
-  }, [dataSlider.loading, dispatch])
+      }, 500)
+    }
+  }, [dispatch, dataSlider.loading])
 
   const onSelectChange = (index, item) => {
     setSelectedRowKeys(item)
@@ -157,28 +157,29 @@ const Slider = ({ match }) => {
 
   const handleDelete = async id => {
     dispatch(showLoading('sectionBar'))
+
     await customAxiosApi.delete(`${API_NAME.SLIDER}/${id}`)
     .catch(rej => {
       messageError(rej.messageError)
     })
 
     openMessage('Delete Success!')
-
-    dispatch(fetchSliderAll())
+    await dispatch(hideLoading('sectionBar'))
+    await dispatch(fetchSliderAll())
+    setSelectedRowKeys([])
   }
 
   const handleDeleteSelect = async () => {
     dispatch(showLoading('sectionBar'))
 
-    await selectedRowKeys.forEach(item => {
-      customAxiosApi.delete(`${API_NAME.SLIDER}/${item.id}`)
+    await selectedRowKeys.forEach(async item => {
+      await customAxiosApi.delete(`${API_NAME.SLIDER}/${item.id}`)
     })
 
     openMessage('Delete Success!')
-
-    await dispatch(fetchSliderAll())
-    dispatch(hideLoading('sectionBar'))
+    await dispatch(hideLoading('sectionBar'))
     setSelectedRowKeys([])
+    await dispatch(fetchSliderAll())
   }
 
   return (
@@ -202,6 +203,7 @@ const Slider = ({ match }) => {
         rowSelection={rowSelection}
         columns={columns}
         dataSource={dataSlider.list}
+        pagination={dataSlider.list.length > 10}
         scroll={{ x: 1600 }}
       />
     </div>

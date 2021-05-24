@@ -3,8 +3,10 @@ import Avarta from '../../../Components/Avarta'
 import { Link } from 'react-router-dom'
 import { TITLE_MENU, EDIT } from '../../../dataDefault'
 import { dateTime } from '../../../Components/myMonment'
+import { myFormatNumber } from '../../../Components/access/logic/myFormatNumber'
 
 const ItemOrderPending = ({ data }) => {
+
   return (
     <li className="pending-order__item">
       <Link
@@ -26,7 +28,7 @@ const ItemOrderPending = ({ data }) => {
             </div>
           </div>
 
-          <div className="info-order__meny">{ data.intoMeny }</div>
+          <div className="info-order__meny">{ myFormatNumber(data.intoMeny) }</div>
         </div>
       </Link>
     </li>

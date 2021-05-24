@@ -40,12 +40,19 @@
     &--title {
       font-weight: 400;
       color: #757575;
+      text-align: end;
     }
 
     &--sub-total {
       font-size: 2.6rem;
       font-weight: 400;
       text-align: end;
+
+      display: -webkit-inline-box;
+      -webkit-box-orient: vertical;
+      -webkit-line-clamp: 1;
+      width: 13rem;
+      overflow: hidden;
     }
   }
 }

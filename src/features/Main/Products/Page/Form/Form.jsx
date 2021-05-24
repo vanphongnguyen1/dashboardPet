@@ -35,7 +35,6 @@ const Form = ({ url }) => {
   const dataGender = useSelector(state => state.gender.list)
   const dataGroup = useSelector(state => state.groups.list)
   const dataLineage = useSelector(state => state.lineage)
-  const dataEdit = useSelector(state => state.products.product)
 
   const initialState = {
     name: '',
@@ -122,21 +121,26 @@ const Form = ({ url }) => {
   const handleOnchange = async e => {
     const { value, files, type, name  } = e.target
     let newValue = value
+    const newFiles = []
 
     if ( type === 'file') {
       const base64 = []
 
       for (let i = 0; i < files.length; i++) {
-        base64.push(
-          await getBase64(files[i])
-        )
+        if (files[i].name.indexOf('.jpg') !== -1 || files[i].name.indexOf('.png') !== -1) {
+          base64.push(
+            await getBase64(files[i])
+          )
+
+          newFiles.push(files[i])
+        }
       }
 
       setDataImageBase64(
         [...dataImageBase64, ...base64]
       )
       setDataFiles(
-        [...dataFiles, ...files]
+        [...dataFiles, ...newFiles]
       )
     }
 
@@ -317,7 +321,7 @@ const Form = ({ url }) => {
         data.append('_method', 'put')
 
         customAxiosApi.post(
-          `${API_NAME.IMAGES}/${dataEdit.imagesID}`,
+          `${API_NAME.IMAGES}/${dataProduct.imagesID}`,
           data,
           {
             headers: {
@@ -327,12 +331,12 @@ const Form = ({ url }) => {
         )
         .then(() => {
 
-          customAxiosApi.put(`${API_NAME.TYPEPRODUCT}/${dataEdit.typeProductID}`, {
+          customAxiosApi.put(`${API_NAME.TYPEPRODUCT}/${dataProduct.typeProductID}`, {
             description: dataEditer,
           })
           .then(() => {
 
-            customAxiosApi.put(`${API_NAME.PRODUCTS}/${dataEdit.id}`, postProduct)
+            customAxiosApi.put(`${API_NAME.PRODUCTS}/${dataProduct.id}`, postProduct)
             .then(() => {
               openMessage('Push Success !')
             })

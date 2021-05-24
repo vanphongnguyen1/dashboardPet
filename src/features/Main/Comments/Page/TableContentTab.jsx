@@ -1,6 +1,5 @@
 import { useState } from 'react'
-import { Table, Space } from 'antd'
-import { EditOutlined } from '@ant-design/icons'
+import { Table, Button } from 'antd'
 import BoxItemDele from '../../../../Components/BoxItemDele'
 import PropTypes from 'prop-types'
 import { date } from '../../../../Components/myMonment'
@@ -93,32 +92,47 @@ const TableContentTab = ({ data }) => {
       )
     },
     {
-      title: 'Edit',
+      title: 'Action',
       dataIndex: 'action',
       width: 70,
-      render: () => (
+      render: (text, record) => (
         <div className="antd-link">
-          <Space size="middle">
-            <EditOutlined className="icon-edit"/>
-          </Space>
+          <Button
+            type="primary"
+            danger
+            onClick={e => handleDelete(e, record.id)}
+          >
+            Delete
+          </Button>
         </div>
       )
     },
   ]
 
+  const handleDelete = async (e, id) => {
+    e.stopPropagation()
+
+    dispatch(showLoading('sectionBar'))
+
+    await customAxiosApi.delete(`${API_NAME.COMMENTS}/${id}`)
+    openMessage('Edit Success !')
+
+    await dispatch(fetchComments())
+    await dispatch(hideLoading('sectionBar'))
+  }
+
   const handleDeleteSelect = async () => {
     dispatch(showLoading('sectionBar'))
 
-    await selectedRowKeys.forEach(item => {
-      customAxiosApi.delete(`${API_NAME.COMMENTS}/${item.id}`)
+    await selectedRowKeys.forEach(async item => {
+      await customAxiosApi.delete(`${API_NAME.COMMENTS}/${item.id}`)
     })
 
     openMessage('Delete Success')
     setSelectedRowKeys([])
-    await setTimeout(() => {
-      dispatch(fetchComments())
-      dispatch(hideLoading('sectionBar'))
-    }, 500)
+
+    await dispatch(fetchComments())
+    await dispatch(hideLoading('sectionBar'))
   }
 
   return (
@@ -134,6 +148,7 @@ const TableContentTab = ({ data }) => {
           rowSelection={rowSelection}
           columns={columns}
           dataSource={data}
+          pagination={data.length > 10}
           onRow={record => {
             return {
               onClick: () => {

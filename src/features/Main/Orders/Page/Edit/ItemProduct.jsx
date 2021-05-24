@@ -1,5 +1,6 @@
 import { InputNumber } from 'antd'
 import PropTypes from 'prop-types'
+import { myFormatNumber } from '../../../../../Components/access/logic/myFormatNumber'
 
 const ItemProduct = (props) => {
   const {
@@ -13,9 +14,13 @@ const ItemProduct = (props) => {
 
   return (
     <div className="table__tr">
-      <p className="table__td--name">{name}</p>
+      <p className="table__td--name">
+        { name }
+      </p>
 
-      <p className="table__td--price">{price}</p>
+      <p className="table__td--price">
+        { myFormatNumber(price) }
+      </p>
 
       <div className="table__td--count">
         <InputNumber
@@ -26,9 +31,14 @@ const ItemProduct = (props) => {
         />
       </div>
 
-      <p className="table__td--totalPrice">{totalPrice}</p>
+      <p className="table__td--totalPrice">
+        { myFormatNumber(totalPrice) }
+      </p>
 
-      <p className="table__td--action" onClick={handleDelProduct}>
+      <p
+        className="table__td--action"
+        onClick={handleDelProduct}
+      >
         Delete
       </p>
     </div>

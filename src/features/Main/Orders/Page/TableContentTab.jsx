@@ -186,6 +186,7 @@ const TableContentTab = ({ data, url }) => {
           rowSelection={rowSelection}
           columns={columns}
           dataSource={data}
+          pagination={data.length > 10}
           scroll={{ x: 1700 }}
         />
       </div>

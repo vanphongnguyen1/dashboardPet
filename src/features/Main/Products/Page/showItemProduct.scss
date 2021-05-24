@@ -2,7 +2,6 @@
   .product-box {
     margin: 0.5rem;
     position: relative;
-    cursor: pointer;
     overflow: hidden;
     height: 25rem;
     border-radius: 0.5rem;
@@ -56,6 +55,7 @@
     bottom: 0;
     left: 0;
 
+    min-height: 7.8rem;
     width: 100%;
     padding: 0.5rem 2rem;
     background-color: rgba( #000000, .2);
@@ -131,7 +131,9 @@
     border: 1px solid #e0e0e0;
     line-height: 1.5rem;
     width: 8rem;
+
     transition: all .3s ease-in-out;
+    cursor: pointer;
 
     &:hover {
       background-color: #4F3CC9;

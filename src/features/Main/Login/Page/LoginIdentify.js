@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import GroupInput from '../../../../Components/Form/GroupInput'
-import { useHistory } from 'react-router-dom'
+import { useHistory, Prompt } from 'react-router-dom'
 import BoxTextLogin from './BoxTextLogin'
 import { useDispatch, useSelector } from 'react-redux'
 import { fetchForgotPassword } from '../../../../rootReducers/forgotPassword'
@@ -16,6 +16,7 @@ const LoginIdentify = () => {
 
   const [state, setState] = useState('')
   const [validate, setValidate] = useState('')
+  const [isLocalPath, setIsLocalPath] = useState(false)
   const isForgotPassword = useSelector(state => state.forgotPassword.loading)
 
   const handleOnBlur = e => {
@@ -31,6 +32,7 @@ const LoginIdentify = () => {
 
     setState(value)
     setValidate('')
+    setIsLocalPath(true)
   }
 
   const checkValidated = () => {
@@ -58,6 +60,7 @@ const LoginIdentify = () => {
     const isInputValida = checkValidated()
 
     if (isInputValida) {
+      setIsLocalPath(false)
       const data = new FormData()
       data.append('email', state)
 
@@ -123,6 +126,11 @@ const LoginIdentify = () => {
         )
       }
       </div>
+
+      <Prompt
+        when={isLocalPath}
+        message={location => (`Bạn có muốn đến ${location.pathname}`)}
+      />
     </div>
   )
 }

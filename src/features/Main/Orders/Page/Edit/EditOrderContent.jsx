@@ -10,16 +10,16 @@ import { Delete, Save } from '../../../../../Components/Btn'
 import { customAxiosApi } from '../../../../../customAxiosApi'
 import { REGEX, TITLE_MENU, API_NAME } from '../../../../../dataDefault'
 import { HeadingBox, SubHeading } from '../../../../../Components/HeadingBox'
-import DelayLink from '../../../../../Components/DelayLink'
 import ItemTotal from './ItemTotal'
 import ItemProduct from './ItemProduct'
 import { showLoading, hideLoading } from 'react-redux-loading-bar'
-import { Prompt, useParams } from 'react-router-dom'
+import { Prompt, useParams, useHistory } from 'react-router-dom'
 import { resetScroll } from '../../../../../Components/access/logic/resetScroll'
 import { sectionData } from '../sectionData'
 
 const EditOrderContent = () => {
   const dispatch = useDispatch()
+  const history = useHistory()
   const { id } = useParams()
 
   const dataStatus = useSelector(state => state.status)
@@ -87,6 +87,11 @@ const EditOrderContent = () => {
       setDataEdit({
         ...dataEdit,
         [name]: value
+      })
+
+      setValidate({
+        ...validate,
+        [name]: ''
       })
     }
   }
@@ -215,14 +220,14 @@ const EditOrderContent = () => {
 
     dispatch(showLoading('sectionBar'))
 
-    customAxiosApi.delete(`${API_NAME.ORDERS}/${dataEdit.id}`)
-    customAxiosApi.delete(`${API_NAME.DETAILORDER}/${dataEdit.detailOrderID}`)
+    await customAxiosApi.delete(`${API_NAME.ORDERS}/${dataEdit.id}`)
+    await customAxiosApi.delete(`${API_NAME.DETAILORDER}/${dataEdit.detailOrderID}`)
 
-    dataEdit.products.forEach(productDetailOrder => {
-      customAxiosApi.delete(`${API_NAME.PRODUCTDETAILORDER}/${productDetailOrder.id}`)
+    await dataEdit.products.forEach(async productDetailOrder => {
+      await customAxiosApi.delete(`${API_NAME.PRODUCTDETAILORDER}/${productDetailOrder.id}`)
     })
-
     await dispatch(hideLoading('sectionBar'))
+    history.replace(`/${TITLE_MENU.ORDERS}`)
   }
 
   return (
@@ -360,17 +365,19 @@ const EditOrderContent = () => {
 
         <div className="box-submit">
           <div className="box-row justify-between">
-            <div className="box-submit__save" onClick={handleSave}>
+            <div
+              className="box-submit__save"
+              onClick={handleSave}
+            >
               <Save />
             </div>
 
-            <DelayLink
-              to={`/${TITLE_MENU.ORDERS}`}
+            <div
               className="box-submit__delete"
               onClick={hanleDeleteOrder}
-              delay={1000}
-              children={<Delete/>}
-            />
+            >
+            <Delete/>
+            </div>
           </div>
         </div>
       </div>

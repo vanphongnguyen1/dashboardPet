@@ -1,4 +1,4 @@
-import { useMemo, useState } from 'react'
+import { useMemo, useState, useEffect } from 'react'
 import ShowItemProduct from './ShowItemProduct'
 import { useSelector } from 'react-redux'
 import PropTypes from 'prop-types'
@@ -7,7 +7,7 @@ import { CREAT } from '../../../../dataDefault'
 import { Link } from 'react-router-dom'
 import { Pagination } from 'antd'
 
-const ShowProducts = ({ id, url }) => {
+const ShowProducts = ({ id, url, dataSearch }) => {
   const initial = {
     page: 1,
     pageSize: 12
@@ -32,13 +32,28 @@ const ShowProducts = ({ id, url }) => {
     return dataShowProducts.filter(item => item.lineageID === menuLineageId)
   }, [dataShowProducts, menuLineageId])
 
-  useMemo(() => {
+  const dataPagination = useMemo(() => {
     const { page, pageSize } = paginationSize
     const defaule = page * pageSize
 
     const newData = filterProducts.slice(defaule - pageSize, defaule)
     setDefaultDataPagination(newData)
+
+    return newData
   }, [paginationSize, filterProducts])
+
+  useEffect(() => {
+    if (dataSearch) {
+      const newData = dataShowProducts.filter(item => (
+        item.url.indexOf(dataSearch) !== -1 || item.name.indexOf(dataSearch) !== -1
+      ))
+
+      setDefaultDataPagination(newData)
+      return
+    }
+
+    setDefaultDataPagination(dataPagination)
+  }, [dataSearch, dataPagination, dataShowProducts])
 
   const onChange = (page, pageSize) => {
     setPaginationSize({
@@ -106,11 +121,13 @@ const ShowProducts = ({ id, url }) => {
 ShowProducts.propTypes = {
   id: PropTypes.number,
   url: PropTypes.string,
+  dataSearch: PropTypes.string,
 }
 
 ShowProducts.propsDefault = {
   id: 1,
-  url: ''
+  url: '',
+  dataSearch: '',
 }
 
 export default ShowProducts

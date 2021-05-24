@@ -56,33 +56,63 @@ const Users = ({ match }) => {
       dataIndex: 'name',
       width: '12%',
       ...useGetColumnSearchProps('name'),
+      render: text => (
+        <p className="antd-link">
+          { text }
+        </p>
+      )
     },
     {
       title: 'Email',
       dataIndex: 'email',
       width: '20%',
+      render: text => (
+        <p className="antd-link">
+          { text }
+        </p>
+      )
     },
     {
       title: 'Phone',
       dataIndex: 'phone',
       width: '12%',
       ...useGetColumnSearchProps('phone'),
+      render: text => (
+        <p className="antd-link">
+          { text }
+        </p>
+      )
     },
     {
       title: 'Address',
       dataIndex: 'address',
       width: '30%',
       ...useGetColumnSearchProps('address'),
+      render: text => (
+        <p className="antd-link">
+          { text }
+        </p>
+      )
     },
     {
       title: 'Gender',
       dataIndex: 'genderID',
       width: '5%',
+      render: text => (
+        <p className="antd-link">
+          { text }
+        </p>
+      )
     },
     {
       title: 'Role',
       dataIndex: 'role',
       width: '5%',
+      render: text => (
+        <p className="antd-link">
+          { text }
+        </p>
+      )
     },
     {
       title: 'Action',
@@ -166,6 +196,7 @@ const Users = ({ match }) => {
           rowSelection={rowSelection}
           columns={columns}
           dataSource={dataUsers.list}
+          pagination={dataUsers.list.length > 10}
           onRow={(record) => ({
             onClick: () => {
               history.replace(`/${url}/${record.id}/${EDIT.toLowerCase()}`)

@@ -35,7 +35,6 @@ export const ItemImage = ({ item, handleDelete, slider }) => {
         visible={previewVisible}
         title={null}
         footer={null}
-        style={{'object-fit': 'cover', 'object-position': 'center'}}
         width={API_NAME.SLIDER === slider ? '70%' : '520px'}
         onCancel={() => setPreviewVisible(false)}
       >

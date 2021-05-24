@@ -10,6 +10,7 @@ import { Link, useHistory } from 'react-router-dom'
 import { fetchOrders } from '../../../rootReducers/orderSlice'
 import { fetchComments } from '../../../rootReducers/commentSlice'
 import { fetchUsers } from '../../../rootReducers/userSlice'
+import { fetchProductDetailOrderAll } from '../../../rootReducers/productDetailOrderThunk'
 import { STATUS_FETCH } from '../../../dataDefault'
 import { hideLoading, showLoading } from 'react-redux-loading-bar'
 import MyLineChart from './MyLineChart'
@@ -36,6 +37,7 @@ const Dashboard = () => {
 
   useEffect(() => {
     dispatch(showLoading('sectionBar'))
+    dispatch(fetchProductDetailOrderAll())
     dispatch(fetchUsers())
     dispatch(fetchOrders())
     dispatch(fetchComments())

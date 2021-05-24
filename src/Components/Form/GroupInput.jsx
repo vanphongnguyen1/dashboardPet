@@ -30,13 +30,18 @@ const GroupInput = props => {
         value={ value }
         onBlur={onBlur}
         onChange={onChange}
+        placeholder={titleLabel}
       />
 
       <Lable
         text={titleLabel}
         className={`
           group__label
-          ${
+          ${value ? 'label-input-value' : ''}
+        `}
+      />
+
+          {/* ${
             value && validateName
             ? 'label-input-value valide-label'
             : value
@@ -44,9 +49,7 @@ const GroupInput = props => {
             : validateName
             ? 'valide-label'
             : ''
-          }
-        `}
-      />
+          } */}
 
       {
         validateName ? (

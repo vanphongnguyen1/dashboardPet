@@ -1,4 +1,5 @@
 import PropTypes from 'prop-types'
+import { myFormatNumber } from '../../../Components/access/logic/myFormatNumber'
 
 const RootPaper = props => {
   const { icon, title, subTotal } = props
@@ -18,7 +19,12 @@ const RootPaper = props => {
           </h4>
 
           <p className="rootPaper__box--sub-total">
-            { subTotal || 0 }
+            {
+              icon.indexOf('dollar') !== -1
+                ?  myFormatNumber (subTotal)
+                : subTotal
+              || 0
+            }
           </p>
         </div>
       </div>

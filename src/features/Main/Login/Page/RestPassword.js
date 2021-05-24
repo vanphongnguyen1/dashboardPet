@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react'
 import GroupInput from '../../../../Components/Form/GroupInput'
 import BoxTextLogin from './BoxTextLogin'
 import { useSelector } from 'react-redux'
-import { useHistory } from 'react-router-dom'
+import { useHistory, Prompt } from 'react-router-dom'
 import { API_NAME } from '../../../../dataDefault'
 import { customAxiosApi } from '../../../../customAxiosApi'
 import { NAME_URL_LOGIN } from '../../../../dataDefault'
@@ -13,6 +13,7 @@ const RestPassword = () => {
 
   const [state, setState] = useState('')
   const [validate, setValidate] = useState('')
+  const [isLocalPath, setIsLocalPath] = useState(false)
   const dataCheckCode = useSelector(state => state.forgotPassword.data)
 
   useEffect(() => {
@@ -35,6 +36,7 @@ const RestPassword = () => {
     setState(value)
 
     setValidate('')
+    setIsLocalPath(true)
   }
 
   const checkValidated = () => {
@@ -58,6 +60,7 @@ const RestPassword = () => {
     const isInputValida = checkValidated()
 
     if (isInputValida) {
+      setIsLocalPath(false)
       customAxiosApi.put(`${API_NAME.USERS}/${dataCheckCode.id}`, {password: state})
       .then (() => {
         history.replace(`/${login}`)
@@ -107,6 +110,11 @@ const RestPassword = () => {
           </form>
         </div>
       </div>
+
+      <Prompt
+        when={isLocalPath}
+        message={location => (`Bạn có muốn đến ${location.pathname}`)}
+      />
     </div>
   )
 }

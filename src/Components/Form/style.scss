@@ -28,7 +28,29 @@
     left: 1rem;
     color: #707070;
     transition: all 0.25s ease-in-out;
+    opacity: 0;
+    visibility: hidden;
+  }
 
+  ::placeholder {
+    color: #707070;
+    font-size: 1.5rem;
+    font-weight: 500;
+
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    z-index: 2;
+    transition: all 0.35s ease-in-out;
+  }
+
+  &__input:focus::placeholder {
+    opacity: 0;
+    visibility: hidden;
+  }
+  &__input:focus ~.group__label {
+    opacity: 1;
+    visibility: visible;
   }
 
   &__input {
@@ -146,14 +168,15 @@
     transform: translateY(0);
     font-size: 1.2rem;
     font-weight: 400;
+    opacity: 1;
+    visibility: visible;
   }
 }
 
-
-  .box-checkbox,
-  .box-radio {
-    display: flex;
-    align-items: center;
-    margin: 0 1rem;
-    width: 15rem;
-  }
+.box-checkbox,
+.box-radio {
+  display: flex;
+  align-items: center;
+  margin: 0 1rem;
+  width: 15rem;
+}

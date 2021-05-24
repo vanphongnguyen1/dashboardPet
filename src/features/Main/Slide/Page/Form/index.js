@@ -61,7 +61,7 @@ const Form = ({ url }) => {
         }, 500)
       })
       .catch(() => {
-        
+
       })
     }
   }, [dispatch, id])
@@ -81,17 +81,21 @@ const Form = ({ url }) => {
     const { value, files, type, name  } = e.target
 
     if ( type === 'file') {
-
+      const newFiles = []
       const base64 = []
 
       for (let i = 0; i < files.length; i++) {
-        base64.push(
-          await getBase64(files[i])
-        )
+        if (files[i].name.indexOf('.jpg') !== -1 || files[i].name.indexOf('.png') !== -1) {
+          base64.push(
+            await getBase64(files[i])
+          )
+
+          newFiles.push(files[i])
+        }
       }
 
       setDataImageBase64(base64)
-      setDataFiles(files)
+      setDataFiles(newFiles)
 
       return
     }

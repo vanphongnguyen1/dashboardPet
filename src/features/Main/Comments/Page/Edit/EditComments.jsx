@@ -44,28 +44,25 @@ const EditComments = () => {
   const handleSave = async () => {
     dispatch(showLoading('sectionBar'))
 
-    customAxiosApi.put(`${API_NAME.COMMENTS}/${comment.id}`, newData)
+    await customAxiosApi.put(`${API_NAME.COMMENTS}/${comment.id}`, newData)
 
     openMessage('Edit Success !')
 
-    await setTimeout(() => {
-      dispatch(fetchComments())
-      dispatch(hideLoading('sectionBar'))
-    }, 500)
+    await dispatch(fetchComments())
+    await dispatch(defaultDataComment())
+    await dispatch(hideLoading('sectionBar'))
   }
 
   const handleDelete = async () => {
     dispatch(showLoading('sectionBar'))
 
-    customAxiosApi.delete(`${API_NAME.COMMENTS}/${comment.id}`)
+    await customAxiosApi.delete(`${API_NAME.COMMENTS}/${comment.id}`)
 
     openMessage('Delete Success !')
 
-    await setTimeout(() => {
-      dispatch(fetchComments())
-      dispatch(defaultDataComment())
-      dispatch(hideLoading('sectionBar'))
-    }, 500)
+    await dispatch(fetchComments())
+    await dispatch(defaultDataComment())
+    await dispatch(hideLoading('sectionBar'))
   }
 
   return (

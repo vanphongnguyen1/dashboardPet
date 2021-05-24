@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react'
 import GroupInput from '../../../../Components/Form/GroupInput'
-import { useHistory } from 'react-router-dom'
+import { useHistory, Prompt } from 'react-router-dom'
 import { useSelector } from 'react-redux'
 import { v4 as uuid } from 'uuid'
 import { NAME_URL_LOGIN } from '../../../../dataDefault'
@@ -11,6 +11,7 @@ const SecurityCode = () => {
 
   const [state, setState] = useState('')
   const [validate, setValidate] = useState('')
+  const [isLocalPath, setIsLocalPath] = useState(false)
   const dataCheckCode = useSelector(state => state.forgotPassword.data)
 
   useEffect(() => {
@@ -33,6 +34,7 @@ const SecurityCode = () => {
     setState(value)
 
     setValidate('')
+    setIsLocalPath(true)
   }
 
   const checkValidated = () => {
@@ -61,6 +63,7 @@ const SecurityCode = () => {
     const isInputValida = checkValidated()
 
     if (isInputValida) {
+      setIsLocalPath(false)
       history.replace(`/${login}/${resetPassword}?ph?=${uuid()}?pass=${uuid()}`)
     }
   }
@@ -116,6 +119,11 @@ const SecurityCode = () => {
           </p>
         </div>
       </div>
+
+      <Prompt
+        when={isLocalPath}
+        message={location => (`Bạn có muốn đến ${location.pathname}`)}
+      />
     </div>
   )
 }

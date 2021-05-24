@@ -4,6 +4,37 @@
 @import './showItemProduct.scss';
 
 .product {
+  .box-search-product {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 1.5rem;
+    margin-bottom: 3rem;
+
+    .group-search {
+      position: relative;
+      width: 25%;
+      height: 5.2rem;
+
+      &__icon {
+        position: absolute;
+        right: 0;
+        top: 50%;
+        transform: translateY(-50%);
+
+        padding: 1.5rem;
+        font-size: 1.7rem;
+        color: #a0a1a9;
+        cursor: pointer;
+        transition: all .3s ease-in-out;
+
+        &:hover {
+          color: #4F3CC9;
+        }
+      }
+    }
+  }
+
   .box-products {
     background-color: #fff;
   }

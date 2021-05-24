@@ -10,6 +10,7 @@ const MyLineChart = () => {
   )
 
   const dataOrder = useSelector(state => state.orders.list)
+  const isMenu = useSelector(state => state.stateIsMenu.isMenu)
 
   const year = moment().format('YYYY')
 
@@ -164,7 +165,7 @@ const MyLineChart = () => {
 
   return (
     <div className="my-chart">
-      <AreaChart width={610} height={300} data={dataChart}
+      <AreaChart width={!isMenu ? 530 : 600} height={300} data={dataChart}
         margin={{ top: 10, right: 30, left: 0, bottom: 0 }}>
         <defs>
           <linearGradient id="colorUv" x1="0" y1="0" x2="0" y2="1">
