@@ -111,12 +111,11 @@ const TableContentTab = ({ data }) => {
 
   const handleDelete = async (e, id) => {
     e.stopPropagation()
-
     dispatch(showLoading('sectionBar'))
 
     await customAxiosApi.delete(`${API_NAME.COMMENTS}/${id}`)
-    openMessage('Edit Success !')
 
+    openMessage('Edit Success !')
     await dispatch(fetchComments())
     await dispatch(hideLoading('sectionBar'))
   }
@@ -124,9 +123,9 @@ const TableContentTab = ({ data }) => {
   const handleDeleteSelect = async () => {
     dispatch(showLoading('sectionBar'))
 
-    await selectedRowKeys.forEach(async item => {
+    for (let item of selectedRowKeys) {
       await customAxiosApi.delete(`${API_NAME.COMMENTS}/${item.id}`)
-    })
+    }
 
     openMessage('Delete Success')
     setSelectedRowKeys([])

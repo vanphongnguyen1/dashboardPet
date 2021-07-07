@@ -10,6 +10,7 @@ import { fetchOrders } from '../../../../rootReducers/orderSlice'
 import { fetchProductDetailOrderAll } from '../../../../rootReducers/productDetailOrderThunk'
 import { useDispatch } from 'react-redux'
 import { useGetColumnSearchProps } from '../../../../Components/access/logic/searchColumn'
+import { myFormatNumber } from '../../../../Components/access/logic/myFormatNumber'
 import { customAxiosApi } from '../../../../customAxiosApi'
 import moment from 'moment'
 import { hideLoading, showLoading} from 'react-redux-loading-bar'
@@ -106,7 +107,7 @@ const TableContentTab = ({ data, url }) => {
       dataIndex: 'totalPrice',
       render: (text, record) => (
         <p className="antd-link">
-          { text }
+          { myFormatNumber(text) }
         </p>
       )
     },
@@ -115,7 +116,7 @@ const TableContentTab = ({ data, url }) => {
       dataIndex: 'trasport',
       render: (text, record) => (
         <p className="antd-link">
-          { text }
+          { myFormatNumber(text) }
         </p>
       )
     },
@@ -124,7 +125,7 @@ const TableContentTab = ({ data, url }) => {
       dataIndex: 'intoMeny',
       render: (text, record) => (
         <p className="antd-link">
-          { text }
+          { myFormatNumber(text) }
         </p>
       )
     },
@@ -157,14 +158,16 @@ const TableContentTab = ({ data, url }) => {
 
   const handleDeleteSelect = async () => {
     dispatch(showLoading('sectionBar'))
-    await selectedRowKeys.forEach(item => {
-      customAxiosApi.delete(`${API_NAME.DETAILORDER}/${item.detailOrderID}`)
-      customAxiosApi.delete(`${API_NAME.ORDERS}/${item.id}`)
 
-      item.products.forEach(product => {
-        customAxiosApi.delete(`${API_NAME.PRODUCTDETAILORDER}/${product.productDetailOrderID}`)
-      })
-    })
+    for (let item of selectedRowKeys) {
+      const { id,  detailOrderID, products } = item
+      await customAxiosApi.delete(`${API_NAME.DETAILORDER}/${detailOrderID}`)
+      await customAxiosApi.delete(`${API_NAME.ORDERS}/${id}`)
+
+      for (let product of products) {
+        await customAxiosApi.delete(`${API_NAME.PRODUCTDETAILORDER}/${product.productDetailOrderID}`)
+      }
+    }
 
     setSelectedRowKeys([])
     openMessage('Delete Success!')

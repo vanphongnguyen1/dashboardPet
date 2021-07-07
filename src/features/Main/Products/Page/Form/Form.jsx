@@ -57,11 +57,28 @@ const Form = ({ url }) => {
     genderID: '',
   }
 
+  const initialDataEditp = `
+    <ul>
+      <li>Tên khác:</li>
+      <li>Giống:</li>
+      <li>Màu sắc:</li>
+      <li>Giới tính:</li>
+      <li>Tuổi:</li>
+      <li>Tiêm vacxin:</li>
+      <li>Tẩy giun:</li>
+      <li>Nguồn gốc:</li>
+      <li>Bảo hành:</li>
+      <li>Bảo hành:</li>
+      <li>Vận chuyển:</li>
+      <li>Tặng kèm phụ kiện:</li>
+    </ul>
+  `
+
   const [dataProduct, setDataProduct] = useState(initialState)
   const [dataValide, setDataValide] = useState(initialValide)
 
   const [dataFiles, setDataFiles] = useState([])
-  const [dataEditer, setDataEditer] = useState('')
+  const [dataEditer, setDataEditer] = useState(initialDataEditp)
   const [dataImageBase64, setDataImageBase64] = useState([])
 
   const typingTimeoutRef = useRef(null)
@@ -71,7 +88,7 @@ const Form = ({ url }) => {
     dispatch(fetchGender())
 
     if (id && isRequitEdit) {
-      dispatch(showLoading('sectionBar'))
+      // dispatch(showLoading('sectionBar'))
 
       dispatch(fetchProduct(id))
       .then(data => {
@@ -81,17 +98,14 @@ const Form = ({ url }) => {
             ...payload,
             groupID: payload.lineage.groupID
           })
-          setDataEditer(payload.type_product.description)
 
+          setDataEditer(payload.type_product.description)
           setDataFiles(payload.images.url.split('|'))
           setDataImageBase64(payload.images.url.split('|'))
       })
 
-      setTimeout(() => {
-        dispatch(hideLoading('sectionBar'))
-      }, 700)
+      // dispatch(hideLoading('sectionBar'))
     }
-
   }, [dispatch, id, isRequitEdit])
 
   useEffect(() => {
@@ -101,9 +115,7 @@ const Form = ({ url }) => {
 
   useEffect(() => {
     if (dataLineage.loading === 'success') {
-      setTimeout(() => {
-        dispatch(hideLoading('sectionBar'))
-      }, 500)
+      dispatch(hideLoading('sectionBar'))
     }
   }, [dataLineage.loading, dispatch])
 
@@ -216,6 +228,8 @@ const Form = ({ url }) => {
 
   const onSubmit = async () => {
     const isValide = valideChecked()
+
+    console.log(dataProduct);
 
     if (isValide) {
       dispatch(showLoading('sectionbar'))
@@ -466,7 +480,7 @@ const Form = ({ url }) => {
                     <p className="title-status">Show</p>
 
                     <Switch
-                      defaultChecked={dataProduct.isStatus}
+                      checked={dataProduct.isStatus}
                       onChange={onChangeSwitch}
                       name="isStatus"
                     />
@@ -476,7 +490,7 @@ const Form = ({ url }) => {
                     <p className="title-status">New</p>
 
                     <Switch
-                      defaultChecked={dataProduct.isNew}
+                      checked={dataProduct.isNew}
                       onChange={onChangeSwitch}
                       name="isNew"
                     />
@@ -486,7 +500,7 @@ const Form = ({ url }) => {
                     <p className="title-status">Hot</p>
 
                     <Switch
-                      defaultChecked={dataProduct.isHot}
+                      checked={dataProduct.isHot}
                       onChange={onChangeSwitch}
                       name="isHot"
                     />
@@ -500,9 +514,9 @@ const Form = ({ url }) => {
             <div className="box-tabs">
               <div className="form__product">
                 <Upload
-                  data={ dataImageBase64 }
+                  data={dataImageBase64}
                   id="files"
-                  onChange={ handleOnchange }
+                  onChange={handleOnchange}
                   handleDeleteItem={handleDeleteImage}
                   multiple
                 />
@@ -514,9 +528,9 @@ const Form = ({ url }) => {
             <div className="box-tabs">
               <div className="form__product">
                 <CKEditor
-                  editor={ ClassicEditor }
-                  data={ dataEditer }
-                  onChange={ (event, editor) => handleChangeEditor(event, editor) }
+                  editor={ClassicEditor}
+                  data={dataEditer}
+                  onChange={(event, editor) => handleChangeEditor(event, editor)}
                 />
               </div>
             </div>

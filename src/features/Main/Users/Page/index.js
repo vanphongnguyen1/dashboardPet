@@ -142,29 +142,27 @@ const Users = ({ match }) => {
     e.stopPropagation()
 
     dispatch(showLoading('sectionBar'))
-    await customAxiosApi.delete(`${API_NAME.USERS}/${id}`)
+    customAxiosApi.delete(`${API_NAME.USERS}/${id}`)
     .catch(rej => {
       messageError(rej.messageError)
     })
 
     openMessage('Delete Success!')
-
     await dispatch(fetchUsers())
-    dispatch(hideLoading('sectionBar'))
+    await dispatch(hideLoading('sectionBar'))
   }
 
   const handleDeleteSelect = async () => {
     dispatch(showLoading('sectionBar'))
 
-    await selectedRowKeys.forEach(item => {
-      customAxiosApi.delete(`${API_NAME.USERS}/${item.id}`)
-    })
+    for (let item of selectedRowKeys) {
+      await customAxiosApi.delete(`${API_NAME.USERS}/${item.id}`)
+    }
 
     openMessage('Delete Success!')
-
-    await dispatch(fetchUsers())
-    dispatch(hideLoading('sectionBar'))
     setSelectedRowKeys([])
+    await dispatch(fetchUsers())
+    await dispatch(hideLoading('sectionBar'))
   }
 
   return (

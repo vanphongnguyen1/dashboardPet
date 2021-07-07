@@ -31,7 +31,6 @@ const ShowItemProduct = ({ product }) => {
       customAxiosApi.delete(`${API_NAME.IMAGES}/${typeProductID}`)
 
       openMessage('Delete Product Success !')
-
       await dispatch(fetchProducts())
     })
     .catch(rej => {

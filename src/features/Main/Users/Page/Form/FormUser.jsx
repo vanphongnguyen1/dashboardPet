@@ -24,6 +24,7 @@ const FormUser = ({ url, data }) => {
   const isRequitEdit = urlConvert[urlConvert.length - 1] === EDIT
   const isRequitCreat = urlConvert[urlConvert.length - 1] === CREAT
   const textUsers = API_NAME.USERS
+  console.log(textUsers);
 
   const initialValue = {
     name: '',
@@ -67,7 +68,7 @@ const FormUser = ({ url, data }) => {
     if ( !value ) {
       setValidate({
         ...validate,
-        [name]: 'This field is required to enter *'
+        [name]: 'Trường này bắt buộc phải nhập *'
       })
     }
   }
@@ -126,7 +127,7 @@ const FormUser = ({ url, data }) => {
   const handleSubmit = async () => {
     const isInputValida = checkValidated()
 
-    if (!isInputValida) {
+    if (isInputValida) {
       resetScroll()
     }
 
@@ -157,6 +158,8 @@ const FormUser = ({ url, data }) => {
       if (isLocalPath) {
         setIsLocalPath(false)
       }
+
+      console.log(state);
 
       customAxiosApi.post(textUsers, state)
       .then(response => {

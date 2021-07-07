@@ -62,16 +62,6 @@ const Header = () => {
     }
   }, [idLogin, dispatch, dataToken])
 
-  useMemo(() => {
-    if (idLogin) {
-      dispatch(fetchUser(idLogin))
-      .then (data => {
-        const { payload } = data
-        setDataUser(payload)
-      })
-    }
-  }, [idLogin, dispatch])
-
   useEffect(() => {
     window.addEventListener('scroll', myThrottled)
   }, [myThrottled])

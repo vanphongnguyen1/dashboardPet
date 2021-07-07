@@ -172,14 +172,14 @@ const Slider = ({ match }) => {
   const handleDeleteSelect = async () => {
     dispatch(showLoading('sectionBar'))
 
-    await selectedRowKeys.forEach(async item => {
+    for (let item of selectedRowKeys) {
       await customAxiosApi.delete(`${API_NAME.SLIDER}/${item.id}`)
-    })
+    }
 
-    openMessage('Delete Success!')
-    await dispatch(hideLoading('sectionBar'))
-    setSelectedRowKeys([])
     await dispatch(fetchSliderAll())
+    openMessage('Delete Success!')
+    setSelectedRowKeys([])
+    await dispatch(hideLoading('sectionBar'))
   }
 
   return (
