@@ -11,6 +11,7 @@ import { fetchOrders } from '../../../rootReducers/orderSlice'
 import { fetchComments } from '../../../rootReducers/commentSlice'
 import { fetchUsers } from '../../../rootReducers/userSlice'
 import { fetchProductDetailOrderAll } from '../../../rootReducers/productDetailOrderThunk'
+import { fetchCarts } from '../../../rootReducers/cartSlice'
 import { STATUS_FETCH } from '../../../dataDefault'
 import { hideLoading, showLoading } from 'react-redux-loading-bar'
 import MyLineChart from './MyLineChart'
@@ -41,6 +42,7 @@ const Dashboard = () => {
     dispatch(fetchUsers())
     dispatch(fetchOrders())
     dispatch(fetchComments())
+    dispatch(fetchCarts())
   }, [dispatch])
 
   useEffect(() => {

@@ -5,17 +5,22 @@ import { sectionData } from '../Orders/Page/sectionData'
 import ItemOrderPending from './ItemOrderPending'
 
 const PendingOrder = ({ data }) => {
-  const dataProductDetailOrder = useSelector(state => state.productDetailOrder.list)
+  const dataProductDetailOrder = useSelector(state => state.productDetailOrder)
+  const dataCarts = useSelector(state => state.carts)
 
   const newData = useMemo(() => {
-    const [dataPendding] = sectionData(data, dataProductDetailOrder)
+    if (dataCarts.loading === 'success' && dataProductDetailOrder.loading === 'success') {
+      const [dataPendding] = sectionData(data, dataProductDetailOrder.list, dataCarts.list)
 
-    if (!Array.isArray(dataPendding)) {
-      return [dataPendding]
+      if (!Array.isArray(dataPendding)) {
+        return [dataPendding]
+      }
+
+      console.log(dataPendding);
+
+      return dataPendding
     }
-
-    return dataPendding
-  }, [data, dataProductDetailOrder])
+  }, [data, dataProductDetailOrder, dataCarts])
 
   return (
     <>
@@ -26,6 +31,7 @@ const PendingOrder = ({ data }) => {
 
         <ul className="pending-order__list">
           {
+            newData &&
             newData.map(item => {
               return (
                 <ItemOrderPending data={item} key={item.id} />

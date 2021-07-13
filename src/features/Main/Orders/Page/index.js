@@ -1,4 +1,4 @@
-import { useEffect } from 'react'
+import { useEffect, useState } from 'react'
 import { Tabs } from 'antd'
 import { BtnCreatExport } from '../../../../Components/Btn'
 import TableContentTab from './TableContentTab'
@@ -9,6 +9,7 @@ import { fetchOrders } from '../../../../rootReducers/orderSlice'
 import { fetchProductDetailOrderAll } from '../../../../rootReducers/productDetailOrderThunk'
 import { showLoading, hideLoading } from 'react-redux-loading-bar'
 import { useHistory } from 'react-router-dom'
+import { fetchCarts } from '../../../../rootReducers/cartSlice'
 
 const Orders = ({ match }) => {
   const url = match.url.slice(1)
@@ -28,24 +29,35 @@ const Orders = ({ match }) => {
     dispatch(showLoading('sectionBar'))
     dispatch(fetchOrders())
     dispatch(fetchProductDetailOrderAll())
+    dispatch(fetchCarts())
   }, [dispatch])
 
   const dataOrder = useSelector(state => state.orders)
   const dataProductDetailOrder = useSelector(state => state.productDetailOrder)
+  const dataCarts = useSelector(state => state.carts)
+
+  const [listDataPending, setListDataPending] = useState([])
+  const [listDataDelivered, setListDataDelivered] = useState([])
+  const [listDataCanselled, setListDataCanselled] = useState([])
 
   useEffect(() => {
-    if (dataProductDetailOrder.loading === 'success') {
-      setTimeout(() => {
-        dispatch(hideLoading('sectionBar'))
-      }, 500)
-    }
-  }, [dispatch, dataProductDetailOrder.loading])
+    if (dataOrder.loading === 'success' && dataCarts.loading === 'success' && dataProductDetailOrder.loading === 'success') {
+      const [
+        dataPending,
+        dataDelivered,
+        dataCanselled
+      ] = sectionData(dataOrder.list, dataProductDetailOrder.list, dataCarts.list)
 
-  const [
-    dataPending,
-    dataDelivered,
-    dataCanselled
-  ] = sectionData(dataOrder.list, dataProductDetailOrder.list)
+      setListDataPending(dataPending)
+      setListDataDelivered(dataDelivered)
+      setListDataCanselled(dataCanselled)
+      dispatch(hideLoading('sectionBar'))
+    }
+  }, [dispatch, dataOrder, dataCarts, dataProductDetailOrder])
+
+  console.log(listDataPending);
+  console.log(listDataCanselled);
+  console.log(listDataDelivered);
 
   return (
     <div className="orders posi-relative">
@@ -60,15 +72,15 @@ const Orders = ({ match }) => {
 
       <Tabs type="card">
         <TabPane tab="Pendding" key="1">
-          <TableContentTab data={dataPending} url={url} />
+          <TableContentTab data={listDataPending} url={url} />
         </TabPane>
 
         <TabPane tab="Delivered" key="2">
-          <TableContentTab data={dataDelivered} url={url} />
+          <TableContentTab data={listDataDelivered} url={url} />
         </TabPane>
 
         <TabPane tab="Cancelled" key="3">
-          <TableContentTab data={dataCanselled} url={url} />
+          <TableContentTab data={listDataCanselled} url={url} />
         </TabPane>
       </Tabs>
     </div>

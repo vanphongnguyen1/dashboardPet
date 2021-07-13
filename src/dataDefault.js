@@ -32,6 +32,7 @@ export const API_NAME = {
   GROUPS: 'groups',
   LINEAGE: 'lineage',
   GENDER: 'gender',
+  CARTS: 'carts',
 
   IMAGES: 'images',
   KEYSEARCH: 'keySearch',

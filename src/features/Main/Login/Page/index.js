@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react'
 import GroupInput from '../../../../Components/Form/GroupInput'
 import { setToken, fetchLogin, setError, defaulrError } from '../../../../rootReducers/loginSlice'
+import { fetchCarts } from '../../../../rootReducers/cartSlice'
 import { BtnLogin } from '../../../../Components/Btn'
 import { Link } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux'
@@ -101,6 +102,7 @@ const Login = () => {
 
         if (typeof payload === 'object') {
           dispatch(setToken(payload.id))
+          dispatch(fetchCarts())
 
           sessionStorage.setItem('id', payload.id)
           history.replace("/dashboard")

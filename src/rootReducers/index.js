@@ -15,6 +15,7 @@ import productsSlice from './productsSlice'
 import sliderSlice from './sliderSlice'
 import loginSlice from './loginSlice'
 import forgotPassword from './forgotPassword'
+import cartSlice from './cartSlice'
 
 export const rootReducers = {
   users: userReducer,
@@ -37,6 +38,7 @@ export const rootReducers = {
   navbarScrolled: navbarScrolled,
 
   slider: sliderSlice,
+  carts: cartSlice,
 
   loadingBar: loadingBarReducer,
   login: loginSlice,

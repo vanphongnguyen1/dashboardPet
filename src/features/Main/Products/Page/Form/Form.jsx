@@ -59,18 +59,17 @@ const Form = ({ url }) => {
 
   const initialDataEditp = `
     <ul>
-      <li>Tên khác:</li>
-      <li>Giống:</li>
-      <li>Màu sắc:</li>
-      <li>Giới tính:</li>
-      <li>Tuổi:</li>
-      <li>Tiêm vacxin:</li>
-      <li>Tẩy giun:</li>
-      <li>Nguồn gốc:</li>
-      <li>Bảo hành:</li>
-      <li>Bảo hành:</li>
-      <li>Vận chuyển:</li>
-      <li>Tặng kèm phụ kiện:</li>
+      <li>Name:</li>
+      <li>Lineage:</li>
+      <li>Color:</li>
+      <li>Gender:</li>
+      <li>Age:</li>
+      <li>Vacxin:</li>
+      <li>WormRemover:</li>
+      <li>Origin:</li>
+      <li>Guarantee:</li>
+      <li>Ship: FreeShip</li>
+      <li>Present:</li>
     </ul>
   `
 
@@ -265,7 +264,7 @@ const Form = ({ url }) => {
         await customAxiosApi.post(API_NAME.IMAGES, data)
         .then(response => {
           const { id } = response.data.data
-
+          console.log(id);
           return id
         })
         .then(id => {
@@ -299,7 +298,7 @@ const Form = ({ url }) => {
 
               setDataFiles([])
 
-              setDataEditer('')
+              // setDataEditer('')
 
               setDataImageBase64([])
             })
@@ -311,6 +310,7 @@ const Form = ({ url }) => {
 
           .catch(err => {
             messageError(err.message)
+            console.log(err.message);
           })
         })
 
