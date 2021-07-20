@@ -2,8 +2,6 @@ import PropTypes from 'prop-types'
 import { myFormatNumber } from '../../../../../Components/access/logic/myFormatNumber'
 
 const ItemTotal = ({ name, value}) => {
-  console.log(value);
-
   return (
     <div className="table__tr">
       <p className="table__td--name">{ name }</p>

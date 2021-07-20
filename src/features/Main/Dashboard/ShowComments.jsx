@@ -4,12 +4,14 @@ import { Link } from 'react-router-dom'
 import { TITLE_MENU } from '../../../dataDefault'
 
 const ShowComments = ({ data }) => {
+  const [...newData] = data
+  const dataShow = newData.reverse().slice(0, 15)
   return (
     <>
       <div className="show-comments">
         <ul className="show-comments__list">
           {
-            data.map(item => {
+            dataShow.map(item => {
               return (
                 <ItemComment
                   key={item.id}
@@ -22,10 +24,13 @@ const ShowComments = ({ data }) => {
             })
           }
         </ul>
-
-        <Link className="show-comments__all" to={TITLE_MENU.COMMENTS}>
-          Show All
-        </Link>
+        {
+          newData.length > 15 && (
+            <Link className="show-comments__all" to={TITLE_MENU.COMMENTS}>
+              Show All
+            </Link>
+          )
+        }
       </div>
     </>
   )

@@ -31,16 +31,20 @@
   }
 
   &__list {
-    padding: 0.5rem 0;
+    padding: 0.5rem 1rem;
   }
 
   &__item {
     list-style-type: none;
   }
 
+  &__item:not(:last-child) {
+    border-bottom: 1px solid #ddd;
+  }
+
   &__link {
     display: block;
-    padding: 1rem 1.5rem;
+    padding: 1rem 0;
     transition: all 0.3s ease-in-out;
     position: relative;
 

@@ -1,9 +1,9 @@
 import { useState, useEffect } from 'react'
 import PropTypes from 'prop-types'
 import { useDispatch, useSelector } from 'react-redux'
-import { TITLE_MENU, EDIT, CREAT, API_NAME } from '../../../../../dataDefault'
+import { EDIT, CREAT, API_NAME } from '../../../../../dataDefault'
 import { fetchGender } from '../../../../../rootReducers/genderSlice'
-import { Delete, Save } from '../../../../../Components/Btn'
+import { Cancell, Save } from '../../../../../Components/Btn'
 import { fetchUsers } from '../../../../../rootReducers/userSlice'
 import { customAxiosApi } from '../../../../../customAxiosApi'
 import { REGEX } from '../../../../../dataDefault'
@@ -24,7 +24,6 @@ const FormUser = ({ url, data }) => {
   const isRequitEdit = urlConvert[urlConvert.length - 1] === EDIT
   const isRequitCreat = urlConvert[urlConvert.length - 1] === CREAT
   const textUsers = API_NAME.USERS
-  console.log(textUsers);
 
   const initialValue = {
     name: '',
@@ -159,8 +158,6 @@ const FormUser = ({ url, data }) => {
         setIsLocalPath(false)
       }
 
-      console.log(state);
-
       customAxiosApi.post(textUsers, state)
       .then(response => {
         const { data } = response
@@ -172,35 +169,30 @@ const FormUser = ({ url, data }) => {
             })
             return
         }
-        openMessage('Created Success!')
-        setValidate(initialErMes)
-        setState(initialValue)
-        resetScroll()
+        customAxiosApi.post(`${API_NAME.CARTS}`, {
+          totalCount: 0,
+          usersID: data.id
+        })
+        .then((res) => {
+          openMessage('Created Success!')
+          setValidate(initialErMes)
+          setState(initialValue)
+          resetScroll()
+        })
+        .catch(() => {
+          messageError('An error occurred!')
+        })
       })
-      .catch(error => {
-        messageError(error.message)
+      .catch(() => {
+        messageError('An error occurred!')
       })
     }
-  }
-
-  const handleDelete = async () => {
-    if (isLocalPath) {
-      setIsLocalPath(false)
-    }
-
-    dispatch(showLoading('sectionBar'))
-    customAxiosApi.delete(`${textUsers}/${state.id}`)
-
-    await setTimeout(() => {
-      dispatch(hideLoading('sectionBar'))
-      history.replace(`/${TITLE_MENU.USERS}`)
-    }, 500)
   }
 
   return (
     <>
       <div className="info-user">
-        <form className="info-user__form" onSubmit={ handleSubmit }>
+        <form className="info-user__form" onSubmit={handleSubmit}>
           <div className="identity">
             <HeadingBox title="identity" />
 
@@ -335,10 +327,10 @@ const FormUser = ({ url, data }) => {
                   isRequitEdit
                     ? (
                         <div
-                          className="box-submit__delete"
-                          onClick={handleDelete}
+                          className="box-submit__cancell"
+                          onClick={() => history.push(`/${API_NAME.USERS}`)}
                         >
-                          <Delete/>
+                          <Cancell/>
                         </div>
                     ) : ''
                 }

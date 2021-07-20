@@ -75,6 +75,29 @@
     }
   }
 
+  &__cancell {
+    position: relative;
+    overflow: hidden;
+    background-color: #e1c314;
+
+    padding: 0.5rem 1.5rem;
+    border-radius: 5rem;
+
+    cursor: pointer;
+    transition: all 0.3s ease-in-out;
+
+    &:hover {
+      background-color: #b29d23;
+    }
+
+    &--text {
+      color: #fff;
+      font-size: 1.2rem;
+      text-transform: uppercase;
+      font-weight: 500;
+    }
+  }
+
   &__save {
     padding: 0.5rem 1.5rem;
     border-radius: 5rem;

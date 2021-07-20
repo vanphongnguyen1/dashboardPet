@@ -11,6 +11,9 @@ import {
 import { routes } from '../../routers'
 import { fetchStatus } from '../../rootReducers/statusSlice'
 import { fetchTrasport } from '../../rootReducers/trasportSlice'
+import { fetchCarts } from '../../rootReducers/cartSlice'
+import { fetchProductInCart } from '../../rootReducers/productInCart'
+import { fetchProductDetailOrderAll } from '../../rootReducers/productDetailOrderThunk'
 import { SemipolarLoading } from 'react-loadingg'
 
 const Main = () => {
@@ -28,6 +31,9 @@ const Main = () => {
   useEffect(() => {
     dispatch(fetchStatus())
     dispatch(fetchTrasport())
+    dispatch(fetchCarts())
+    dispatch(fetchProductInCart())
+    dispatch(fetchProductDetailOrderAll())
   }, [dispatch])
 
   return (

@@ -20,6 +20,9 @@ const Users = ({ match }) => {
   const [selectedRowKeys, setSelectedRowKeys] = useState([])
   const dataUsers = useSelector(state => state.users)
   const dataToken = useSelector(state => state.login.token)
+  const dataCarts = useSelector(state => state.carts.list)
+  const dataProductDetailOrder = useSelector(state => state.productDetailOrder.list)
+  const dataProductInCart = useSelector(state => state.productInCart.list)
   const idLogin = sessionStorage.getItem('id')
 
   useEffect(() => {
@@ -138,17 +141,43 @@ const Users = ({ match }) => {
     },
   ]
 
-  const handleDelete = async (e, id) => {
-    e.stopPropagation()
-
+  const handleDelete = async (e = null, id) => {
     dispatch(showLoading('sectionBar'))
-    customAxiosApi.delete(`${API_NAME.USERS}/${id}`)
-    .catch(rej => {
-      messageError(rej.messageError)
+
+    const cart = dataCarts.find(item => item.usersID === id)
+    const newDataCart = dataProductInCart.filter(item => item.cartID === cart.id)
+    const { orders } = cart
+
+    if (orders.length) {
+      for (let order of orders) {
+        const findData = dataProductDetailOrder.find(item => item.detailOrderID === order.detailOrderID)
+
+        await customAxiosApi.delete(`${API_NAME.PRODUCTDETAILORDER}/${findData.id}`)
+        .then((res) => {
+          customAxiosApi.delete(`${API_NAME.DETAILORDER}/${findData.detailOrderID}`)
+        })
+        await customAxiosApi.delete(`${API_NAME.ORDERS}/${order.id}`)
+      }
+    }
+
+    if (newDataCart.length) {
+      for (let key of newDataCart) {
+        await customAxiosApi.delete(`${API_NAME.PRODUCTINCART}/${key.id}`)
+      }
+    }
+
+    await customAxiosApi.delete(`${API_NAME.CARTS}/${cart.id}`)
+    .then(() => {
+      customAxiosApi.delete(`${API_NAME.USERS}/${id}`)
+      .then((res) => {
+        dispatch(fetchUsers())
+        openMessage('Delete Success!')
+      })
+    })
+    .catch(reject => {
+      messageError(reject.message)
     })
 
-    openMessage('Delete Success!')
-    await dispatch(fetchUsers())
     await dispatch(hideLoading('sectionBar'))
   }
 
@@ -156,7 +185,7 @@ const Users = ({ match }) => {
     dispatch(showLoading('sectionBar'))
 
     for (let item of selectedRowKeys) {
-      await customAxiosApi.delete(`${API_NAME.USERS}/${item.id}`)
+      await handleDelete( null, item.id)
     }
 
     openMessage('Delete Success!')
@@ -195,11 +224,6 @@ const Users = ({ match }) => {
           columns={columns}
           dataSource={dataUsers.list}
           pagination={dataUsers.list.length > 10}
-          onRow={(record) => ({
-            onClick: () => {
-              history.replace(`/${url}/${record.id}/${EDIT.toLowerCase()}`)
-            },
-          })}
         />
       </div>
     </>

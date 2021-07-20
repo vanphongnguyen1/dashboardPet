@@ -6,6 +6,7 @@ import { date } from '../../../../../Components/myMonment'
 import GroupInput from '../../../../../Components/Form/GroupInput'
 import { fetchOrder } from '../../../../../rootReducers/orderSlice'
 import { fetchDetailOrder } from '../../../../../rootReducers/productDetailOrderThunk'
+import { fetchCarts } from '../../../../../rootReducers/cartSlice'
 import { Delete, Save } from '../../../../../Components/Btn'
 import { customAxiosApi } from '../../../../../customAxiosApi'
 import { REGEX, TITLE_MENU, API_NAME } from '../../../../../dataDefault'
@@ -24,6 +25,7 @@ const EditOrderContent = () => {
 
   const dataStatus = useSelector(state => state.status)
   const dataTrasport = useSelector(state => state.trasport)
+  const dataCarts = useSelector(state => state.carts)
 
   const initialValidate = {
     name: '',
@@ -41,15 +43,19 @@ const EditOrderContent = () => {
   }
 
   useEffect(() => {
+    dispatch(fetchCarts())
+  }, [dispatch])
+
+  useEffect(() => {
     dispatch(showLoading('sectionBar'))
-    if (id) {
+    if (id && dataCarts.loading === 'success') {
       dispatch(fetchOrder(id))
       .then(data => {
         const { payload } = data
 
         dispatch(fetchDetailOrder(payload.detailOrderID))
         .then(res => {
-          const newDataEdit = sectionData([payload], res.payload)
+          const newDataEdit = sectionData([payload], res.payload, dataCarts.list)
 
           setDataEdit(newDataEdit[0])
         })
@@ -59,7 +65,7 @@ const EditOrderContent = () => {
     setTimeout(() => {
       dispatch(hideLoading('sectionBar'))
     }, 700)
-  }, [dispatch, id])
+  }, [dispatch, id, dataCarts])
 
   const handleOnBlur = e => {
     const { value, name } = e.target
@@ -169,6 +175,7 @@ const EditOrderContent = () => {
 
   const handleSave = async () => {
     const isInputValida = checkValidated()
+    const cart = dataCarts.list.find(item => item.id === dataEdit.cartID)
 
     if (isInputValida) {
       if (isLocalPath) {
@@ -177,7 +184,7 @@ const EditOrderContent = () => {
 
       dispatch(showLoading('sectionBar'))
 
-      customAxiosApi.put(`${API_NAME.USERS}/${dataEdit.usersID}`, {
+      customAxiosApi.put(`${API_NAME.USERS}/${cart.usersID}`, {
         name: dataEdit.name,
         phone: dataEdit.phone,
         address: dataEdit.address

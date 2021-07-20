@@ -17,6 +17,13 @@ export const Delete = () => {
     </div>
   )
 }
+export const Cancell = () => {
+  return (
+    <div className="btn__cancell">
+      <span className="btn__cancell--text">Cancell</span>
+    </div>
+  )
+}
 
 export const Save = () => {
   return (

@@ -28,6 +28,7 @@ export const API_NAME = {
 
   TYPEPRODUCT: 'typeProduct',
   PRODUCTDETAILORDER: 'productDetailOrder',
+  PRODUCTINCART: 'productincart',
 
   GROUPS: 'groups',
   LINEAGE: 'lineage',

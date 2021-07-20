@@ -15,7 +15,7 @@ export const getDataOrderMonth = data => {
   const flathy = false
 
   return data.filter(item => {
-    const moth = moment(item.created_at).format('MM')
+    const moth = moment(item.updated_at).format('MM')
     const monthNow = moment().format('MM')
     if (moth === monthNow) {
       return item
@@ -26,10 +26,17 @@ export const getDataOrderMonth = data => {
 }
 
 export const sumRevenueMonthly = data => {
+  // const days = Array.from(
+  //   { length: moment().daysInMonth() },
+  //   (x, i) => moment('01-07-2021', 'DD-MM-YYYY').startOf('month').add(i, 'days').format('DD-MM')
+  // )
+
   const newData = getDataOrderMonth(data)
   let relsu = 0
   newData.forEach(item => {
-    relsu += item.intoMeny
+    if (item.status.name === 'delivered') {
+      relsu += item.intoMeny
+    }
   })
 
   return relsu

@@ -4,12 +4,19 @@ import { TITLE_MENU } from '../../../dataDefault'
 import PropTypes from 'prop-types'
 
 const ShowCustomers = ({ data }) => {
+  const [...newData] = data
+
+  newData.sort((a, b) => {
+    return -a.id + b.id
+  })
+
+  const dataShow = newData.slice(0, 15)
   return (
     <>
       <div className="show-customer">
         <ul className="show-customer__list">
           {
-            data.map(item => {
+            dataShow.map(item => {
               return (
                 <ItemCustommer
                   name={item.name}
@@ -22,9 +29,13 @@ const ShowCustomers = ({ data }) => {
           }
         </ul>
 
-        <Link className="show-comments__all" to={TITLE_MENU.USERS}>
-          Show All
-        </Link>
+        {
+          data.length > 15 && (
+            <Link className="show-comments__all" to={TITLE_MENU.USERS}>
+              Show All
+            </Link>
+          )
+        }
       </div>
     </>
   )
