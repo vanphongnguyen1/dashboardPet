@@ -5,6 +5,7 @@ import CreactUser from './features/Main/Users/Page/Creat/CreactUser'
 import EditUser from './features/Main/Users/Page/Edit/EditUser'
 
 import Orders from './features/Main/Orders/Page'
+import OrderMoth from './features/Main/Orders/Page/OrderMoth/index'
 import EditOrder from './features/Main/Orders/Page/Edit'
 
 import Comments from './features/Main/Comments/Page'
@@ -67,6 +68,11 @@ export const routes = [
     path: `/${TITLE_MENU.ORDERS}/:id/${EDIT}`,
     exact: true,
     main: ({ match }) => <EditOrder match={match}/>
+  },
+  {
+    path: `/${TITLE_MENU.ORDERMOTH}`,
+    exact: true,
+    main: ({ match }) => <OrderMoth match={match}/>
   },
   {
     path: `/${TITLE_MENU.COMMENTS}`,

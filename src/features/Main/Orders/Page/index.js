@@ -55,10 +55,6 @@ const Orders = ({ match }) => {
     }
   }, [dispatch, dataOrder, dataCarts, dataProductDetailOrder])
 
-  console.log(listDataPending);
-  console.log(listDataCanselled);
-  console.log(listDataDelivered);
-
   return (
     <div className="orders posi-relative">
       <div className="box-btn">

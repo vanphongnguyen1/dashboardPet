@@ -17,17 +17,17 @@ const LoginIdentify = () => {
   const [state, setState] = useState('')
   const [validate, setValidate] = useState('')
   const [isLocalPath, setIsLocalPath] = useState(false)
-  const isForgotPassword = useSelector(state => state.forgotPassword.loading)
+  const isForgotPassword = useSelector((state) => state.forgotPassword.loading)
 
-  const handleOnBlur = e => {
+  const handleOnBlur = (e) => {
     const { value } = e.target
 
-    if ( !value ) {
+    if (!value) {
       setValidate('This field is required to enter *')
     }
   }
 
-  const handleOnChange = e => {
+  const handleOnChange = (e) => {
     const { value } = e.target
 
     setState(value)
@@ -55,7 +55,7 @@ const LoginIdentify = () => {
     return true
   }
 
-  const handleSubmitEmail = e => {
+  const handleSubmitEmail = (e) => {
     e.preventDefault()
     const isInputValida = checkValidated()
 
@@ -64,8 +64,7 @@ const LoginIdentify = () => {
       const data = new FormData()
       data.append('email', state)
 
-      dispatch(fetchForgotPassword(data))
-      .then(data => {
+      dispatch(fetchForgotPassword(data)).then((data) => {
         const { payload } = data
 
         if (typeof payload === 'string') {
@@ -81,11 +80,9 @@ const LoginIdentify = () => {
   }
 
   return (
-    <div className = "login">
+    <div className="login">
       <div className="modal-login">
-        <h1 className="modal-login__heading">
-          Forgot Password ?
-        </h1>
+        <h1 className="modal-login__heading">Forgot Password ?</h1>
 
         <BoxTextLogin
           className="modal-text"
@@ -95,15 +92,13 @@ const LoginIdentify = () => {
           `}
         />
 
-
-        <form action="" onSubmit={handleSubmitEmail}>
+        <form action="" onSubmit={handleSubmitEmail} autoComplete="off">
           <div className="box-input-identify">
             <GroupInput
               login
               type="email"
               name="email"
               titleLabel="Enter email *"
-
               validateName={validate}
               value={state}
               onBlur={handleOnBlur}
@@ -117,19 +112,16 @@ const LoginIdentify = () => {
           </div>
         </form>
 
-        {
-        isForgotPassword === STATUS_FETCH.LOADING &&
-        (
+        {isForgotPassword === STATUS_FETCH.LOADING && (
           <div className="modal-login__loading">
             <TransverseLoading />
           </div>
-        )
-      }
+        )}
       </div>
 
       <Prompt
         when={isLocalPath}
-        message={location => (`Bạn có muốn đến ${location.pathname}`)}
+        message={(location) => `Bạn có muốn đến ${location.pathname}`}
       />
     </div>
   )

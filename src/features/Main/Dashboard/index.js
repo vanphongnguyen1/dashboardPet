@@ -70,7 +70,7 @@ const Dashboard = () => {
       <div className="dashboard__row">
         <div className="dashboard__box box-md-5 box-sm-12">
           <div className="dashboard__row">
-            <Link className="box-half" to={TITLE_MENU.ORDERS}>
+            <Link className="box-half" to={TITLE_MENU.ORDERMOTH}>
               <RootPaper
                 icon="far fa-dollar-sign"
                 title="Monthly Revenue"

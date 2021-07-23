@@ -5,6 +5,7 @@ import PropTypes from 'prop-types'
 import { BtnCreatExport } from '../../../../Components/Btn'
 import { CREAT } from '../../../../dataDefault'
 import { Link } from 'react-router-dom'
+import { removeAccents } from '../../../../Components/access/logic/removeAccent'
 import { Pagination } from 'antd'
 
 const ShowProducts = ({ id, url, dataSearch }) => {
@@ -45,7 +46,7 @@ const ShowProducts = ({ id, url, dataSearch }) => {
   useEffect(() => {
     if (dataSearch) {
       const newData = dataShowProducts.filter(item => (
-        item.url.indexOf(dataSearch) !== -1 || item.name.indexOf(dataSearch) !== -1
+        removeAccents(item.name).indexOf(removeAccents(dataSearch)) !== -1
       ))
 
       setDefaultDataPagination(newData)

@@ -89,7 +89,7 @@ const RestPassword = () => {
 
 
         <div className="box-form">
-          <form action="" onSubmit={handleSubmitEmail} style={{width: '100%'}}>
+          <form action="" onSubmit={handleSubmitEmail} style={{width: '100%'}} autoComplete="off">
             <div className="box-input-identify">
               <GroupInput
                 login

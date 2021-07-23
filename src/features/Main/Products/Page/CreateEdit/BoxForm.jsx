@@ -22,7 +22,7 @@ const BoxForm = ({ url }) => {
 
   return (
     <div className="from-product box-7">
-      <Form url={url} />
+      <Form url={url} autoComplete="off"/>
     </div>
   )
 }

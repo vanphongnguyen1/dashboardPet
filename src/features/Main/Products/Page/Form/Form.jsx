@@ -386,7 +386,7 @@ const Form = ({ url }) => {
 
   return (
     <>
-      <form className="form" onSubmit={onSubmit}>
+      <form className="form" onSubmit={onSubmit} autoComplete="off">
         <Tabs defaultActiveKey="1" centered>
           <TabPane tab="INFOMATION" key="1">
             <div className="box-tabs">

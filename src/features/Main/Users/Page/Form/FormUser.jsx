@@ -192,7 +192,7 @@ const FormUser = ({ url, data }) => {
   return (
     <>
       <div className="info-user">
-        <form className="info-user__form" onSubmit={handleSubmit}>
+        <form className="info-user__form" onSubmit={handleSubmit} autoComplete="off">
           <div className="identity">
             <HeadingBox title="identity" />
 

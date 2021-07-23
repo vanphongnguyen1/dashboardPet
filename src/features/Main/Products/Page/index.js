@@ -71,7 +71,7 @@ const Products = ({ match }) => {
   return (
     <div className="product">
       <div className="box-search-product">
-        <form className="group-search" onSubmit={handleOnSubmit}>
+        <form className="group-search" onSubmit={handleOnSubmit} autoComplete="off">
           <GroupInput
             titleLabel="Search name product"
             type="text"

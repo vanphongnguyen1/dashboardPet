@@ -189,9 +189,6 @@ const EditOrderContent = () => {
         phone: dataEdit.phone,
         address: dataEdit.address
       })
-      .then(response => {
-        console.log(response.data)
-      })
 
       customAxiosApi.put(`${API_NAME.ORDERS}/${dataEdit.id}`, {
         intoMeny: dataEdit.intoMeny,

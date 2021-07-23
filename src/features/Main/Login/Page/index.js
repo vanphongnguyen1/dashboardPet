@@ -130,7 +130,7 @@ const Login = () => {
           { dataError }
         </p>
 
-        <form onSubmit={handleSubmit}>
+        <form onSubmit={handleSubmit} autoComplete="off">
           <GroupInput
             login
             type="email"
