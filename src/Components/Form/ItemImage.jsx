@@ -15,19 +15,19 @@ export const ItemImage = ({ item, handleDelete, slider }) => {
         alt={alt}
         className={
           API_NAME.SLIDER === slider
-          ? 'product-item__image-slider'
-          : 'product-item__image'
+            ? 'product-item__image-slider'
+            : 'product-item__image'
         }
       />
 
       <div className="product-item__icon">
         <span
           className="product-item__icon--eye far fa-eye"
-          onClick={ () => setPreviewVisible(true) }
+          onClick={() => setPreviewVisible(true)}
         />
         <span
           className="product-item__icon--delete far fa-trash"
-          onClick={ handleDelete }
+          onClick={handleDelete}
         />
       </div>
 
@@ -38,11 +38,7 @@ export const ItemImage = ({ item, handleDelete, slider }) => {
         width={API_NAME.SLIDER === slider ? '70%' : '520px'}
         onCancel={() => setPreviewVisible(false)}
       >
-        <img
-          alt={alt}
-          className="modal-image"
-          src={item}
-        />
+        <img alt={alt} className="modal-image" src={item} />
       </Modal>
     </div>
   )

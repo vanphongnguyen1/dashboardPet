@@ -15,38 +15,34 @@ const ShowCustomers = ({ data }) => {
     <>
       <div className="show-customer">
         <ul className="show-customer__list">
-          {
-            dataShow.map(item => {
-              return (
-                <ItemCustommer
-                  name={item.name}
-                  avarta={item.avarta}
-                  key={item.id}
-                  data={item}
-                />
-              )
-            })
-          }
+          {dataShow.map((item) => {
+            return (
+              <ItemCustommer
+                name={item.name}
+                avarta={item.avarta}
+                key={item.id}
+                data={item}
+              />
+            )
+          })}
         </ul>
 
-        {
-          data.length > 15 && (
-            <Link className="show-comments__all" to={TITLE_MENU.USERS}>
-              Show All
-            </Link>
-          )
-        }
+        {data.length > 15 && (
+          <Link className="show-comments__all" to={TITLE_MENU.USERS}>
+            Show All
+          </Link>
+        )}
       </div>
     </>
   )
 }
 
 ShowCustomers.propTypes = {
-  data: PropTypes.array
+  data: PropTypes.array,
 }
 
 ShowCustomers.defaultProps = {
-  data: []
+  data: [],
 }
 
 export default ShowCustomers

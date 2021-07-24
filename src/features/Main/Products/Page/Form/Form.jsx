@@ -15,7 +15,10 @@ import Upload from '../../../../../Components/Form/Upload'
 import { getBase64 } from '../../../../../Components/access/logic/getBase64'
 import { customAxiosApi } from '../../../../../customAxiosApi'
 import { API_NAME } from '../../../../../dataDefault'
-import { messageError, openMessage } from '../../../../../Components/openMessage'
+import {
+  messageError,
+  openMessage,
+} from '../../../../../Components/openMessage'
 import { Switch } from 'antd'
 import PropTypes from 'prop-types'
 import { CREAT, EDIT } from '../../../../../dataDefault'
@@ -28,13 +31,12 @@ const Form = ({ url }) => {
 
   const isRequitEdit = pathUrl === EDIT
   const isRequitCreat = pathUrl === CREAT
-
   const { TabPane } = Tabs
   const dispatch = useDispatch()
 
-  const dataGender = useSelector(state => state.gender.list)
-  const dataGroup = useSelector(state => state.groups.list)
-  const dataLineage = useSelector(state => state.lineage)
+  const dataGender = useSelector((state) => state.gender.list)
+  const dataGroup = useSelector((state) => state.groups.list)
+  const dataLineage = useSelector((state) => state.lineage)
 
   const initialState = {
     name: '',
@@ -72,14 +74,11 @@ const Form = ({ url }) => {
       <li>Present:</li>
     </ul>
   `
-
   const [dataProduct, setDataProduct] = useState(initialState)
   const [dataValide, setDataValide] = useState(initialValide)
-
   const [dataFiles, setDataFiles] = useState([])
   const [dataEditer, setDataEditer] = useState(initialDataEditp)
   const [dataImageBase64, setDataImageBase64] = useState([])
-
   const typingTimeoutRef = useRef(null)
 
   useEffect(() => {
@@ -87,23 +86,18 @@ const Form = ({ url }) => {
     dispatch(fetchGender())
 
     if (id && isRequitEdit) {
-      // dispatch(showLoading('sectionBar'))
-
-      dispatch(fetchProduct(id))
-      .then(data => {
+      dispatch(fetchProduct(id)).then((data) => {
         const { payload } = data
 
-          setDataProduct({
-            ...payload,
-            groupID: payload.lineage.groupID
-          })
+        setDataProduct({
+          ...payload,
+          groupID: payload.lineage.groupID,
+        })
 
-          setDataEditer(payload.type_product.description)
-          setDataFiles(payload.images.url.split('|'))
-          setDataImageBase64(payload.images.url.split('|'))
+        setDataEditer(payload.type_product.description)
+        setDataFiles(payload.images.url.split('|'))
+        setDataImageBase64(payload.images.url.split('|'))
       })
-
-      // dispatch(hideLoading('sectionBar'))
     }
   }, [dispatch, id, isRequitEdit])
 
@@ -118,79 +112,70 @@ const Form = ({ url }) => {
     }
   }, [dataLineage.loading, dispatch])
 
-  const handleOnBlur = e => {
+  const handleOnBlur = (e) => {
     const { value, name } = e.target
-
-    if ( !value ) {
+    if (!value) {
       setDataValide({
         ...dataValide,
-        [name]: 'Requite *'
+        [name]: 'Requite *',
       })
     }
   }
 
-  const handleOnchange = async e => {
-    const { value, files, type, name  } = e.target
+  const handleOnchange = async (e) => {
+    const { value, files, type, name } = e.target
     let newValue = value
     const newFiles = []
 
-    if ( type === 'file') {
+    if (type === 'file') {
       const base64 = []
-
       for (let i = 0; i < files.length; i++) {
-        if (files[i].name.indexOf('.jpg') !== -1 || files[i].name.indexOf('.png') !== -1) {
-          base64.push(
-            await getBase64(files[i])
-          )
+        if (
+          files[i].name.indexOf('.jpg') !== -1 ||
+          files[i].name.indexOf('.png') !== -1
+        ) {
+          base64.push(await getBase64(files[i]))
 
           newFiles.push(files[i])
         }
       }
 
-      setDataImageBase64(
-        [...dataImageBase64, ...base64]
-      )
-      setDataFiles(
-        [...dataFiles, ...newFiles]
-      )
+      setDataImageBase64([...dataImageBase64, ...base64])
+      setDataFiles([...dataFiles, ...newFiles])
     }
 
     if (name === 'groupID') {
       setDataProduct({
         ...dataProduct,
         [name]: value,
-        lineageID: ''
+        lineageID: '',
       })
-
-      return ;
+      return
     }
 
     setDataProduct({
       ...dataProduct,
-      [name]: newValue
+      [name]: newValue,
     })
 
     setDataValide({
       ...dataValide,
-      [name]:  ''
+      [name]: '',
     })
   }
 
-  const handleDeleteImage = index => {
+  const handleDeleteImage = (index) => {
     const [...newDataFile] = dataFiles
     const [...newDataBase64] = dataImageBase64
 
     newDataBase64.splice(index, 1)
     newDataFile.splice(index, 1)
-
     setDataImageBase64([...newDataBase64])
-
     setDataFiles(newDataFile)
   }
 
   const handleChangeEditor = (e, editor) => {
     const value = editor.getData()
-
     if (typingTimeoutRef.current) {
       clearInterval(typingTimeoutRef.current)
     }
@@ -204,15 +189,19 @@ const Form = ({ url }) => {
     const { ...valide } = dataValide
     const isChecked = true
 
-    for( let key in dataProduct) {
-      if (!dataProduct[key] && key !== 'isNew' && key !== 'isStatus' && key !== 'isHot') {
+    for (let key in dataProduct) {
+      if (
+        !dataProduct[key] &&
+        key !== 'isNew' &&
+        key !== 'isStatus' &&
+        key !== 'isHot'
+      ) {
         valide[key] = 'Requite *'
       }
     }
-
     setDataValide(valide)
 
-    for( let key in valide) {
+    for (let key in valide) {
       if (valide[key]) {
         return !isChecked
       }
@@ -221,15 +210,11 @@ const Form = ({ url }) => {
     if (!dataFiles.length || !dataEditer) {
       return !isChecked
     }
-
     return isChecked
   }
 
   const onSubmit = async () => {
     const isValide = valideChecked()
-
-    console.log(dataProduct);
-
     if (isValide) {
       dispatch(showLoading('sectionbar'))
 
@@ -257,116 +242,101 @@ const Form = ({ url }) => {
 
       if (isRequitCreat) {
         const data = new FormData()
-        dataFiles.forEach(file => {
+        dataFiles.forEach((file) => {
           data.append('files[]', file)
         })
 
-        await customAxiosApi.post(API_NAME.IMAGES, data)
-        .then(response => {
-          const { id } = response.data.data
-          console.log(id);
-          return id
-        })
-        .then(id => {
-          const imagesID = id
-          customAxiosApi.post(API_NAME.TYPEPRODUCT, {
-            description: dataEditer,
-          })
-          .then(response => {
+        await customAxiosApi
+          .post(API_NAME.IMAGES, data)
+          .then((response) => {
             const { id } = response.data.data
-
-            customAxiosApi.post(API_NAME.PRODUCTS, {
-              ...postProduct,
-              typeProductID: id,
-              imagesID,
-            })
-            .then((respo) => {
-              openMessage('Push Success !')
-              console.log('adasdasd',respo );
-
-              setDataProduct({
-                name: '',
-                price: '',
-                priceSale: '',
-                groupID: '1',
-                lineageID: '',
-                genderID: '1',
-                isStatus: true,
-                isNew: true,
-                isHot: true
+            return id
+          })
+          .then((id) => {
+            const imagesID = id
+            customAxiosApi
+              .post(API_NAME.TYPEPRODUCT, {
+                description: dataEditer,
               })
+              .then((response) => {
+                const { id } = response.data.data
 
-              setDataFiles([])
+                customAxiosApi
+                  .post(API_NAME.PRODUCTS, {
+                    ...postProduct,
+                    typeProductID: id,
+                    imagesID,
+                  })
+                  .then(() => {
+                    openMessage('Push Success !')
+                    setDataProduct({
+                      name: '',
+                      price: '',
+                      priceSale: '',
+                      groupID: '1',
+                      lineageID: '',
+                      genderID: '1',
+                      isStatus: true,
+                      isNew: true,
+                      isHot: true,
+                    })
 
-              // setDataEditer('')
-
-              setDataImageBase64([])
-            })
-
-            .catch(err => {
-              messageError(err.message)
-            })
+                    setDataFiles([])
+                    setDataImageBase64([])
+                  })
+                  .catch((err) => {
+                    messageError(err.message)
+                  })
+              })
+              .catch((err) => {
+                messageError(err.message)
+              })
           })
-
-          .catch(err => {
+          .catch((err) => {
             messageError(err.message)
-            console.log(err.message);
           })
-        })
-
-        .catch(err => {
-          messageError(err.message)
-        })
       }
 
       if (isRequitEdit) {
-
         const data = new FormData()
 
-        dataFiles.forEach(file => {
+        dataFiles.forEach((file) => {
           if (typeof file === 'string') {
             data.append('filesString[]', file)
-            return ;
+            return
           }
-
           data.append('files[]', file)
         })
-
         data.append('_method', 'put')
 
-        customAxiosApi.post(
-          `${API_NAME.IMAGES}/${dataProduct.imagesID}`,
-          data,
-          {
+        customAxiosApi
+          .post(`${API_NAME.IMAGES}/${dataProduct.imagesID}`, data, {
             headers: {
-              'Content-Type': 'multipart/form-data'
-            }
-          }
-        )
-        .then(() => {
-
-          customAxiosApi.put(`${API_NAME.TYPEPRODUCT}/${dataProduct.typeProductID}`, {
-            description: dataEditer,
+              'Content-Type': 'multipart/form-data',
+            },
           })
           .then(() => {
-
-            customAxiosApi.put(`${API_NAME.PRODUCTS}/${dataProduct.id}`, postProduct)
-            .then(() => {
-              openMessage('Push Success !')
-            })
-            .catch(err => {
-              messageError(err.message)
-            })
-
+            customAxiosApi
+              .put(`${API_NAME.TYPEPRODUCT}/${dataProduct.typeProductID}`, {
+                description: dataEditer,
+              })
+              .then(() => {
+                customAxiosApi
+                  .put(`${API_NAME.PRODUCTS}/${dataProduct.id}`, postProduct)
+                  .then(() => {
+                    openMessage('Push Success !')
+                  })
+                  .catch((err) => {
+                    messageError(err.message)
+                  })
+              })
+              .catch((err) => {
+                messageError(err.message)
+              })
           })
-          .catch(err => {
+          .catch((err) => {
             messageError(err.message)
           })
-
-        })
-        .catch(err => {
-          messageError(err.message)
-        })
       }
 
       await dispatch(hideLoading('sectionbar'))
@@ -380,7 +350,7 @@ const Form = ({ url }) => {
 
     setDataProduct({
       ...dataProduct,
-      [name]: checked
+      [name]: checked,
     })
   }
 
@@ -394,11 +364,11 @@ const Form = ({ url }) => {
                 <GroupInput
                   type="text"
                   name="name"
-                  value={ dataProduct.name }
-                  validateName={ dataValide.name }
+                  value={dataProduct.name}
+                  validateName={dataValide.name}
                   titleLabel="Name Product"
-                  onChange={ handleOnchange }
-                  onBlur={ handleOnBlur }
+                  onChange={handleOnchange}
+                  onBlur={handleOnBlur}
                 />
               </div>
 
@@ -409,10 +379,10 @@ const Form = ({ url }) => {
                       type="number"
                       name="price"
                       titleLabel="Price"
-                      value={ dataProduct.price }
-                      validateName={ dataValide.price }
-                      onChange={ handleOnchange }
-                      onBlur={ handleOnBlur }
+                      value={dataProduct.price}
+                      validateName={dataValide.price}
+                      onChange={handleOnchange}
+                      onBlur={handleOnBlur}
                     />
                   </div>
 
@@ -421,10 +391,10 @@ const Form = ({ url }) => {
                       type="number"
                       name="priceSale"
                       titleLabel="Price Sale"
-                      value={ dataProduct.priceSale }
-                      validateName={ dataValide.priceSale }
-                      onChange={ handleOnchange }
-                      onBlur={ handleOnBlur }
+                      value={dataProduct.priceSale}
+                      validateName={dataValide.priceSale}
+                      onChange={handleOnchange}
+                      onBlur={handleOnBlur}
                     />
                   </div>
                 </div>
@@ -435,25 +405,23 @@ const Form = ({ url }) => {
                   <div className="box-6">
                     <Selector
                       name="groupID"
-                      value={ dataProduct.groupID }
-                      validateName={ dataValide.groupID }
+                      value={dataProduct.groupID}
+                      validateName={dataValide.groupID}
                       title="Group"
-                      onChange={ handleOnchange }
-                      options={ dataGroup }
+                      onChange={handleOnchange}
+                      options={dataGroup}
                     />
                   </div>
-
-
 
                   <div className="box-6">
                     <Selector
                       name="lineageID"
                       title="Lineage"
-                      value={ dataProduct.lineageID }
-                      validateName={ dataValide.lineageID }
-                      onChange={ handleOnchange }
-                      disabled={ dataLineage.list.length ? false : true }
-                      options={ dataLineage.list }
+                      value={dataProduct.lineageID}
+                      validateName={dataValide.lineageID}
+                      onChange={handleOnchange}
+                      disabled={dataLineage.list.length ? false : true}
+                      options={dataLineage.list}
                     />
                   </div>
                 </div>
@@ -465,10 +433,10 @@ const Form = ({ url }) => {
                     <Selector
                       name="genderID"
                       title="Gender"
-                      value={ dataProduct.genderID }
-                      validateName={ dataValide.genderID }
-                      onChange={ handleOnchange }
-                      options={ dataGender }
+                      value={dataProduct.genderID}
+                      validateName={dataValide.genderID}
+                      onChange={handleOnchange}
+                      options={dataGender}
                     />
                   </div>
                 </div>
@@ -530,7 +498,9 @@ const Form = ({ url }) => {
                 <CKEditor
                   editor={ClassicEditor}
                   data={dataEditer}
-                  onChange={(event, editor) => handleChangeEditor(event, editor)}
+                  onChange={(event, editor) =>
+                    handleChangeEditor(event, editor)
+                  }
                 />
               </div>
             </div>
@@ -550,10 +520,10 @@ const Form = ({ url }) => {
 }
 
 Form.propTypes = {
-  url: PropTypes.string
+  url: PropTypes.string,
 }
 Form.defaultProps = {
-  url: ''
+  url: '',
 }
 
 export default Form

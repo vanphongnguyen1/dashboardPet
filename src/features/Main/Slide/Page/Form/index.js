@@ -9,7 +9,10 @@ import Upload from '../../../../../Components/Form/Upload'
 import { getBase64 } from '../../../../../Components/access/logic/getBase64'
 import { customAxiosApi } from '../../../../../customAxiosApi'
 import { API_NAME } from '../../../../../dataDefault'
-import { messageError, openMessage } from '../../../../../Components/openMessage'
+import {
+  messageError,
+  openMessage,
+} from '../../../../../Components/openMessage'
 import { Switch } from 'antd'
 import PropTypes from 'prop-types'
 import { CREAT, EDIT } from '../../../../../dataDefault'
@@ -49,46 +52,44 @@ const Form = ({ url }) => {
     if (id) {
       dispatch(showLoading('sectionBar'))
       dispatch(fetchSlider(id))
-      .then(res => {
+        .then((res) => {
+          const { data } = res.payload
+          setDataSlider(data)
+          setDataImageBase64([data.imageUrl])
+          setDataFiles([data.imageUrl])
 
-        const { data } = res.payload
-        setDataSlider(data)
-        setDataImageBase64([data.imageUrl])
-        setDataFiles([data.imageUrl])
-
-        setTimeout(() => {
-          dispatch(hideLoading('sectionBar'))
-        }, 500)
-      })
-      .catch(() => {
-
-      })
+          setTimeout(() => {
+            dispatch(hideLoading('sectionBar'))
+          }, 500)
+        })
+        .catch(() => {})
     }
   }, [dispatch, id])
 
-  const handleOnBlur = e => {
+  const handleOnBlur = (e) => {
     const { value, name } = e.target
 
-    if ( !value ) {
+    if (!value) {
       setDataValide({
         ...dataValide,
-        [name]: 'Requite *'
+        [name]: 'Requite *',
       })
     }
   }
 
-  const handleOnchange = async e => {
-    const { value, files, type, name  } = e.target
+  const handleOnchange = async (e) => {
+    const { value, files, type, name } = e.target
 
-    if ( type === 'file') {
+    if (type === 'file') {
       const newFiles = []
       const base64 = []
 
       for (let i = 0; i < files.length; i++) {
-        if (files[i].name.indexOf('.jpg') !== -1 || files[i].name.indexOf('.png') !== -1) {
-          base64.push(
-            await getBase64(files[i])
-          )
+        if (
+          files[i].name.indexOf('.jpg') !== -1 ||
+          files[i].name.indexOf('.png') !== -1
+        ) {
+          base64.push(await getBase64(files[i]))
 
           newFiles.push(files[i])
         }
@@ -102,16 +103,16 @@ const Form = ({ url }) => {
 
     setDataSlider({
       ...dataSlider,
-      [name]: value
+      [name]: value,
     })
 
     setDataValide({
       ...dataValide,
-      [name]:  ''
+      [name]: '',
     })
   }
 
-  const handleDeleteImage = index => {
+  const handleDeleteImage = (index) => {
     const [...newDataFile] = dataFiles
     const [...newDataBase64] = dataImageBase64
 
@@ -127,7 +128,7 @@ const Form = ({ url }) => {
     const { ...valide } = dataValide
     const isChecked = true
 
-    for( let key in dataSlider) {
+    for (let key in dataSlider) {
       if (!dataSlider[key] && key !== 'isStatus') {
         valide[key] = 'Requite *'
       }
@@ -135,7 +136,7 @@ const Form = ({ url }) => {
 
     setDataValide(valide)
 
-    for( let key in valide) {
+    for (let key in valide) {
       if (valide[key]) {
         return !isChecked
       }
@@ -153,37 +154,35 @@ const Form = ({ url }) => {
 
     if (isValide) {
       dispatch(showLoading('sectionbar'))
-      console.log('ádasd', pathUrl);
-      console.log('ádasd', CREAT);
 
       if (isRequitCreat) {
-          const data = new FormData()
-          data.append('files', dataFiles[0])
-          data.append('title', dataSlider.title)
-          data.append('subTitle', dataSlider.subTitle)
-          data.append('url', dataSlider.url)
-          data.append('isStatus', dataSlider.isStatus ? 1 : 0)
+        const data = new FormData()
+        data.append('files', dataFiles[0])
+        data.append('title', dataSlider.title)
+        data.append('subTitle', dataSlider.subTitle)
+        data.append('url', dataSlider.url)
+        data.append('isStatus', dataSlider.isStatus ? 1 : 0)
 
-            customAxiosApi.post(API_NAME.SLIDER, data)
-            .then((respo) => {
-              openMessage('Push Success !')
-              console.log('adasdasd',respo );
+        customAxiosApi
+          .post(API_NAME.SLIDER, data)
+          .then((respo) => {
+            openMessage('Push Success !')
 
-              setDataSlider({
-                title: '',
-                subTitle: '',
-                url: '',
-                isStatus: true,
-              })
-
-              setDataFiles([])
-              setDataImageBase64([])
+            setDataSlider({
+              title: '',
+              subTitle: '',
+              url: '',
+              isStatus: true,
             })
 
-            .catch(err => {
-              messageError(err.message)
-            })
-          }
+            setDataFiles([])
+            setDataImageBase64([])
+          })
+
+          .catch((err) => {
+            messageError(err.message)
+          })
+      }
 
       if (isRequitEdit) {
         const data = new FormData()
@@ -194,13 +193,14 @@ const Form = ({ url }) => {
         data.append('isStatus', dataSlider.isStatus ? 1 : 0)
         data.append('_method', 'put')
 
-        customAxiosApi.post(`${API_NAME.SLIDER}/${id}`, data)
-        .then(() => {
-          openMessage('Push Success !')
-        })
-        .catch(err => {
-          messageError(err.message)
-        })
+        customAxiosApi
+          .post(`${API_NAME.SLIDER}/${id}`, data)
+          .then(() => {
+            openMessage('Push Success !')
+          })
+          .catch((err) => {
+            messageError(err.message)
+          })
       }
 
       await dispatch(hideLoading('sectionbar'))
@@ -214,7 +214,7 @@ const Form = ({ url }) => {
 
     setDataSlider({
       ...dataSlider,
-      [name]: checked
+      [name]: checked,
     })
   }
 
@@ -228,11 +228,11 @@ const Form = ({ url }) => {
                 <GroupInput
                   type="text"
                   name="title"
-                  value={ dataSlider.title }
-                  validateName={ dataValide.title }
+                  value={dataSlider.title}
+                  validateName={dataValide.title}
                   titleLabel="Title Slider"
-                  onChange={ handleOnchange }
-                  onBlur={ handleOnBlur }
+                  onChange={handleOnchange}
+                  onBlur={handleOnBlur}
                 />
               </div>
 
@@ -240,22 +240,22 @@ const Form = ({ url }) => {
                 <GroupInput
                   type="text"
                   name="url"
-                  value={ dataSlider.url }
-                  validateName={ dataValide.url }
+                  value={dataSlider.url}
+                  validateName={dataValide.url}
                   titleLabel="Url Slider"
-                  onChange={ handleOnchange }
-                  onBlur={ handleOnBlur }
+                  onChange={handleOnchange}
+                  onBlur={handleOnBlur}
                 />
               </div>
 
               <div className="form__product">
                 <Textarea
                   name="subTitle"
-                  value={ dataSlider.subTitle }
-                  validateName={ dataValide.subTitle }
+                  value={dataSlider.subTitle}
+                  validateName={dataValide.subTitle}
                   title="Sub Title Slider"
-                  onChange={ handleOnchange }
-                  onBlur={ handleOnBlur }
+                  onChange={handleOnchange}
+                  onBlur={handleOnBlur}
                 />
               </div>
 
@@ -279,8 +279,8 @@ const Form = ({ url }) => {
             <div className="box-tabs">
               <div className="form__product">
                 <Upload
-                  data={ dataImageBase64 }
-                  onChange={ handleOnchange }
+                  data={dataImageBase64}
+                  onChange={handleOnchange}
                   handleDeleteItem={handleDeleteImage}
                   nameUrl={urlConvert[1]}
                 />
@@ -302,10 +302,10 @@ const Form = ({ url }) => {
 }
 
 Form.propTypes = {
-  url: PropTypes.string
+  url: PropTypes.string,
 }
 Form.defaultProps = {
-  url: ''
+  url: '',
 }
 
 export default Form

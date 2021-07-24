@@ -18,7 +18,15 @@ import { useDispatch } from 'react-redux'
 
 const ItemComment = ({ item }) => {
   const dispatch = useDispatch()
-  const { id, products, status_comments, title, created_at, updated_at, users} = item
+  const {
+    id,
+    products,
+    status_comments,
+    title,
+    created_at,
+    updated_at,
+    users,
+  } = item
 
   const newDataEdit = {
     id,
@@ -30,10 +38,9 @@ const ItemComment = ({ item }) => {
     created: created_at,
     updated: updated_at,
     userName: users.name,
-    usersID: users.id
+    usersID: users.id,
   }
 
-  // console.log('aaa', item);
   return (
     <li className="show-comments__item">
       <Link

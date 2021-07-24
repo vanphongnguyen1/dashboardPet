@@ -16,28 +16,28 @@ import { showLoading, hideLoading } from 'react-redux-loading-bar'
 const EditComments = () => {
   const initial = {
     statusCommentsID: '',
-    title: ''
+    title: '',
   }
 
   const dispatch = useDispatch()
-  const dataStatus = useSelector(state => state.statusComments.list)
-  const dataEdit = useSelector(state => state.comments.dataEdit)
+  const dataStatus = useSelector((state) => state.statusComments.list)
+  const dataEdit = useSelector((state) => state.comments.dataEdit)
   const { comment, isEdit } = dataEdit
   const [newData, setNewData] = useState(initial)
 
   useEffect(() => {
     setNewData({
-      statusCommentsID: comment.statusCommentsID ,
-      title: comment.title
+      statusCommentsID: comment.statusCommentsID,
+      title: comment.title,
     })
   }, [comment])
 
-  const handleOnChange = e => {
+  const handleOnChange = (e) => {
     const { name, value } = e.target
 
     setNewData({
       ...newData,
-      [name]: value
+      [name]: value,
     })
   }
 
@@ -67,10 +67,12 @@ const EditComments = () => {
 
   return (
     <>
-      <div className={`
+      <div
+        className={`
         edit-comments
         ${isEdit ? 'translateZero' : ''}
-      `}>
+      `}
+      >
         <div className="box-row justify-between">
           <HeadingBox title="Comments Detail" />
 
@@ -106,7 +108,7 @@ const EditComments = () => {
 
         <div className="edit-comments__box">
           <Textarea
-            title='Comments'
+            title="Comments"
             name="title"
             value={newData.title}
             onChange={handleOnChange}
@@ -120,7 +122,7 @@ const EditComments = () => {
             </div>
 
             <div className="box-submit__delete" onClick={handleDelete}>
-              <Delete/>
+              <Delete />
             </div>
           </div>
         </div>

@@ -20,12 +20,12 @@ const Slider = ({ match }) => {
   const history = useHistory()
 
   const [selectedRowKeys, setSelectedRowKeys] = useState([])
-  const dataSlider = useSelector(state => state.slider)
+  const dataSlider = useSelector((state) => state.slider)
   const idLogin = sessionStorage.getItem('id')
 
   useEffect(() => {
     if (!idLogin) {
-      history.replace("/")
+      history.replace('/')
     }
   }, [history, idLogin])
 
@@ -57,16 +57,17 @@ const Slider = ({ match }) => {
       width: '8%',
       fixed: 'left',
       sorter: {
-        compare: (a, b) => moment(a.updated).format('x') - moment(b.updated).format('x'),
+        compare: (a, b) =>
+          moment(a.updated).format('x') - moment(b.updated).format('x'),
       },
       render: (text, record) => (
         <Link
           to={`/${url}/${record.id}/${EDIT.toLowerCase()}`}
           className="antd-link"
         >
-          { date(text) }
+          {date(text)}
         </Link>
-      )
+      ),
     },
     {
       title: 'Title',
@@ -79,56 +80,36 @@ const Slider = ({ match }) => {
           to={`/${url}/${record.id}/${EDIT.toLowerCase()}`}
           className="antd-link"
         >
-          { text }
+          {text}
         </Link>
-      )
+      ),
     },
     {
       title: 'Image',
       dataIndex: 'imageUrl',
       width: '25%',
       render: (text, record) => (
-        <div
-          className="antd-link"
-        >
+        <div className="antd-link">
           <img src={text} alt="a" className="slider__image" />
         </div>
-      )
+      ),
     },
 
     {
       title: 'Sub Title',
       dataIndex: 'subTitle',
-      render: (text, record) => (
-        <div
-          className="antd-link"
-        >
-          { text }
-        </div>
-      )
+      render: (text, record) => <div className="antd-link">{text}</div>,
     },
     {
       title: 'Link URL',
       dataIndex: 'url',
-      render: (text, record) => (
-        <div
-          className="antd-link"
-        >
-          { text }
-        </div>
-      )
+      render: (text, record) => <div className="antd-link">{text}</div>,
     },
     {
       title: 'Status',
       dataIndex: 'isStatus',
       width: '5%',
-      render: (text, record) => (
-        <div
-          className="antd-link"
-        >
-          { text }
-        </div>
-      )
+      render: (text, record) => <div className="antd-link">{text}</div>,
     },
     {
       title: 'Action',
@@ -136,30 +117,23 @@ const Slider = ({ match }) => {
       fixed: 'right',
       width: '10%',
       render: (text, record) => (
-        <div
-          className="antd-link"
-        >
+        <div className="antd-link">
           <Link to={`/${url}/${record.id}/${EDIT.toLowerCase()}`}>
             <Button type="primary">Edit</Button>
-          </Link>&nbsp;
-
-          <Button
-            type="primary"
-            danger
-            onClick={() => handleDelete(record.id)}
-          >
+          </Link>
+          &nbsp;
+          <Button type="primary" danger onClick={() => handleDelete(record.id)}>
             Delete
           </Button>
         </div>
-      )
+      ),
     },
   ]
 
-  const handleDelete = async id => {
+  const handleDelete = async (id) => {
     dispatch(showLoading('sectionBar'))
 
-    await customAxiosApi.delete(`${API_NAME.SLIDER}/${id}`)
-    .catch(rej => {
+    await customAxiosApi.delete(`${API_NAME.SLIDER}/${id}`).catch((rej) => {
       messageError(rej.messageError)
     })
 
@@ -185,18 +159,12 @@ const Slider = ({ match }) => {
   return (
     <div className="slider posi-relative">
       <div className="box-btn">
-          <Link
-            to={`/${url}/${CREAT.toLowerCase()}`}
-            className="box-btn--link"
-          >
-            <BtnCreatExport icon="fas fa-plus" title="Create"/>
-          </Link>
+        <Link to={`/${url}/${CREAT.toLowerCase()}`} className="box-btn--link">
+          <BtnCreatExport icon="fas fa-plus" title="Create" />
+        </Link>
       </div>
 
-      <BoxItemDele
-        items={selectedRowKeys}
-        onClick={handleDeleteSelect}
-      />
+      <BoxItemDele items={selectedRowKeys} onClick={handleDeleteSelect} />
 
       <Table
         rowKey="id"
@@ -211,13 +179,13 @@ const Slider = ({ match }) => {
 }
 
 Slider.propTypes = {
-  match: PropTypes.object
+  match: PropTypes.object,
 }
 
 Slider.defaultProps = {
   match: {
-    url: ''
-  }
+    url: '',
+  },
 }
 
 export default Slider

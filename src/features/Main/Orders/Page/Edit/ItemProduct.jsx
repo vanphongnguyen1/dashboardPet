@@ -9,18 +9,14 @@ const ItemProduct = (props) => {
     count,
     totalPrice,
     onChangeCount,
-    handleDelProduct
+    handleDelProduct,
   } = props
 
   return (
     <div className="table__tr">
-      <p className="table__td--name">
-        { name }
-      </p>
+      <p className="table__td--name">{name}</p>
 
-      <p className="table__td--price">
-        { myFormatNumber(price) }
-      </p>
+      <p className="table__td--price">{myFormatNumber(price)}</p>
 
       <div className="table__td--count">
         <InputNumber
@@ -31,14 +27,9 @@ const ItemProduct = (props) => {
         />
       </div>
 
-      <p className="table__td--totalPrice">
-        { myFormatNumber(totalPrice) }
-      </p>
+      <p className="table__td--totalPrice">{myFormatNumber(totalPrice)}</p>
 
-      <p
-        className="table__td--action"
-        onClick={handleDelProduct}
-      >
+      <p className="table__td--action" onClick={handleDelProduct}>
         Delete
       </p>
     </div>
@@ -62,7 +53,7 @@ ItemProduct.defaultProps = {
 
   name: '',
   onChangeCount: () => {},
-  handleDelProduct: () => {}
+  handleDelProduct: () => {},
 }
 
 export default ItemProduct

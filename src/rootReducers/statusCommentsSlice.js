@@ -5,19 +5,18 @@ import { STATUS_FETCH, API_NAME } from '../dataDefault'
 export const fetchStatusComments = createAsyncThunk(
   'statusCommentsSlice/fetchStatusComments',
   async () => {
-    return customAxiosApi.get(API_NAME.STATUSCOMMENTS)
-      .then(response => {
-        const { data } = response.data
-        return data
-      })
-  }
+    return customAxiosApi.get(API_NAME.STATUSCOMMENTS).then((response) => {
+      const { data } = response.data
+      return data
+    })
+  },
 )
 
 export const statusCommentsSlice = createSlice({
   name: 'statusComments',
   initialState: {
     list: [],
-    loading: 'idle'
+    loading: 'idle',
   },
 
   reducers: {
@@ -32,7 +31,7 @@ export const statusCommentsSlice = createSlice({
 
     defaultLoading: (state, action) => {
       state.loading = 'idle'
-    }
+    },
   },
 
   extraReducers: {
@@ -53,11 +52,11 @@ export const statusCommentsSlice = createSlice({
       // Add user to the state array
       state.loading = STATUS_FETCH.FAILED
     },
-  }
+  },
 })
 
 const { actions, reducer } = statusCommentsSlice
 
-export const { defaultLoading, defaultState, defaultList  } = actions
+export const { defaultLoading, defaultState, defaultList } = actions
 
 export default reducer

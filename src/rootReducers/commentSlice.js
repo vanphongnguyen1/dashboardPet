@@ -5,12 +5,11 @@ import { STATUS_FETCH, API_NAME } from '../dataDefault'
 export const fetchComments = createAsyncThunk(
   'comments/fetchComments',
   async () => {
-    return customAxiosApi.get(API_NAME.COMMENTS)
-      .then(response => {
-        const { data } = response.data
-        return data
-      })
-  }
+    return customAxiosApi.get(API_NAME.COMMENTS).then((response) => {
+      const { data } = response.data
+      return data
+    })
+  },
 )
 
 export const commentSlice = createSlice({
@@ -21,8 +20,8 @@ export const commentSlice = createSlice({
 
     dataEdit: {
       comment: {},
-      isEdit: false
-    }
+      isEdit: false,
+    },
   },
 
   reducers: {
@@ -44,7 +43,7 @@ export const commentSlice = createSlice({
     defaultDataComment: (state, action) => {
       state.dataEdit.comment = {}
       state.dataEdit.isEdit = false
-    }
+    },
   },
 
   extraReducers: {
@@ -65,7 +64,7 @@ export const commentSlice = createSlice({
       // Add user to the state array
       state.loading = STATUS_FETCH.FAILED
     },
-  }
+  },
 })
 
 const { actions, reducer } = commentSlice
@@ -74,7 +73,7 @@ export const {
   setDataComment,
   defaultState,
   defaultListComments,
-  defaultDataComment
+  defaultDataComment,
 } = actions
 
 export default reducer

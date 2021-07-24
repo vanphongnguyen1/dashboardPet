@@ -2,7 +2,7 @@ import { Lable } from './Lable'
 import { ValidaError } from './ValidaError'
 import PropTypes from 'prop-types'
 
-export const Selector = props => {
+export const Selector = (props) => {
   const {
     name,
     title,
@@ -10,7 +10,7 @@ export const Selector = props => {
     value,
     options,
     disabled,
-    validateName
+    validateName,
   } = props
   return (
     <div className="group">
@@ -21,43 +21,26 @@ export const Selector = props => {
         value={value}
         disabled={disabled}
       >
-        {
-          name === 'lineageID'
-           ? <option>Select...</option>
-           : ''
-        }
+        {name === 'lineageID' ? <option>Select...</option> : ''}
 
-        {
-          options.length > 0
-            ? options.map(item => {
+        {options.length > 0
+          ? options.map((item) => {
               return (
-                <option
-                  value={item.id}
-                  key={item.id}
-                  >
-                    { item.name }
+                <option value={item.id} key={item.id}>
+                  {item.name}
                 </option>
               )
             })
-            : ''
-        }
+          : ''}
       </select>
 
-      <Lable
-        text={title}
-        className='group__label label-input-value'
-      />
+      <Lable text={title} className="group__label label-input-value" />
 
-      {
-        validateName ? (
-          <ValidaError
-            className="group__valide"
-            text={validateName}
-          />
-        ) : (
-          <span className="pseudo-input" />
-        )
-      }
+      {validateName ? (
+        <ValidaError className="group__valide" text={validateName} />
+      ) : (
+        <span className="pseudo-input" />
+      )}
     </div>
   )
 }
@@ -67,14 +50,11 @@ Selector.propTypes = {
   title: PropTypes.string,
   validateName: PropTypes.string,
 
-  value: PropTypes.oneOfType([
-    PropTypes.string,
-    PropTypes.number,
-  ]),
+  value: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
 
   onChange: PropTypes.func,
   options: PropTypes.array,
-  disabled: PropTypes.bool
+  disabled: PropTypes.bool,
 }
 
 Selector.defaultProps = {
@@ -85,5 +65,5 @@ Selector.defaultProps = {
 
   onChange: () => {},
   options: [],
-  disabled: false
+  disabled: false,
 }

@@ -10,7 +10,7 @@ const CreactUser = ({ match }) => {
 
   useEffect(() => {
     if (!idLogin) {
-      history.replace("/")
+      history.replace('/')
     }
   }, [idLogin, history])
 
@@ -19,7 +19,7 @@ const CreactUser = ({ match }) => {
       <div className="edit-user">
         <div className="box-row">
           <div className="box-8 box-md-10 box-sm-12 mr-center">
-            <FormUser url={match.url}/>
+            <FormUser url={match.url} />
           </div>
         </div>
       </div>
@@ -28,11 +28,11 @@ const CreactUser = ({ match }) => {
 }
 
 CreactUser.propTypes = {
-  match: PropTypes.object
+  match: PropTypes.object,
 }
 
 CreactUser.defaultProps = {
-  match: {}
+  match: {},
 }
 
 export default CreactUser

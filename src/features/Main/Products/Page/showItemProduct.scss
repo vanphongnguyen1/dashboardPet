@@ -31,7 +31,7 @@
     width: 100%;
     object-fit: cover;
     object-position: center;
-    transition: all .3s ease-in-out;
+    transition: all 0.3s ease-in-out;
   }
 
   &__sale {
@@ -60,9 +60,9 @@
     min-height: 7.8rem;
     width: 100%;
     padding: 0.5rem 2rem;
-    background-color: rgba( #000000, .2);
+    background-color: rgba(#000000, 0.2);
 
-    transition: all .3s ease-in-out;
+    transition: all 0.3s ease-in-out;
     transform: translateY(0);
 
     &--name {
@@ -100,11 +100,11 @@
 
     width: 100%;
     padding: 2rem 0;
-    background-color: rgba( #000000, .3);
+    background-color: rgba(#000000, 0.3);
 
     display: flex;
     justify-content: space-around;
-    transition: all .3s ease-in-out;
+    transition: all 0.3s ease-in-out;
 
     transform: translateY(6rem);
     opacity: 0;
@@ -134,19 +134,19 @@
     line-height: 1.5rem;
     width: 8rem;
 
-    transition: all .3s ease-in-out;
+    transition: all 0.3s ease-in-out;
     cursor: pointer;
 
     &:hover {
-      background-color: #4F3CC9;
-      border: 1px solid #4F3CC9;
+      background-color: #4f3cc9;
+      border: 1px solid #4f3cc9;
     }
   }
 
   .box-delte {
     &:hover {
-      background-color: #F34336;
-      border: 1px solid #F34336;
+      background-color: #f34336;
+      border: 1px solid #f34336;
     }
   }
 }

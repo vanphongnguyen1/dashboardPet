@@ -21,17 +21,17 @@ const Products = ({ match }) => {
   const history = useHistory()
   const [dataSearch, setDataSearch] = useState('')
 
-  const dataGroup = useSelector(state => state.groups.list)
-  const dataProducts = useSelector(state => state.products.loading)
+  const dataGroup = useSelector((state) => state.groups.list)
+  const dataProducts = useSelector((state) => state.products.loading)
   const idLogin = sessionStorage.getItem('id')
 
   useEffect(() => {
     if (!idLogin) {
-      history.replace("/")
+      history.replace('/')
     }
   }, [history, idLogin])
 
-  useEffect (() => {
+  useEffect(() => {
     dispatch(showLoading('sectionBar'))
     dispatch(fetchGroup())
     dispatch(fetchLineage())
@@ -44,9 +44,8 @@ const Products = ({ match }) => {
         return <div className="editor" dangerouslySetInnerHTML={{__html:item}}/>
       })} */
 
-  useEffect (() => {
+  useEffect(() => {
     if (dataProducts === STATUS_FETCH.SUCCESS) {
-
       setTimeout(() => {
         dispatch(hideLoading('sectionBar'))
       }, 500)
@@ -57,21 +56,25 @@ const Products = ({ match }) => {
     dispatch(setMenuLineageID(0))
   }
 
-  const handleOnChange = e => {
+  const handleOnChange = (e) => {
     e.preventDefault()
     const { value } = e.target
 
     setDataSearch(value)
   }
 
-  const handleOnSubmit = e => {
+  const handleOnSubmit = (e) => {
     e.preventDefault()
   }
 
   return (
     <div className="product">
       <div className="box-search-product">
-        <form className="group-search" onSubmit={handleOnSubmit} autoComplete="off">
+        <form
+          className="group-search"
+          onSubmit={handleOnSubmit}
+          autoComplete="off"
+        >
           <GroupInput
             titleLabel="Search name product"
             type="text"
@@ -86,38 +89,33 @@ const Products = ({ match }) => {
           />
         </form>
 
-        <Link
-          to={`/${url}/${CREAT.toLowerCase()}`}
-          className="box-btn--link"
-        >
-          <BtnCreatExport icon="fas fa-plus" title="Create"/>
+        <Link to={`/${url}/${CREAT.toLowerCase()}`} className="box-btn--link">
+          <BtnCreatExport icon="fas fa-plus" title="Create" />
         </Link>
       </div>
 
-      <Tabs type="card" onChange={handleChangeTabs} >
-        {
-          dataGroup.length
-            ? dataGroup.map(item => (
-                <TabPane tab={item.name.toUpperCase()} key={item.id}>
-                  <div className="box-products">
-                    <div className="box-row">
-                      <div className="box-3">
-                        <MenuProduct id={item.id} />
-                      </div>
+      <Tabs type="card" onChange={handleChangeTabs}>
+        {dataGroup.length
+          ? dataGroup.map((item) => (
+              <TabPane tab={item.name.toUpperCase()} key={item.id}>
+                <div className="box-products">
+                  <div className="box-row">
+                    <div className="box-3">
+                      <MenuProduct id={item.id} />
+                    </div>
 
-                      <div className="box-9">
-                        <ShowProducts
-                          id={item.id}
-                          url={url}
-                          dataSearch={dataSearch}
-                        />
-                      </div>
+                    <div className="box-9">
+                      <ShowProducts
+                        id={item.id}
+                        url={url}
+                        dataSearch={dataSearch}
+                      />
                     </div>
                   </div>
-                </TabPane>
-              ))
-            : ''
-        }
+                </div>
+              </TabPane>
+            ))
+          : ''}
       </Tabs>
     </div>
   )

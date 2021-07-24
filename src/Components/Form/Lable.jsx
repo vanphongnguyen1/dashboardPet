@@ -1,13 +1,9 @@
-import PropTypes from 'prop-types';
+import PropTypes from 'prop-types'
 
 export const Lable = ({ text, className, htmlFor }) => {
-
   return (
-    <label
-      htmlFor={htmlFor}
-      className={className}
-    >
-      { text }
+    <label htmlFor={htmlFor} className={className}>
+      {text}
     </label>
   )
 }

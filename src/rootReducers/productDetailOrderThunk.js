@@ -5,30 +5,30 @@ import { STATUS_FETCH, API_NAME } from '../dataDefault'
 export const fetchProductDetailOrderAll = createAsyncThunk(
   'productDetailOrder/fetchProductDetailOrderAll',
   async () => {
-    return customAxiosApi.get(API_NAME.PRODUCTDETAILORDER)
-      .then(response => {
-        const { data } = response.data
-        return data
-      })
-  }
+    return customAxiosApi.get(API_NAME.PRODUCTDETAILORDER).then((response) => {
+      const { data } = response.data
+      return data
+    })
+  },
 )
 
 export const fetchDetailOrder = createAsyncThunk(
   'productDetailOrder/fetchDetailOrder',
   async (id) => {
-    return customAxiosApi.get(`${API_NAME.PRODUCTDETAILORDER}?detailOrderID=${id}`)
-      .then(response => {
+    return customAxiosApi
+      .get(`${API_NAME.PRODUCTDETAILORDER}?detailOrderID=${id}`)
+      .then((response) => {
         const { data } = response.data
         return data
       })
-  }
+  },
 )
 
 export const productDetailOrderSlice = createSlice({
   name: 'productDetailOrder',
   initialState: {
     list: [],
-    loading: 'idle'
+    loading: 'idle',
   },
 
   reducers: {
@@ -43,7 +43,7 @@ export const productDetailOrderSlice = createSlice({
 
     defaultLoading: (state, action) => {
       state.loading = 'idle'
-    }
+    },
   },
 
   extraReducers: {
@@ -64,11 +64,11 @@ export const productDetailOrderSlice = createSlice({
       // Add user to the state array
       state.loading = STATUS_FETCH.FAILED
     },
-  }
+  },
 })
 
 const { actions, reducer } = productDetailOrderSlice
 
-export const { defaultLoading, defaultState, defaultListOrders  } = actions
+export const { defaultLoading, defaultState, defaultListOrders } = actions
 
 export default reducer

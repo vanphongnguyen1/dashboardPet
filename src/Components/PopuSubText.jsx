@@ -1,19 +1,15 @@
 import PropTypes from 'prop-types'
 
 const PupoSubText = ({ title }) => {
-  return (
-    <span className="popu-subtext">
-      { title }
-    </span>
-  )
+  return <span className="popu-subtext">{title}</span>
 }
 
 PupoSubText.propTypes = {
-  title: PropTypes.string
+  title: PropTypes.string,
 }
 
 PupoSubText.defaultProps = {
-  title: ''
+  title: '',
 }
 
 export default PupoSubText

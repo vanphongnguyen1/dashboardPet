@@ -8,13 +8,13 @@ const EditOrder = () => {
 
   useEffect(() => {
     if (!idLogin) {
-      history.replace("/")
+      history.replace('/')
     }
   }, [idLogin, history])
 
   return (
     <>
-      <EditOrderContent/>
+      <EditOrderContent />
     </>
   )
 }

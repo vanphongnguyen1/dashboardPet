@@ -63,7 +63,7 @@
       .link-text {
         color: #202c86;
         cursor: pointer;
-        transition: all .3s ease-in-out;
+        transition: all 0.3s ease-in-out;
 
         &:hover {
           color: #13194a;
@@ -120,10 +120,10 @@
       font-size: 1.7rem;
       color: #a0a1a9;
       cursor: pointer;
-      transition: all .3s ease-in-out;
+      transition: all 0.3s ease-in-out;
 
       &:hover {
-        color: #4F3CC9;
+        color: #4f3cc9;
       }
     }
   }

@@ -1,6 +1,11 @@
 import { useState, useEffect } from 'react'
 import GroupInput from '../../../../Components/Form/GroupInput'
-import { setToken, fetchLogin, setError, defaulrError } from '../../../../rootReducers/loginSlice'
+import {
+  setToken,
+  fetchLogin,
+  setError,
+  defaulrError,
+} from '../../../../rootReducers/loginSlice'
 import { fetchCarts } from '../../../../rootReducers/cartSlice'
 import { BtnLogin } from '../../../../Components/Btn'
 import { Link } from 'react-router-dom'
@@ -17,18 +22,17 @@ const Login = () => {
   const initialValue = {
     email: '',
     password: '',
-    title: 'dashboard'
+    title: 'dashboard',
   }
 
   const initialErMes = {
     email: '',
-    password: ''
+    password: '',
   }
-
 
   const [state, setState] = useState(initialValue)
   const [validate, setValidate] = useState(initialErMes)
-  const dataError = useSelector(state => state.login.error)
+  const dataError = useSelector((state) => state.login.error)
   const idLogin = sessionStorage.getItem('id')
 
   useEffect(() => {
@@ -37,28 +41,28 @@ const Login = () => {
     }
   }, [idLogin, history, DASHBOARD])
 
-  const handleOnBlur = e => {
+  const handleOnBlur = (e) => {
     const { value, name } = e.target
 
-    if ( !value ) {
+    if (!value) {
       setValidate({
         ...validate,
-        [name]: 'This field is required to enter *'
+        [name]: 'This field is required to enter *',
       })
     }
   }
 
-  const handleOnChange = e => {
+  const handleOnChange = (e) => {
     const { value, name } = e.target
 
     setState({
       ...state,
-      [name]:  value
+      [name]: value,
     })
 
     setValidate({
       ...validate,
-      [name]:  ''
+      [name]: '',
     })
 
     dispatch(defaulrError(''))
@@ -96,8 +100,7 @@ const Login = () => {
       data.append('password', state.password)
       data.append('title', state.title)
 
-      dispatch(fetchLogin(data))
-      .then(data => {
+      dispatch(fetchLogin(data)).then((data) => {
         const { payload } = data
 
         if (typeof payload === 'object') {
@@ -105,7 +108,7 @@ const Login = () => {
           dispatch(fetchCarts())
 
           sessionStorage.setItem('id', payload.id)
-          history.replace("/dashboard")
+          history.replace('/dashboard')
           return
         }
 
@@ -126,9 +129,7 @@ const Login = () => {
           Login Now
         </h1>
 
-        <p className="valide-label modal-login__text-err">
-          { dataError }
-        </p>
+        <p className="valide-label modal-login__text-err">{dataError}</p>
 
         <form onSubmit={handleSubmit} autoComplete="off">
           <GroupInput
@@ -136,7 +137,6 @@ const Login = () => {
             type="email"
             name="email"
             titleLabel="Email *"
-
             validateName={validate.email}
             value={state.email}
             onBlur={handleOnBlur}
@@ -148,7 +148,6 @@ const Login = () => {
             type="password"
             name="password"
             titleLabel="Password *"
-
             validateName={validate.password}
             value={state.password}
             onBlur={handleOnBlur}
@@ -156,14 +155,9 @@ const Login = () => {
           />
 
           <div className="modal-login__box">
-            <span className="modal-text">
-              Forgot Password?
-            </span>&nbsp;
-
-            <Link
-              to={`${login}/${identify}`}
-              className="modal-text link-text">
-                Click here
+            <span className="modal-text">Forgot Password?</span>&nbsp;
+            <Link to={`${login}/${identify}`} className="modal-text link-text">
+              Click here
             </Link>
           </div>
 
@@ -180,7 +174,6 @@ const Login = () => {
             <span className="login-icon icon-google fab fa-google" />
           </span>
         </div> */}
-
       </div>
     </div>
   )

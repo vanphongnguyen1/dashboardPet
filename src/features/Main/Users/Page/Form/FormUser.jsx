@@ -10,7 +10,10 @@ import { REGEX } from '../../../../../dataDefault'
 import GroupInput from '../../../../../Components/Form/GroupInput'
 import { Lable } from '../../../../../Components/Form/Lable'
 import { Selector } from '../../../../../Components/Form/Selector'
-import { messageError, openMessage } from '../../../../../Components/openMessage'
+import {
+  messageError,
+  openMessage,
+} from '../../../../../Components/openMessage'
 import { HeadingBox } from '../../../../../Components/HeadingBox'
 import { resetScroll } from '../../../../../Components/access/logic/resetScroll'
 import { showLoading, hideLoading } from 'react-redux-loading-bar'
@@ -18,7 +21,7 @@ import { Prompt, useHistory } from 'react-router-dom'
 
 const FormUser = ({ url, data }) => {
   const dispatch = useDispatch()
-  const history =  useHistory()
+  const history = useHistory()
 
   const urlConvert = url.split('/')
   const isRequitEdit = urlConvert[urlConvert.length - 1] === EDIT
@@ -42,48 +45,48 @@ const FormUser = ({ url, data }) => {
     phone: '',
     address: '',
     password: '',
-    confirmPassword: ''
+    confirmPassword: '',
   }
 
   const [state, setState] = useState(initialValue)
   const [validate, setValidate] = useState(initialErMes)
   const [isLocalPath, setIsLocalPath] = useState(false)
-  const dataGender = useSelector(state => state.gender.list)
+  const dataGender = useSelector((state) => state.gender.list)
 
-  useEffect (() => {
+  useEffect(() => {
     if (isRequitEdit) {
       setState(data)
     }
   }, [data, isRequitEdit])
 
-  useEffect (() => {
+  useEffect(() => {
     dispatch(fetchGender())
   }, [dispatch])
 
-  const handleOnBlur = e => {
+  const handleOnBlur = (e) => {
     const { value, name } = e.target
     setIsLocalPath(true)
 
-    if ( !value ) {
+    if (!value) {
       setValidate({
         ...validate,
-        [name]: 'Trường này bắt buộc phải nhập *'
+        [name]: 'Trường này bắt buộc phải nhập *',
       })
     }
   }
 
-  const handleOnChange = e => {
+  const handleOnChange = (e) => {
     const { value, name } = e.target
     setIsLocalPath(true)
 
     setState({
       ...state,
-      [name]:  value
+      [name]: value,
     })
 
     setValidate({
       ...validate,
-      [name]:  ''
+      [name]: '',
     })
   }
 
@@ -137,16 +140,17 @@ const FormUser = ({ url, data }) => {
 
       dispatch(showLoading('sectionBar'))
 
-      customAxiosApi.put(`${textUsers}/${state.id}`, state)
-      .then(async () => {
-        setValidate(initialErMes)
-        await dispatch(fetchUsers())
+      customAxiosApi
+        .put(`${textUsers}/${state.id}`, state)
+        .then(async () => {
+          setValidate(initialErMes)
+          await dispatch(fetchUsers())
 
-        openMessage('Update Success !')
-      })
-      .catch(error => {
-        messageError(error.message)
-      })
+          openMessage('Update Success !')
+        })
+        .catch((error) => {
+          messageError(error.message)
+        })
 
       await setTimeout(() => {
         dispatch(hideLoading('sectionBar'))
@@ -158,41 +162,47 @@ const FormUser = ({ url, data }) => {
         setIsLocalPath(false)
       }
 
-      customAxiosApi.post(textUsers, state)
-      .then(response => {
-        const { data } = response
+      customAxiosApi
+        .post(textUsers, state)
+        .then((response) => {
+          const { data } = response
 
-        if (typeof data === 'string') {
+          if (typeof data === 'string') {
             setValidate({
               ...initialErMes,
-              email: 'Email đã tồn tại !'
+              email: 'Email đã tồn tại !',
             })
             return
-        }
-        customAxiosApi.post(`${API_NAME.CARTS}`, {
-          totalCount: 0,
-          usersID: data.id
-        })
-        .then((res) => {
-          openMessage('Created Success!')
-          setValidate(initialErMes)
-          setState(initialValue)
-          resetScroll()
+          }
+          customAxiosApi
+            .post(`${API_NAME.CARTS}`, {
+              totalCount: 0,
+              usersID: data.id,
+            })
+            .then((res) => {
+              openMessage('Created Success!')
+              setValidate(initialErMes)
+              setState(initialValue)
+              resetScroll()
+            })
+            .catch(() => {
+              messageError('An error occurred!')
+            })
         })
         .catch(() => {
           messageError('An error occurred!')
         })
-      })
-      .catch(() => {
-        messageError('An error occurred!')
-      })
     }
   }
 
   return (
     <>
       <div className="info-user">
-        <form className="info-user__form" onSubmit={handleSubmit} autoComplete="off">
+        <form
+          className="info-user__form"
+          onSubmit={handleSubmit}
+          autoComplete="off"
+        >
           <div className="identity">
             <HeadingBox title="identity" />
 
@@ -238,14 +248,11 @@ const FormUser = ({ url, data }) => {
                   onChange={handleOnChange}
                   value={state.role}
                 >
-                  <option value='0'>User</option>
-                  <option value='1'>Admin</option>
+                  <option value="0">User</option>
+                  <option value="1">Admin</option>
                 </select>
 
-                <Lable
-                  text="Role"
-                  className='group__label label-input-value'
-                />
+                <Lable text="Role" className="group__label label-input-value" />
               </div>
             </div>
 
@@ -253,10 +260,10 @@ const FormUser = ({ url, data }) => {
               <Selector
                 name="genderID"
                 title="Gender"
-                value={ state.genderID }
-                validateName={ validate.genderID }
-                onChange={ handleOnChange }
-                options={ dataGender }
+                value={state.genderID}
+                validateName={validate.genderID}
+                onChange={handleOnChange}
+                options={dataGender}
               />
             </div>
           </div>
@@ -286,36 +293,27 @@ const FormUser = ({ url, data }) => {
                 name="password"
                 validateName={validate.password}
                 value={state.password}
-                onBlur={
-                  isRequitCreat
-                    ? handleOnBlur
-                    : () => {}
-                }
+                onBlur={isRequitCreat ? handleOnBlur : () => {}}
                 onChange={handleOnChange}
                 titleLabel={`New password ${isRequitCreat ? '*' : ''}`}
               />
             </div>
 
-            {
-              isRequitCreat
-                ? (
-                  <div className="info-user__box">
-                    <GroupInput
-                      type="password"
-                      name="confirmPassword"
-                      validateName={validate.confirmPassword}
-                      value={state.confirmPassword}
-                      onBlur={
-                        isRequitCreat
-                          ? handleOnBlur
-                          : () => {}
-                      }
-                      onChange={handleOnChange}
-                      titleLabel={`Confirm password ${isRequitCreat ? '*' : ''}`}
-                    />
-                  </div>
-                ) : ''
-            }
+            {isRequitCreat ? (
+              <div className="info-user__box">
+                <GroupInput
+                  type="password"
+                  name="confirmPassword"
+                  validateName={validate.confirmPassword}
+                  value={state.confirmPassword}
+                  onBlur={isRequitCreat ? handleOnBlur : () => {}}
+                  onChange={handleOnChange}
+                  titleLabel={`Confirm password ${isRequitCreat ? '*' : ''}`}
+                />
+              </div>
+            ) : (
+              ''
+            )}
           </div>
 
           <div className="box-submit">
@@ -323,17 +321,16 @@ const FormUser = ({ url, data }) => {
               <div className="box-submit__save" onClick={handleSubmit}>
                 <Save />
               </div>
-                {
-                  isRequitEdit
-                    ? (
-                        <div
-                          className="box-submit__cancell"
-                          onClick={() => history.push(`/${API_NAME.USERS}`)}
-                        >
-                          <Cancell/>
-                        </div>
-                    ) : ''
-                }
+              {isRequitEdit ? (
+                <div
+                  className="box-submit__cancell"
+                  onClick={() => history.push(`/${API_NAME.USERS}`)}
+                >
+                  <Cancell />
+                </div>
+              ) : (
+                ''
+              )}
             </div>
           </div>
         </form>
@@ -341,7 +338,7 @@ const FormUser = ({ url, data }) => {
 
       <Prompt
         when={isLocalPath}
-        message={location => (`Bạn có muốn đến ${location.pathname}`)}
+        message={(location) => `Bạn có muốn đến ${location.pathname}`}
       />
     </>
   )
@@ -349,12 +346,12 @@ const FormUser = ({ url, data }) => {
 
 FormUser.propTypes = {
   url: PropTypes.string,
-  data: PropTypes.object
+  data: PropTypes.object,
 }
 
 FormUser.defaultProps = {
   url: '',
-  data: {}
+  data: {},
 }
 
 export default FormUser

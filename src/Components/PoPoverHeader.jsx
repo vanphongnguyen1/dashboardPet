@@ -11,11 +11,11 @@ const PoPoverHeader = ({ isPopover, handleClosePopover }) => {
 
   const handleLogOut = (e) => {
     handleClosePopover(e)
-    // console.log(handleClosePopover);
     dispatch(deleteTokenLogOut(false))
     sessionStorage.removeItem('id')
-    history.replace("/")
+    history.replace('/')
   }
+
   return (
     <div className={`popover  ${isPopover ? 'translate-scale' : ''}`}>
       <NavLink
@@ -29,7 +29,7 @@ const PoPoverHeader = ({ isPopover, handleClosePopover }) => {
       </NavLink>
 
       <div className="popover__link" onClick={handleLogOut}>
-        <PoweroffOutlined className="popover__link--icon"/>
+        <PoweroffOutlined className="popover__link--icon" />
 
         <span className="popover__link--text">LogOut</span>
       </div>
@@ -39,12 +39,12 @@ const PoPoverHeader = ({ isPopover, handleClosePopover }) => {
 
 PoPoverHeader.propTypes = {
   isPopover: PropTypes.bool,
-  handleClosePopover: PropTypes.func
+  handleClosePopover: PropTypes.func,
 }
 
 PoPoverHeader.defaultProps = {
   isPopover: false,
-  handleClosePopover: () => {}
+  handleClosePopover: () => {},
 }
 
 export default PoPoverHeader

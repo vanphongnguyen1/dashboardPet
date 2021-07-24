@@ -6,7 +6,6 @@ import { dateTime } from '../../../Components/myMonment'
 import { myFormatNumber } from '../../../Components/access/logic/myFormatNumber'
 
 const ItemOrderPending = ({ data }) => {
-
   return (
     <li className="pending-order__item">
       <Link
@@ -15,20 +14,22 @@ const ItemOrderPending = ({ data }) => {
       >
         <div className="info-order">
           <div className="info-order__user">
-            <Avarta avarta={data.avarta} name={data.name}/>
+            <Avarta avarta={data.avarta} name={data.name} />
 
             <div className="info-order__detail">
               <span className="info-order__detail--date">
-                { dateTime(data.created) }
+                {dateTime(data.created)}
               </span>
 
               <span className="info-order__detail--customer">
-                { data.name }, mua { data.products.length } sản phẩm
+                {data.name}, mua {data.products.length} sản phẩm
               </span>
             </div>
           </div>
 
-          <div className="info-order__meny">{ myFormatNumber(data.intoMeny) }</div>
+          <div className="info-order__meny">
+            {myFormatNumber(data.intoMeny)}
+          </div>
         </div>
       </Link>
     </li>
@@ -36,11 +37,11 @@ const ItemOrderPending = ({ data }) => {
 }
 
 ItemOrderPending.propTypes = {
-  data: PropTypes.object
+  data: PropTypes.object,
 }
 
 ItemOrderPending.defaultProps = {
-  data: {}
+  data: {},
 }
 
 export default ItemOrderPending

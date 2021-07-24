@@ -18,21 +18,21 @@ import MyLineChart from './MyLineChart'
 import {
   filterDataComments,
   filterDataOrders,
-  sumRevenueMonthly
+  sumRevenueMonthly,
 } from './filterData'
 
 const Dashboard = () => {
   const dispatch = useDispatch()
   const history = useHistory()
 
-  const dataOrders = useSelector(state => state.orders.list)
-  const dataComments = useSelector(state => state.comments)
-  const dataUsers = useSelector(state => state.users.list)
+  const dataOrders = useSelector((state) => state.orders.list)
+  const dataComments = useSelector((state) => state.comments)
+  const dataUsers = useSelector((state) => state.users.list)
   const idLogin = sessionStorage.getItem('id')
 
   useEffect(() => {
     if (!idLogin) {
-      history.replace("/")
+      history.replace('/')
     }
   }, [history, idLogin])
 
@@ -53,15 +53,13 @@ const Dashboard = () => {
     }
   }, [dispatch, dataComments.loading])
 
-  const [
-    dataPendingComments,
-    dataPendingCommentsLength
-  ] = filterDataComments(dataComments.list)
+  const [dataPendingComments, dataPendingCommentsLength] = filterDataComments(
+    dataComments.list,
+  )
 
-  const [
-    dataPendingOrders,
-    dataPendingOrdersLength
-  ] = filterDataOrders(dataOrders)
+  const [dataPendingOrders, dataPendingOrdersLength] = filterDataOrders(
+    dataOrders,
+  )
 
   const revenueMonthly = sumRevenueMonthly(dataOrders)
 
@@ -89,11 +87,11 @@ const Dashboard = () => {
 
           <MyLineChart />
 
-          {
-            dataPendingOrdersLength
-            ? <PendingOrder data={dataPendingOrders}/>
-            : ''
-          }
+          {dataPendingOrdersLength ? (
+            <PendingOrder data={dataPendingOrders} />
+          ) : (
+            ''
+          )}
         </div>
 
         <Tablet>
@@ -102,7 +100,6 @@ const Dashboard = () => {
               <div className="dashboard__box">
                 <div className="box-big">
                   <Link to={TITLE_MENU.COMMENTS} className="link-page">
-
                     <RootPaper
                       icon="fas fa-comment-alt-lines"
                       title="New Comments"
@@ -110,20 +107,17 @@ const Dashboard = () => {
                     />
                   </Link>
 
-
-
-                  {
-                    dataPendingCommentsLength
-                      ? <ShowComments data={dataPendingComments}/>
-                      : ''
-                  }
+                  {dataPendingCommentsLength ? (
+                    <ShowComments data={dataPendingComments} />
+                  ) : (
+                    ''
+                  )}
                 </div>
               </div>
 
               <div className="dashboard__box">
                 <div className="box-big">
                   <Link to={TITLE_MENU.USERS} className="link-page">
-
                     <RootPaper
                       icon="fas fa-users-medical"
                       title="Customers"
@@ -131,11 +125,7 @@ const Dashboard = () => {
                     />
                   </Link>
 
-                  {
-                    dataUsers.length
-                      ? <ShowCustomers data={dataUsers}/>
-                      : ''
-                  }
+                  {dataUsers.length ? <ShowCustomers data={dataUsers} /> : ''}
                 </div>
               </div>
             </div>

@@ -16,66 +16,54 @@ const ShowItemProduct = ({ product }) => {
     images,
     name,
     priceSale,
-    price
+    price,
   } = product
 
-  const salse = Number.parseInt((price - priceSale)/price*100)
+  const salse = Number.parseInt(((price - priceSale) / price) * 100)
 
   const dispatch = useDispatch()
   const urlImage = images.url.split('|')
 
   const handleDeleteProduct = () => {
-    customAxiosApi.delete(`${API_NAME.PRODUCTS}/${id}`)
-    .then( async () => {
-      customAxiosApi.delete(`${API_NAME.IMAGES}/${imagesID}`)
-      customAxiosApi.delete(`${API_NAME.IMAGES}/${typeProductID}`)
+    customAxiosApi
+      .delete(`${API_NAME.PRODUCTS}/${id}`)
+      .then(async () => {
+        customAxiosApi.delete(`${API_NAME.IMAGES}/${imagesID}`)
+        customAxiosApi.delete(`${API_NAME.IMAGES}/${typeProductID}`)
 
-      openMessage('Delete Product Success !')
-      await dispatch(fetchProducts())
-    })
-    .catch(rej => {
-      messageError(rej.message)
-    })
+        openMessage('Delete Product Success !')
+        await dispatch(fetchProducts())
+      })
+      .catch((rej) => {
+        messageError(rej.message)
+      })
   }
 
   return (
     <div className="box-3">
       <div className="product-box">
-        <img
-          src={urlImage[0]}
-          alt={name}
-          className="product__image"
-        />
+        <img src={urlImage[0]} alt={name} className="product__image" />
 
-        {
-          salse > 0 && (
-            <div className="product__sale">
-              <span className="product__sale--text">
-                { salse  + '%' }
-              </span>
-            </div>
-          )
-        }
+        {salse > 0 && (
+          <div className="product__sale">
+            <span className="product__sale--text">{salse + '%'}</span>
+          </div>
+        )}
 
         <div className="product__info">
-          <p
-            className="product__info--name"
-            title={name}
-          >
-            { name }
+          <p className="product__info--name" title={name}>
+            {name}
           </p>
 
           <span className="product__info--price-sale">
-            { myFormatNumber(priceSale) }
+            {myFormatNumber(priceSale)}
           </span>
 
-          {
-            priceSale < price && (
-              <span className="product__info--price">
-                { myFormatNumber(price) }
-              </span>
-            )
-          }
+          {priceSale < price && (
+            <span className="product__info--price">
+              {myFormatNumber(price)}
+            </span>
+          )}
         </div>
 
         <div className="product__btn">
@@ -91,8 +79,8 @@ const ShowItemProduct = ({ product }) => {
             to={`${API_NAME.PRODUCTS}/${id}/${EDIT}`}
             className="product__btn-box"
           >
-              <span className="product__btn--icon fas fa-edit" />
-              <span className="product__btn--text">Edit</span>
+            <span className="product__btn--icon fas fa-edit" />
+            <span className="product__btn--text">Edit</span>
           </Link>
         </div>
       </div>
@@ -101,11 +89,11 @@ const ShowItemProduct = ({ product }) => {
 }
 
 ShowItemProduct.propTypes = {
-  product: PropTypes.object
+  product: PropTypes.object,
 }
 
 ShowItemProduct.propsDefault = {
-  product: {}
+  product: {},
 }
 
 export default ShowItemProduct

@@ -1,33 +1,48 @@
 import { useMemo } from 'react'
-import { useSelector } from 'react-redux'
 import PropTypes from 'prop-types'
-import ItemMenuProduct from './ItemMenuProduct'
+import { setMenuLineageID } from '../../../../rootReducers/menuAnimation'
+import { useDispatch, useSelector } from 'react-redux'
 
 const MenuProduct = ({ id }) => {
-  const dataLineage = useSelector(state => state.lineage.list)
+  const dispatch = useDispatch()
+  const dataLineage = useSelector((state) => state.lineage.list)
+  const menuLineageId = useSelector((state) => state.stateIsMenu.menuLineageID)
 
   const newDataLine = useMemo(() => {
-    return dataLineage.filter(item => item.groupID === id)
+    return dataLineage.filter((item) => item.groupID === id)
   }, [dataLineage, id])
+
+  const handFetchDataLineage = (id) => {
+    dispatch(setMenuLineageID(id))
+    window.scrollTo(0, 0)
+  }
 
   return (
     <>
       <div className="menu-product">
         <ul className="menu-product__list">
-          <ItemMenuProduct
-            title="Show All"
-            id={ 0 }
-          />
+          <li
+            className={`
+              menu-product__item
+              ${menuLineageId === 0 ? 'active-lineage' : ''}
+            `}
+            onClick={() => handFetchDataLineage(0)}
+          >
+            Show All
+          </li>
 
-          {
-            newDataLine.map(item => (
-              <ItemMenuProduct
-                title={ item.name }
-                key={ item.id }
-                id={ item.id }
-              />
-            ))
-          }
+          {newDataLine.map((item) => (
+            <li
+              key={item.id}
+              className={`
+                  menu-product__item
+                  ${menuLineageId === item.id ? 'active-lineage' : ''}
+                `}
+              onClick={() => handFetchDataLineage(item.id)}
+            >
+              {item.name}
+            </li>
+          ))}
         </ul>
       </div>
     </>
@@ -35,11 +50,11 @@ const MenuProduct = ({ id }) => {
 }
 
 MenuProduct.propTypes = {
-  id: PropTypes.number
+  id: PropTypes.number,
 }
 
 MenuProduct.defaultProps = {
-  id: 1
+  id: 1,
 }
 
 export default MenuProduct

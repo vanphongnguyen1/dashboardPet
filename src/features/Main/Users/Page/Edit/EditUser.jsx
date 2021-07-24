@@ -11,7 +11,7 @@ import { showLoading, hideLoading } from 'react-redux-loading-bar'
 
 const EditUser = ({ match }) => {
   const dispatch = useDispatch()
-  const { id } =  useParams()
+  const { id } = useParams()
   const history = useHistory()
 
   const [state, setState] = useState({})
@@ -21,18 +21,16 @@ const EditUser = ({ match }) => {
 
   useEffect(() => {
     if (!idLogin) {
-      history.replace("/")
+      history.replace('/')
     }
   }, [idLogin, history])
 
-  useEffect (() => {
+  useEffect(() => {
     if (id) {
       dispatch(showLoading('sectionBar'))
-      dispatch(fetchUser(id))
-      .then(data => setState(data.payload))
+      dispatch(fetchUser(id)).then((data) => setState(data.payload))
 
-      dispatch(fetchOrderFollowUser(id))
-      .then(data => {
+      dispatch(fetchOrderFollowUser(id)).then((data) => {
         const lengthOrder = data.payload.length
         setLengthOrderUser(lengthOrder)
       })
@@ -63,11 +61,11 @@ const EditUser = ({ match }) => {
 }
 
 EditUser.propTypes = {
-  match: PropTypes.object
+  match: PropTypes.object,
 }
 
 EditUser.defaultProps = {
-  match: {}
+  match: {},
 }
 
 export default EditUser

@@ -5,19 +5,18 @@ import { STATUS_FETCH, API_NAME } from '../dataDefault'
 export const fetchTrasport = createAsyncThunk(
   'trasportSlice/fetchTrasport',
   async () => {
-    return customAxiosApi.get(API_NAME.TRASPORT)
-      .then(response => {
-        const { data } = response.data
-        return data
-      })
-  }
+    return customAxiosApi.get(API_NAME.TRASPORT).then((response) => {
+      const { data } = response.data
+      return data
+    })
+  },
 )
 
 export const trasportSlice = createSlice({
   name: 'trasport',
   initialState: {
     list: [],
-    loading: 'idle'
+    loading: 'idle',
   },
 
   reducers: {
@@ -32,7 +31,7 @@ export const trasportSlice = createSlice({
 
     defaultLoading: (state, action) => {
       state.loading = 'idle'
-    }
+    },
   },
 
   extraReducers: {
@@ -53,11 +52,11 @@ export const trasportSlice = createSlice({
       // Add user to the state array
       state.loading = STATUS_FETCH.FAILED
     },
-  }
+  },
 })
 
 const { actions, reducer } = trasportSlice
 
-export const { defaultLoading, defaultState, defaultListOrders  } = actions
+export const { defaultLoading, defaultState, defaultListOrders } = actions
 
 export default reducer

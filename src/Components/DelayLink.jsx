@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react'
 import PropTypes from 'prop-types'
 import { Link, useHistory } from 'react-router-dom'
 
-const DelayLink = props => {
+const DelayLink = (props) => {
   const {
     replace,
     to,
@@ -11,36 +11,36 @@ const DelayLink = props => {
     onDelayEnd,
     onClick,
     className,
-    children
+    children,
   } = props
 
-  const [ isTimeOut, setIsTimeOut] = useState(null)
+  const [isTimeOut, setIsTimeOut] = useState(null)
   const history = useHistory()
 
-  const handleClick = e => {
+  const handleClick = (e) => {
     onClick()
     onDelayStart(e, to)
 
-    if (e.defaultPrevented) return ;
+    if (e.defaultPrevented) return
 
     e.preventDefault()
 
-    setIsTimeOut(setTimeout(() => {
+    setIsTimeOut(
+      setTimeout(() => {
+        if (replace) {
+          history.replace(to)
+        } else {
+          history.push(to)
+        }
 
-      if (replace) {
-        history.replace(to)
-
-      } else {
-        history.push(to)
-      }
-
-      onDelayEnd()
-    }, delay))
+        onDelayEnd()
+      }, delay),
+    )
   }
 
   useEffect(() => {
     return () => clearTimeout(isTimeOut)
-	}, [isTimeOut])
+  }, [isTimeOut])
 
   return (
     <>
@@ -50,7 +50,7 @@ const DelayLink = props => {
         replace={replace}
         className={className}
       >
-        { children }
+        {children}
       </Link>
     </>
   )
@@ -59,19 +59,19 @@ const DelayLink = props => {
 DelayLink.propTypes = {
   to: PropTypes.string,
   className: PropTypes.string,
-	delay: PropTypes.number,
+  delay: PropTypes.number,
   replace: PropTypes.bool,
 
-	onDelayStart: PropTypes.func,
-	onDelayEnd: PropTypes.func,
-	onClick: PropTypes.func,
+  onDelayStart: PropTypes.func,
+  onDelayEnd: PropTypes.func,
+  onClick: PropTypes.func,
 }
 
 DelayLink.defaultProps = {
   delay: 0,
   onDelayStart: () => {},
-  onDelayEnd:   () => {},
-  onClick:   () => {},
+  onDelayEnd: () => {},
+  onClick: () => {},
 }
 
 export default DelayLink

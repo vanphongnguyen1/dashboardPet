@@ -2,7 +2,7 @@ import { ValidaError } from './ValidaError'
 import { Lable } from './Lable'
 import PropTypes from 'prop-types'
 
-const GroupInput = props => {
+const GroupInput = (props) => {
   const {
     type,
     name,
@@ -11,7 +11,7 @@ const GroupInput = props => {
     onBlur,
     onChange,
     titleLabel,
-    login
+    login,
   } = props
 
   return (
@@ -21,13 +21,10 @@ const GroupInput = props => {
         name={name}
         className={`
           group__input
-          ${validateName
-            ? 'valide-input'
-            : ''
-          }
+          ${validateName ? 'valide-input' : ''}
           ${login ? 'input-login' : ''}
         `}
-        value={ value }
+        value={value}
         onBlur={onBlur}
         onChange={onChange}
         placeholder={titleLabel}
@@ -41,7 +38,7 @@ const GroupInput = props => {
         `}
       />
 
-          {/* ${
+      {/* ${
             value && validateName
             ? 'label-input-value valide-label'
             : value
@@ -51,16 +48,11 @@ const GroupInput = props => {
             : ''
           } */}
 
-      {
-        validateName ? (
-          <ValidaError
-            className="group__valide"
-            text={validateName}
-          />
-        ) : (
-          <span className="pseudo-input" />
-        )
-      }
+      {validateName ? (
+        <ValidaError className="group__valide" text={validateName} />
+      ) : (
+        <span className="pseudo-input" />
+      )}
     </div>
   )
 }
@@ -72,13 +64,10 @@ GroupInput.propTypes = {
   titleLabel: PropTypes.string,
   login: PropTypes.bool,
 
-  value: PropTypes.oneOfType([
-    PropTypes.string,
-    PropTypes.number
-  ]),
+  value: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
 
   onBlur: PropTypes.func,
-  onChange: PropTypes.func
+  onChange: PropTypes.func,
 }
 
 GroupInput.defaultProps = {
@@ -90,7 +79,7 @@ GroupInput.defaultProps = {
   login: false,
 
   onBlur: () => {},
-  onChange: () => {}
+  onChange: () => {},
 }
 
 export default GroupInput

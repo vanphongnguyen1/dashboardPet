@@ -1,10 +1,10 @@
 import PropTypes from 'prop-types'
 
-export const BtnCreatExport = ({ icon, title}) => {
+export const BtnCreatExport = ({ icon, title }) => {
   return (
     <span className="btn__create">
       <span className={`btn__create--icon ${icon}`} />
-      <span className="btn__create--text">{ title }</span>
+      <span className="btn__create--text">{title}</span>
     </span>
   )
 }

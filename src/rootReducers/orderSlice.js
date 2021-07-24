@@ -2,44 +2,37 @@ import { createSlice, createAsyncThunk } from '@reduxjs/toolkit'
 import { customAxiosApi } from '../customAxiosApi'
 import { STATUS_FETCH, API_NAME } from '../dataDefault'
 
-export const fetchOrders = createAsyncThunk(
-  'orders/fetchOrders',
-  async () => {
-    return customAxiosApi.get(API_NAME.ORDERS)
-      .then(response => {
-        const { data } = response.data
-        return data
-      })
-  }
-)
+export const fetchOrders = createAsyncThunk('orders/fetchOrders', async () => {
+  return customAxiosApi.get(API_NAME.ORDERS).then((response) => {
+    const { data } = response.data
+    return data
+  })
+})
 
-export const fetchOrder = createAsyncThunk(
-  'orders/fetchOrder',
-  async (id) => {
-    return customAxiosApi.get(`${API_NAME.ORDERS}/${id}`)
-      .then(response => {
-        const { data } = response.data
-        return data
-      })
-  }
-)
+export const fetchOrder = createAsyncThunk('orders/fetchOrder', async (id) => {
+  return customAxiosApi.get(`${API_NAME.ORDERS}/${id}`).then((response) => {
+    const { data } = response.data
+    return data
+  })
+})
 
 export const fetchOrderFollowUser = createAsyncThunk(
   'orders/fetchOrderFollowUser',
   async (id) => {
-    return customAxiosApi.get(`${API_NAME.ORDERS}?usersID=${id}`)
-      .then(response => {
+    return customAxiosApi
+      .get(`${API_NAME.ORDERS}?usersID=${id}`)
+      .then((response) => {
         const { data } = response.data
         return data
       })
-  }
+  },
 )
 
 export const orderSlice = createSlice({
   name: 'orders',
   initialState: {
     list: [],
-    loading: 'idle'
+    loading: 'idle',
   },
 
   reducers: {
@@ -66,7 +59,7 @@ export const orderSlice = createSlice({
       // Add user to the state array
       state.loading = STATUS_FETCH.FAILED
     },
-  }
+  },
 })
 
 const { actions, reducer } = orderSlice

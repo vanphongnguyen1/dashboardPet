@@ -1,8 +1,8 @@
-@import './rootPaper.scss';
-@import './pendingOrder.scss';
-@import './showComments.scss';
-@import './showcustomer.scss';
-@import './myLineChart.scss';
+@import "./rootPaper.scss";
+@import "./pendingOrder.scss";
+@import "./showComments.scss";
+@import "./showcustomer.scss";
+@import "./myLineChart.scss";
 
 .dashboard {
   margin-top: 3rem;
@@ -24,11 +24,10 @@
     width: 100%;
   }
 
-  .link-page{
+  .link-page {
     display: block;
   }
 }
-
 
 @media (max-width: 1024px) {
   .dashboard {

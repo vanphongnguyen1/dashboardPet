@@ -7,7 +7,6 @@ export const fetchForgotPassword = createAsyncThunk(
   async (data) => {
     return customAxiosApi.post('auth/forgotPassword', data).then((response) => {
       const { data } = response
-      console.log('response', response)
       return data
     })
   },

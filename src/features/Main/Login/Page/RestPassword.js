@@ -14,7 +14,7 @@ const RestPassword = () => {
   const [state, setState] = useState('')
   const [validate, setValidate] = useState('')
   const [isLocalPath, setIsLocalPath] = useState(false)
-  const dataCheckCode = useSelector(state => state.forgotPassword.data)
+  const dataCheckCode = useSelector((state) => state.forgotPassword.data)
 
   useEffect(() => {
     if (!dataCheckCode.hasOwnProperty('code')) {
@@ -22,15 +22,15 @@ const RestPassword = () => {
     }
   }, [dataCheckCode, history, login, identify])
 
-  const handleOnBlur = e => {
+  const handleOnBlur = (e) => {
     const { value } = e.target
 
-    if ( !value ) {
+    if (!value) {
       setValidate('This field is required to enter *')
     }
   }
 
-  const handleOnChange = e => {
+  const handleOnChange = (e) => {
     const { value } = e.target
 
     setState(value)
@@ -42,9 +42,9 @@ const RestPassword = () => {
   const checkValidated = () => {
     let err = ''
 
-      if (!state) {
-        err = 'This field is required to enter *'
-      }
+    if (!state) {
+      err = 'This field is required to enter *'
+    }
 
     setValidate(err)
 
@@ -55,24 +55,25 @@ const RestPassword = () => {
     return true
   }
 
-  const handleSubmitEmail = e => {
+  const handleSubmitEmail = (e) => {
     e.preventDefault()
     const isInputValida = checkValidated()
 
     if (isInputValida) {
       setIsLocalPath(false)
-      customAxiosApi.put(`${API_NAME.USERS}/${dataCheckCode.id}`, {password: state})
-      .then (() => {
-        history.replace(`/${login}`)
-      })
-      .catch(rej => {
-        setValidate(rej.message)
-      })
+      customAxiosApi
+        .put(`${API_NAME.USERS}/${dataCheckCode.id}`, { password: state })
+        .then(() => {
+          history.replace(`/${login}`)
+        })
+        .catch((rej) => {
+          setValidate(rej.message)
+        })
     }
   }
 
   return (
-    <div className = "login">
+    <div className="login">
       <div className="modal-login login__security-modal">
         <h1 className="modal-login__heading login__security-heading">
           Choose a new password
@@ -87,9 +88,13 @@ const RestPassword = () => {
           `}
         />
 
-
         <div className="box-form">
-          <form action="" onSubmit={handleSubmitEmail} style={{width: '100%'}} autoComplete="off">
+          <form
+            action=""
+            onSubmit={handleSubmitEmail}
+            style={{ width: '100%' }}
+            autoComplete="off"
+          >
             <div className="box-input-identify">
               <GroupInput
                 login
@@ -113,7 +118,7 @@ const RestPassword = () => {
 
       <Prompt
         when={isLocalPath}
-        message={location => (`Bạn có muốn đến ${location.pathname}`)}
+        message={(location) => `Bạn có muốn đến ${location.pathname}`}
       />
     </div>
   )

@@ -1,21 +1,15 @@
 import { STATUS_HANDLE } from '../../../../dataDefault'
 
 export const sectionData = (dataOrder, dataProductDetailOrder, dataCarts) => {
-
   const dataPending = []
   const dataDelivered = []
   const dataCanselled = []
-  // return [
-  //   dataPending,
-  //   dataDelivered,
-  //   dataCanselled
-  // ]
 
-  dataOrder.forEach(order => {
+  dataOrder.forEach((order) => {
     const products = []
-    const dataOrdersUser = dataCarts.find(item => item.id === order.cartID)
+    const dataOrdersUser = dataCarts.find((item) => item.id === order.cartID)
 
-    dataProductDetailOrder.forEach(item => {
+    dataProductDetailOrder.forEach((item) => {
       if (item.detailOrderID === order.detailOrderID) {
         products.push({
           id: item.id,
@@ -28,12 +22,7 @@ export const sectionData = (dataOrder, dataProductDetailOrder, dataCarts) => {
       }
     })
 
-    const {
-      detailorder,
-      peyment,
-      status,
-      trasport
-    } = order
+    const { detailorder, peyment, status, trasport } = order
 
     const { users } = dataOrdersUser
 
@@ -89,12 +78,7 @@ export const sectionData = (dataOrder, dataProductDetailOrder, dataCarts) => {
     if (dataCanselled.length === 1) {
       return dataCanselled
     }
-
   }
 
-  return [
-    dataPending,
-    dataDelivered,
-    dataCanselled
-  ]
+  return [dataPending, dataDelivered, dataCanselled]
 }

@@ -1,3 +1,3 @@
 export const resetScroll = () => {
-    window.scrollTo(0, 0)
+  window.scrollTo(0, 0)
 }

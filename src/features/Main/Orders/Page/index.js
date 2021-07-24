@@ -21,7 +21,7 @@ const Orders = ({ match }) => {
 
   useEffect(() => {
     if (!idLogin && !idLogin) {
-      history.replace("/")
+      history.replace('/')
     }
   }, [history, idLogin])
 
@@ -32,21 +32,27 @@ const Orders = ({ match }) => {
     dispatch(fetchCarts())
   }, [dispatch])
 
-  const dataOrder = useSelector(state => state.orders)
-  const dataProductDetailOrder = useSelector(state => state.productDetailOrder)
-  const dataCarts = useSelector(state => state.carts)
+  const dataOrder = useSelector((state) => state.orders)
+  const dataProductDetailOrder = useSelector(
+    (state) => state.productDetailOrder,
+  )
+  const dataCarts = useSelector((state) => state.carts)
 
   const [listDataPending, setListDataPending] = useState([])
   const [listDataDelivered, setListDataDelivered] = useState([])
   const [listDataCanselled, setListDataCanselled] = useState([])
 
   useEffect(() => {
-    if (dataOrder.loading === 'success' && dataCarts.loading === 'success' && dataProductDetailOrder.loading === 'success') {
-      const [
-        dataPending,
-        dataDelivered,
-        dataCanselled
-      ] = sectionData(dataOrder.list, dataProductDetailOrder.list, dataCarts.list)
+    if (
+      dataOrder.loading === 'success' &&
+      dataCarts.loading === 'success' &&
+      dataProductDetailOrder.loading === 'success'
+    ) {
+      const [dataPending, dataDelivered, dataCanselled] = sectionData(
+        dataOrder.list,
+        dataProductDetailOrder.list,
+        dataCarts.list,
+      )
 
       setListDataPending(dataPending)
       setListDataDelivered(dataDelivered)
@@ -59,10 +65,7 @@ const Orders = ({ match }) => {
     <div className="orders posi-relative">
       <div className="box-btn">
         <div className="box-btn--link">
-          <BtnCreatExport
-            icon="fas fa-arrow-alt-to-bottom"
-            title="Export"
-          />
+          <BtnCreatExport icon="fas fa-arrow-alt-to-bottom" title="Export" />
         </div>
       </div>
 
@@ -84,11 +87,11 @@ const Orders = ({ match }) => {
 }
 
 Orders.propTypes = {
-  match: PropTypes.object
+  match: PropTypes.object,
 }
 
 Orders.defaultProps = {
-  match: {}
+  match: {},
 }
 
 export default Orders

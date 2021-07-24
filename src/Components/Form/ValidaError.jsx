@@ -1,11 +1,7 @@
-import PropTypes from 'prop-types';
+import PropTypes from 'prop-types'
 
 export const ValidaError = ({ className, text }) => {
-  return (
-    <span className={className} >
-      { text }
-    </span>
-  )
+  return <span className={className}>{text}</span>
 }
 
 ValidaError.propTypes = {

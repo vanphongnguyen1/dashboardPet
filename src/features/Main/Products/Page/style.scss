@@ -1,7 +1,7 @@
-@import './CreateEdit/style.scss';
-@import './Form/style.scss';
-@import './menuProduct.scss';
-@import './showItemProduct.scss';
+@import "./CreateEdit/style.scss";
+@import "./Form/style.scss";
+@import "./menuProduct.scss";
+@import "./showItemProduct.scss";
 
 .product {
   .box-search-product {
@@ -26,10 +26,10 @@
         font-size: 1.7rem;
         color: #a0a1a9;
         cursor: pointer;
-        transition: all .3s ease-in-out;
+        transition: all 0.3s ease-in-out;
 
         &:hover {
-          color: #4F3CC9;
+          color: #4f3cc9;
         }
       }
     }

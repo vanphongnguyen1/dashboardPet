@@ -1,15 +1,14 @@
 import PropTypes from 'prop-types'
 import { myFormatNumber } from '../../../../../Components/access/logic/myFormatNumber'
 
-const ItemTotal = ({ name, value}) => {
+const ItemTotal = ({ name, value }) => {
   return (
     <div className="table__tr">
-      <p className="table__td--name">{ name }</p>
+      <p className="table__td--name">{name}</p>
       <p className="table__td--price">
-        { typeof value === 'number' && value.toString().length >= 3
-            ? myFormatNumber(value)
-            : value
-        }
+        {typeof value === 'number' && value.toString().length >= 3
+          ? myFormatNumber(value)
+          : value}
       </p>
     </div>
   )
@@ -17,15 +16,12 @@ const ItemTotal = ({ name, value}) => {
 
 ItemTotal.propTypes = {
   name: PropTypes.string,
-  value: PropTypes.oneOfType([
-    PropTypes.string,
-    PropTypes.number,
-  ])
+  value: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
 }
 
 ItemTotal.defaultProps = {
   name: '',
-  value: ''
+  value: '',
 }
 
 export default ItemTotal

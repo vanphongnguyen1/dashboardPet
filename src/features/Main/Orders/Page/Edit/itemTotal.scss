@@ -1,11 +1,10 @@
 .table {
   margin-bottom: 4rem;
 
-  &__item {}
   &__tr {
     display: flex;
     align-items: center;
-    border-bottom: 1px solid #E0E0E0;
+    border-bottom: 1px solid #e0e0e0;
   }
 
   &__td,
@@ -14,9 +13,9 @@
       width: calc(100% * 5 / 12);
     }
 
-    &--price ,
-    &--count ,
-    &--totalPrice  {
+    &--price,
+    &--count,
+    &--totalPrice {
       width: calc(100% * 2 / 12);
     }
     &--action {
@@ -25,9 +24,9 @@
     }
 
     &--name,
-    &--price ,
-    &--count ,
-    &--totalPrice ,
+    &--price,
+    &--count,
+    &--totalPrice,
     &--action {
       font-weight: 500;
       padding: 1.5rem 1rem;
@@ -36,14 +35,14 @@
 
   &__td {
     &--name,
-    &--price ,
-    &--count ,
+    &--price,
+    &--count,
     &--totalPrice {
       font-weight: 400;
     }
 
     &--action {
-      color: #F44336;
+      color: #f44336;
       cursor: pointer;
       transition: all 0.3s ease-in-out;
 

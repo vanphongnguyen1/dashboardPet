@@ -18,7 +18,7 @@
 }
 
 .icon-edit {
-  color: #1890FF;
+  color: #1890ff;
   font-size: 1.7rem;
   cursor: pointer;
   padding: 0 1.5rem;
@@ -28,17 +28,17 @@
   transition: all 0.3s ease-in-out;
 
   &:hover {
-    background-color: rgba(#1890FF, .05);
+    background-color: rgba(#1890ff, 0.05);
   }
 
   &:hover:active::after {
     @include background-action;
-    background-color: rgba(#1890FF, .2);
+    background-color: rgba(#1890ff, 0.2);
   }
 }
 
 .active-nav {
-  border-left: 3px solid #4F3CC9;
+  border-left: 3px solid #4f3cc9;
   background-color: rgba(0, 0, 0, 0.04);
 }
 
@@ -52,7 +52,7 @@
   z-index: 2;
   height: 100vh;
 
-  background-color: rgba(#000000, .1);
+  background-color: rgba(#000000, 0.1);
   transform: translateX(100%);
 
   opacity: 0;

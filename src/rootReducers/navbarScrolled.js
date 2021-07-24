@@ -4,11 +4,11 @@ export const navbarScrolled = createSlice({
   name: 'navbarScrolled',
   initialState: {
     max: 0,
-    status: false
+    status: false,
   },
 
   reducers: {
-    defaultState: state => {
+    defaultState: (state) => {
       state.max = 0
       state.status = false
     },

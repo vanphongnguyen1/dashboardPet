@@ -5,7 +5,7 @@ export const menuAnimation = createSlice({
   initialState: {
     isMenu: true,
 
-    menuLineageID: 0
+    menuLineageID: 0,
   },
 
   reducers: {

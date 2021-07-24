@@ -18,108 +18,102 @@ import Login from './features/Main/Login/Page'
 import LoginIdentify from './features/Main/Login/Page/LoginIdentify'
 import SecurityCode from './features/Main/Login/Page/SecurityCode'
 import RestPassword from './features/Main/Login/Page/RestPassword'
-
+import Page404 from './Components/Page404'
 import { NAME_URL_LOGIN, CREAT, EDIT, TITLE_MENU } from './dataDefault'
 
 export const routes = [
   {
     path: `/${NAME_URL_LOGIN.login}`,
     exact: true,
-    main: ({ match }) => <Login match={match}/>
+    main: ({ match }) => <Login match={match} />,
   },
   {
     path: `/${NAME_URL_LOGIN.login}/${NAME_URL_LOGIN.identify}`,
-    main: ({ match }) => <LoginIdentify match={match}/>
+    main: ({ match }) => <LoginIdentify match={match} />,
   },
   {
     path: `/${NAME_URL_LOGIN.login}/${NAME_URL_LOGIN.securityCode}`,
-    main: ({ match }) => <SecurityCode match={match}/>
+    main: ({ match }) => <SecurityCode match={match} />,
   },
   {
     path: `/${NAME_URL_LOGIN.login}/${NAME_URL_LOGIN.resetPassword}`,
-    main: ({ match }) => <RestPassword match={match}/>
+    main: ({ match }) => <RestPassword match={match} />,
   },
   {
     path: `/${TITLE_MENU.DASHBOARD}`,
     exact: true,
-    main: ({ match }) => <Dashboard match={match}/>
+    main: ({ match }) => <Dashboard match={match} />,
   },
   {
     path: `/${TITLE_MENU.USERS}`,
     exact: true,
-    main: ({ match }) => <Users match={match}/>
+    main: ({ match }) => <Users match={match} />,
   },
   {
     path: `/${TITLE_MENU.USERS}/${CREAT}`,
     exact: true,
-    main: ({ match }) => <CreactUser match={match}/>
+    main: ({ match }) => <CreactUser match={match} />,
   },
   {
     path: `/${TITLE_MENU.USERS}/:id/${EDIT}`,
     exact: true,
-    main: ({ match }) => <EditUser match={match}/>
+    main: ({ match }) => <EditUser match={match} />,
   },
   {
     path: `/${TITLE_MENU.ORDERS}`,
     exact: true,
-    main: ({ match }) => <Orders match={match}/>
+    main: ({ match }) => <Orders match={match} />,
   },
   {
     path: `/${TITLE_MENU.ORDERS}/:id/${EDIT}`,
     exact: true,
-    main: ({ match }) => <EditOrder match={match}/>
+    main: ({ match }) => <EditOrder match={match} />,
   },
   {
     path: `/${TITLE_MENU.ORDERMOTH}`,
     exact: true,
-    main: ({ match }) => <OrderMoth match={match}/>
+    main: ({ match }) => <OrderMoth match={match} />,
   },
   {
     path: `/${TITLE_MENU.COMMENTS}`,
     exact: true,
-    main: ({ match }) => <Comments match={match}/>
+    main: ({ match }) => <Comments match={match} />,
   },
   {
     path: `/${TITLE_MENU.PRODUCTS}`,
     exact: true,
-    main: ({ match }) => <Products match={match}/>
+    main: ({ match }) => <Products match={match} />,
   },
   {
     path: `/${TITLE_MENU.PRODUCTS}/${CREAT}`,
     exact: true,
-    main: ({ match }) => <CreateProduct match={match}/>
+    main: ({ match }) => <CreateProduct match={match} />,
   },
   {
     path: `/${TITLE_MENU.PRODUCTS}/:id/${EDIT}`,
     exact: true,
-    main: ({ match }) => <CreateProduct match={match}/>
+    main: ({ match }) => <CreateProduct match={match} />,
   },
 
   {
     path: `/${TITLE_MENU.SLIDE}`,
     exact: true,
-    main: ({ match }) => <Slider match={match}/>
+    main: ({ match }) => <Slider match={match} />,
   },
   {
     path: `/${TITLE_MENU.SLIDE}/${CREAT}`,
     exact: true,
-    main: ({ match }) => <EditCreat match={match}/>
+    main: ({ match }) => <EditCreat match={match} />,
   },
   {
     path: `/${TITLE_MENU.SLIDE}/:id/${EDIT}`,
     exact: true,
-    main: ({ match }) => <EditCreat match={match}/>
+    main: ({ match }) => <EditCreat match={match} />,
   },
 
-  // {
-  //   path: '/comments/edit',
-  //   exact: true,
-  //   main: ({ match }) => <EditOrder match={match}/>
-  // },
-  // {
-  //   path: '/:group/:url',
-  //   exact: true,
-  //   auth: true,
-  //   main: ({match}) => <RootInfoProduct match={match}/>
-  // },
+  {
+    path: '*',
+    exact: true,
+    main: ({ match }) => <Page404 match={match} />,
+  },
 ]

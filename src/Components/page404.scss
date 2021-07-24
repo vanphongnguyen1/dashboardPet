@@ -1,0 +1,57 @@
+.page-404 {
+  background-color: #f8f8f8;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 10000;
+
+  &__box {
+    width: 50rem;
+    margin: 10rem auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+    &--icon {
+      font-size: 15rem;
+      color: #777777;
+    }
+
+    &--title {
+      font-size: 8rem;
+      font-weight: 400;
+      color: #777777;
+      line-height: 10.6rem;
+    }
+
+    &--title-sub {
+      font-size: 2.8rem;
+      color: #ccc;
+    }
+
+    &--text {
+      font-size: 1.8rem;
+      color: #777777;
+      text-align: center;
+      margin: 1rem 0;
+    }
+
+    .btn--back-home {
+      border-radius: 2px;
+      width: 10rem;
+      padding: 0.5rem 1rem;
+      text-align: center;
+      background-color: #4c4cdf;
+      color: #f8f8f8;
+      font-weight: 500;
+      cursor: pointer;
+      transition: all 0.3s ease-in-out;
+
+      &:hover {
+        background-color: #7e7eff;
+      }
+    }
+  }
+}

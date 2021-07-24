@@ -11,7 +11,7 @@ const CreateProduct = ({ match }) => {
 
   useEffect(() => {
     if (!idLogin) {
-      history.replace("/")
+      history.replace('/')
     }
   }, [idLogin, history])
 
@@ -23,7 +23,7 @@ const CreateProduct = ({ match }) => {
 }
 
 CreateProduct.propTypes = {
-  match: PropTypes.object
+  match: PropTypes.object,
 }
 
 export default CreateProduct

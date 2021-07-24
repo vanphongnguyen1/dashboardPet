@@ -23,22 +23,22 @@ const EditOrderContent = () => {
   const history = useHistory()
   const { id } = useParams()
 
-  const dataStatus = useSelector(state => state.status)
-  const dataTrasport = useSelector(state => state.trasport)
-  const dataCarts = useSelector(state => state.carts)
+  const dataStatus = useSelector((state) => state.status)
+  const dataTrasport = useSelector((state) => state.trasport)
+  const dataCarts = useSelector((state) => state.carts)
 
   const initialValidate = {
     name: '',
     address: '',
-    phone: ''
+    phone: '',
   }
 
   const [validate, setValidate] = useState(initialValidate)
   const [dataEdit, setDataEdit] = useState({})
   const [isLocalPath, setIsLocalPath] = useState(false)
 
-  const findPriceTrasport = id => {
-    const newData = dataTrasport.list.find(item => item.id === id)
+  const findPriceTrasport = (id) => {
+    const newData = dataTrasport.list.find((item) => item.id === id)
     return newData.price
   }
 
@@ -49,13 +49,15 @@ const EditOrderContent = () => {
   useEffect(() => {
     dispatch(showLoading('sectionBar'))
     if (id && dataCarts.loading === 'success') {
-      dispatch(fetchOrder(id))
-      .then(data => {
+      dispatch(fetchOrder(id)).then((data) => {
         const { payload } = data
 
-        dispatch(fetchDetailOrder(payload.detailOrderID))
-        .then(res => {
-          const newDataEdit = sectionData([payload], res.payload, dataCarts.list)
+        dispatch(fetchDetailOrder(payload.detailOrderID)).then((res) => {
+          const newDataEdit = sectionData(
+            [payload],
+            res.payload,
+            dataCarts.list,
+          )
 
           setDataEdit(newDataEdit[0])
         })
@@ -67,18 +69,18 @@ const EditOrderContent = () => {
     }, 700)
   }, [dispatch, id, dataCarts])
 
-  const handleOnBlur = e => {
+  const handleOnBlur = (e) => {
     const { value, name } = e.target
 
-    if ( !value ) {
+    if (!value) {
       setValidate({
         ...validate,
-        [name]: 'Requite *'
+        [name]: 'Requite *',
       })
     }
   }
 
-  const handleOnChange = e => {
+  const handleOnChange = (e) => {
     const { name, value } = e.target
     setIsLocalPath(true)
 
@@ -87,17 +89,17 @@ const EditOrderContent = () => {
         ...dataEdit,
         trasportID: value,
         trasport: findPriceTrasport(Number(value)),
-        intoMeny: dataEdit.totalPrice + findPriceTrasport(Number(value))
+        intoMeny: dataEdit.totalPrice + findPriceTrasport(Number(value)),
       })
     } else {
       setDataEdit({
         ...dataEdit,
-        [name]: value
+        [name]: value,
       })
 
       setValidate({
         ...validate,
-        [name]: ''
+        [name]: '',
       })
     }
   }
@@ -107,19 +109,19 @@ const EditOrderContent = () => {
     let sumCount = 0
     setIsLocalPath(true)
 
-    const newdata = dataEdit.products.map(product => {
+    const newdata = dataEdit.products.map((product) => {
       if (product.id === id) {
         return {
           ...product,
           count: value,
-          totalPrice: product.price * value
+          totalPrice: product.price * value,
         }
       }
       return product
     })
 
     if (newdata.length > 0) {
-      newdata.forEach(product => {
+      newdata.forEach((product) => {
         sumPriceProduct += product.totalPrice
         sumCount += product.count
       })
@@ -130,18 +132,18 @@ const EditOrderContent = () => {
       products: newdata,
       totalCount: sumCount,
       totalPrice: sumPriceProduct,
-      intoMeny: dataEdit.trasport + sumPriceProduct
+      intoMeny: dataEdit.trasport + sumPriceProduct,
     })
   }
 
-  const handleDelProduct = id => {
+  const handleDelProduct = (id) => {
     let sumPriceProduct = 0
     let sumCount = 0
 
-    const newdata = dataEdit.products.filter(product => product.id !== id)
+    const newdata = dataEdit.products.filter((product) => product.id !== id)
 
     if (newdata.length > 0) {
-      newdata.forEach(product => {
+      newdata.forEach((product) => {
         sumPriceProduct += product.totalPrice
         sumCount += product.count
       })
@@ -152,7 +154,7 @@ const EditOrderContent = () => {
       products: newdata,
       totalCount: sumCount,
       totalPrice: sumPriceProduct,
-      intoMeny: dataEdit.trasport + sumPriceProduct
+      intoMeny: dataEdit.trasport + sumPriceProduct,
     })
   }
 
@@ -175,7 +177,7 @@ const EditOrderContent = () => {
 
   const handleSave = async () => {
     const isInputValida = checkValidated()
-    const cart = dataCarts.list.find(item => item.id === dataEdit.cartID)
+    const cart = dataCarts.list.find((item) => item.id === dataEdit.cartID)
 
     if (isInputValida) {
       if (isLocalPath) {
@@ -187,7 +189,7 @@ const EditOrderContent = () => {
       customAxiosApi.put(`${API_NAME.USERS}/${cart.usersID}`, {
         name: dataEdit.name,
         phone: dataEdit.phone,
-        address: dataEdit.address
+        address: dataEdit.address,
       })
 
       customAxiosApi.put(`${API_NAME.ORDERS}/${dataEdit.id}`, {
@@ -202,11 +204,14 @@ const EditOrderContent = () => {
         price: dataEdit.totalPrice,
       })
 
-      dataEdit.products.forEach(productDetailOrder => {
-        customAxiosApi.put(`${API_NAME.PRODUCTDETAILORDER}/${productDetailOrder.id}`, {
-          count: productDetailOrder.count,
-          price: productDetailOrder.totalPrice,
-        })
+      dataEdit.products.forEach((productDetailOrder) => {
+        customAxiosApi.put(
+          `${API_NAME.PRODUCTDETAILORDER}/${productDetailOrder.id}`,
+          {
+            count: productDetailOrder.count,
+            price: productDetailOrder.totalPrice,
+          },
+        )
       })
 
       openMessage('Update Success !')
@@ -225,10 +230,14 @@ const EditOrderContent = () => {
     dispatch(showLoading('sectionBar'))
 
     await customAxiosApi.delete(`${API_NAME.ORDERS}/${dataEdit.id}`)
-    await customAxiosApi.delete(`${API_NAME.DETAILORDER}/${dataEdit.detailOrderID}`)
+    await customAxiosApi.delete(
+      `${API_NAME.DETAILORDER}/${dataEdit.detailOrderID}`,
+    )
 
-    await dataEdit.products.forEach(async productDetailOrder => {
-      await customAxiosApi.delete(`${API_NAME.PRODUCTDETAILORDER}/${productDetailOrder.id}`)
+    await dataEdit.products.forEach(async (productDetailOrder) => {
+      await customAxiosApi.delete(
+        `${API_NAME.PRODUCTDETAILORDER}/${productDetailOrder.id}`,
+      )
     })
     await dispatch(hideLoading('sectionBar'))
     history.replace(`/${TITLE_MENU.ORDERS}`)
@@ -243,7 +252,7 @@ const EditOrderContent = () => {
           <div className="box-5">
             <div className="edit-order__box">
               <span className="edit-order__box--text">
-                Date: { date(dataEdit.updated) }
+                Date: {date(dataEdit.updated)}
               </span>
 
               <Selector
@@ -314,8 +323,7 @@ const EditOrderContent = () => {
                 <p className="table__th--action">Action</p>
               </div>
 
-              {
-                dataEdit.hasOwnProperty('products') &&
+              {dataEdit.hasOwnProperty('products') &&
                 dataEdit.products.map((product, index) => {
                   return (
                     <ItemProduct
@@ -324,12 +332,13 @@ const EditOrderContent = () => {
                       count={product.count}
                       price={product.price}
                       totalPrice={product.totalPrice}
-                      onChangeCount={value => onChangeCountProduct(value, product.id)}
+                      onChangeCount={(value) =>
+                        onChangeCountProduct(value, product.id)
+                      }
                       handleDelProduct={() => handleDelProduct(product.id)}
                     />
                   )
-                })
-              }
+                })}
             </div>
           </div>
         </div>
@@ -339,48 +348,27 @@ const EditOrderContent = () => {
 
           <div className="totals">
             <div className="table">
-              <ItemTotal
-                name="totalPrice"
-                value={dataEdit.totalPrice}
-              />
+              <ItemTotal name="totalPrice" value={dataEdit.totalPrice} />
 
-              <ItemTotal
-                name="totalCount"
-                value={dataEdit.totalCount}
-              />
+              <ItemTotal name="totalCount" value={dataEdit.totalCount} />
 
-              <ItemTotal
-                name="Trasport"
-                value={dataEdit.trasport}
-              />
+              <ItemTotal name="Trasport" value={dataEdit.trasport} />
 
-              <ItemTotal
-                name="Peyment"
-                value={dataEdit.peyment}
-              />
+              <ItemTotal name="Peyment" value={dataEdit.peyment} />
 
-              <ItemTotal
-                name="intoMeny"
-                value={dataEdit.intoMeny}
-              />
+              <ItemTotal name="intoMeny" value={dataEdit.intoMeny} />
             </div>
           </div>
         </div>
 
         <div className="box-submit">
           <div className="box-row justify-between">
-            <div
-              className="box-submit__save"
-              onClick={handleSave}
-            >
+            <div className="box-submit__save" onClick={handleSave}>
               <Save />
             </div>
 
-            <div
-              className="box-submit__delete"
-              onClick={hanleDeleteOrder}
-            >
-            <Delete/>
+            <div className="box-submit__delete" onClick={hanleDeleteOrder}>
+              <Delete />
             </div>
           </div>
         </div>
@@ -388,7 +376,7 @@ const EditOrderContent = () => {
 
       <Prompt
         when={isLocalPath}
-        message={location => (`Bạn có muốn đến ${location.pathname}`)}
+        message={(location) => `Bạn có muốn đến ${location.pathname}`}
       />
     </>
   )

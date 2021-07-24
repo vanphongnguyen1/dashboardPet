@@ -36,15 +36,14 @@
     padding: 1rem 2rem;
 
     .received-link {
-      color: #106EF4;
+      color: #106ef4;
       display: inline-block;
       cursor: pointer;
-      transition: all .3s ease;
+      transition: all 0.3s ease;
 
       &:hover {
         font-weight: 500;
         text-decoration: underline;
-
       }
     }
   }

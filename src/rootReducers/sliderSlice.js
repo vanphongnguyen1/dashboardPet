@@ -5,23 +5,21 @@ import { STATUS_FETCH, API_NAME } from '../dataDefault'
 export const fetchSliderAll = createAsyncThunk(
   'slider/fetchSliderAll',
   async () => {
-    return customAxiosApi.get(API_NAME.SLIDER)
-      .then(response => {
-        const { data } = response.data
-        return data
-      })
-  }
+    return customAxiosApi.get(API_NAME.SLIDER).then((response) => {
+      const { data } = response.data
+      return data
+    })
+  },
 )
 
 export const fetchSlider = createAsyncThunk(
   'slider/fetchSlider',
   async (id) => {
-    return customAxiosApi.get(`${API_NAME.SLIDER}/${id}`)
-      .then(response => {
-        const { data } = response
-        return data
-      })
-  }
+    return customAxiosApi.get(`${API_NAME.SLIDER}/${id}`).then((response) => {
+      const { data } = response
+      return data
+    })
+  },
 )
 
 export const sliderSlice = createSlice({
@@ -43,7 +41,7 @@ export const sliderSlice = createSlice({
 
     defaultLoading: (state, action) => {
       state.loading = 'idle'
-    }
+    },
   },
 
   extraReducers: {
@@ -64,15 +62,11 @@ export const sliderSlice = createSlice({
       // Add user to the state array
       state.loading = STATUS_FETCH.FAILED
     },
-  }
+  },
 })
 
 const { actions, reducer } = sliderSlice
 
-export const {
-  defaultLoading,
-  defaultState,
-  defaultListSlider
-} = actions
+export const { defaultLoading, defaultState, defaultListSlider } = actions
 
 export default reducer

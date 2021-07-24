@@ -15,12 +15,12 @@ const Comments = () => {
   const history = useHistory()
   const { TabPane } = Tabs
 
-  const dataComment = useSelector(state => state.comments)
+  const dataComment = useSelector((state) => state.comments)
   const idLogin = sessionStorage.getItem('id')
 
   useEffect(() => {
     if (!idLogin) {
-      history.replace("/")
+      history.replace('/')
     }
   }, [history, idLogin])
 
@@ -38,20 +38,15 @@ const Comments = () => {
     }
   }, [dispatch, dataComment.loading])
 
-  const [
-    dataPending,
-    dataAccepted,
-    dataRejected
-  ] = sectionData(dataComment.list)
+  const [dataPending, dataAccepted, dataRejected] = sectionData(
+    dataComment.list,
+  )
 
   return (
     <div className="posi-relative comments">
       <div className="box-btn">
         <div className="box-btn--link">
-          <BtnCreatExport
-            icon="fas fa-arrow-alt-to-bottom"
-            title="Export"
-          />
+          <BtnCreatExport icon="fas fa-arrow-alt-to-bottom" title="Export" />
         </div>
       </div>
 

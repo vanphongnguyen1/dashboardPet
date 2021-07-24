@@ -7,7 +7,7 @@ import PropTypes from 'prop-types'
 
 const BoxForm = ({ url }) => {
   const dispatch = useDispatch()
-  const isHideLoading = useSelector(state => state.groups.loading)
+  const isHideLoading = useSelector((state) => state.groups.loading)
 
   useEffect(() => {
     dispatch(showLoading('sectionBar'))
@@ -22,16 +22,16 @@ const BoxForm = ({ url }) => {
 
   return (
     <div className="from-product box-7">
-      <Form url={url} autoComplete="off"/>
+      <Form url={url} autoComplete="off" />
     </div>
   )
 }
 
 BoxForm.propTypes = {
-  url: PropTypes.string
+  url: PropTypes.string,
 }
 BoxForm.defaultProps = {
-  url: ''
+  url: '',
 }
 
 export default BoxForm

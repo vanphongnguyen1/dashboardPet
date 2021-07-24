@@ -3,27 +3,27 @@ import PropTypes from 'prop-types'
 
 const key = 'Success!'
 
-export const openMessage = text => {
-  message.loading({ content: 'Loading...', key });
+export const openMessage = (text) => {
+  message.loading({ content: 'Loading...', key })
   setTimeout(() => {
-    message.success({ content: text, key, duration: 2 });
-  }, 700);
+    message.success({ content: text, key, duration: 2 })
+  }, 700)
 }
 
-export const messageError = text => {
-  message.error(text);
+export const messageError = (text) => {
+  message.error(text)
 }
 
 openMessage.propTypes = {
-  text: PropTypes.string
+  text: PropTypes.string,
 }
 openMessage.defaultProps = {
-  text: ''
+  text: '',
 }
 
 messageError.propTypes = {
-  text: PropTypes.string
+  text: PropTypes.string,
 }
 messageError.defaultProps = {
-  text: ''
+  text: '',
 }

@@ -1,17 +1,13 @@
 import PropTypes from 'prop-types'
 import { STATUS_HANDLE } from '../../../../dataDefault'
 
-export const sectionData = dataComments => {
+export const sectionData = (dataComments) => {
   const dataPending = []
   const dataAccepted = []
   const dataRejected = []
 
-  dataComments.forEach(comment => {
-    const {
-      users,
-      products,
-      status_comments,
-    } = comment
+  dataComments.forEach((comment) => {
+    const { users, products, status_comments } = comment
 
     const newComment = {
       id: comment.id,
@@ -41,17 +37,13 @@ export const sectionData = dataComments => {
     }
   })
 
-  return [
-    dataPending,
-    dataAccepted,
-    dataRejected
-  ]
+  return [dataPending, dataAccepted, dataRejected]
 }
 
 sectionData.propTypes = {
-  dataComments: PropTypes.array
+  dataComments: PropTypes.array,
 }
 
 sectionData.defaultProps = {
-  dataComments: []
+  dataComments: [],
 }

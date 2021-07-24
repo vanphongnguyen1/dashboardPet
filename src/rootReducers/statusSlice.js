@@ -5,19 +5,18 @@ import { STATUS_FETCH, API_NAME } from '../dataDefault'
 export const fetchStatus = createAsyncThunk(
   'statusSlice/fetchStatus',
   async () => {
-    return customAxiosApi.get(API_NAME.STATUS)
-      .then(response => {
-        const { data } = response.data
-        return data
-      })
-  }
+    return customAxiosApi.get(API_NAME.STATUS).then((response) => {
+      const { data } = response.data
+      return data
+    })
+  },
 )
 
 export const statusSlice = createSlice({
   name: 'status',
   initialState: {
     list: [],
-    loading: 'idle'
+    loading: 'idle',
   },
 
   reducers: {
@@ -32,7 +31,7 @@ export const statusSlice = createSlice({
 
     defaultLoading: (state, action) => {
       state.loading = 'idle'
-    }
+    },
   },
 
   extraReducers: {
@@ -53,11 +52,11 @@ export const statusSlice = createSlice({
       // Add user to the state array
       state.loading = STATUS_FETCH.FAILED
     },
-  }
+  },
 })
 
 const { actions, reducer } = statusSlice
 
-export const { defaultLoading, defaultState, defaultListOrders  } = actions
+export const { defaultLoading, defaultState, defaultListOrders } = actions
 
 export default reducer

@@ -5,23 +5,21 @@ import { STATUS_FETCH, API_NAME } from '../dataDefault'
 export const fetchProducts = createAsyncThunk(
   'products/fetchProducts',
   async () => {
-    return customAxiosApi.get(API_NAME.PRODUCTS)
-      .then(response => {
-        const { data } = response.data
-        return data
-      })
-  }
+    return customAxiosApi.get(API_NAME.PRODUCTS).then((response) => {
+      const { data } = response.data
+      return data
+    })
+  },
 )
 
 export const fetchProduct = createAsyncThunk(
   'products/fetchProduct',
   async (id) => {
-    return customAxiosApi.get(`${API_NAME.PRODUCTS}/${id}`)
-      .then(response => {
-        const { data } = response.data
-        return data
-      })
-  }
+    return customAxiosApi.get(`${API_NAME.PRODUCTS}/${id}`).then((response) => {
+      const { data } = response.data
+      return data
+    })
+  },
 )
 
 export const productsSlice = createSlice({
@@ -43,7 +41,7 @@ export const productsSlice = createSlice({
 
     defaultLoading: (state, action) => {
       state.loading = 'idle'
-    }
+    },
   },
 
   extraReducers: {
@@ -64,15 +62,11 @@ export const productsSlice = createSlice({
       // Add user to the state array
       state.loading = STATUS_FETCH.FAILED
     },
-  }
+  },
 })
 
 const { actions, reducer } = productsSlice
 
-export const {
-  defaultLoading,
-  defaultState,
-  defaultListOrders
-} = actions
+export const { defaultLoading, defaultState, defaultListOrders } = actions
 
 export default reducer

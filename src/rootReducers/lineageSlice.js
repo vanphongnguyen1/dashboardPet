@@ -5,19 +5,20 @@ import { STATUS_FETCH, API_NAME } from '../dataDefault'
 export const fetchLineage = createAsyncThunk(
   'lineageSlice/fetchLineage',
   async (id = '') => {
-    return customAxiosApi.get(`${API_NAME.LINEAGE}${id ? `?groupID=${id || 1}` : ''}`)
-      .then(response => {
+    return customAxiosApi
+      .get(`${API_NAME.LINEAGE}${id ? `?groupID=${id || 1}` : ''}`)
+      .then((response) => {
         const { data } = response.data
         return data
       })
-  }
+  },
 )
 
 export const lineageSlice = createSlice({
   name: 'status',
   initialState: {
     list: [],
-    loading: 'idle'
+    loading: 'idle',
   },
 
   reducers: {
@@ -32,7 +33,7 @@ export const lineageSlice = createSlice({
 
     defaultLoading: (state, action) => {
       state.loading = 'idle'
-    }
+    },
   },
 
   extraReducers: {
@@ -53,11 +54,11 @@ export const lineageSlice = createSlice({
       // Add user to the state array
       state.loading = STATUS_FETCH.FAILED
     },
-  }
+  },
 })
 
 const { actions, reducer } = lineageSlice
 
-export const { defaultLoading, defaultState, defaultListLineage  } = actions
+export const { defaultLoading, defaultState, defaultListLineage } = actions
 
 export default reducer

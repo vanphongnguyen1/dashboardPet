@@ -7,12 +7,10 @@ import { date } from '../../../../Components/myMonment'
 import {
   fetchComments,
   setDataComment,
-  defaultDataComment
+  defaultDataComment,
 } from '../../../../rootReducers/commentSlice'
 
-import {
-  useGetColumnSearchProps
-} from '../../../../Components/access/logic/searchColumn'
+import { useGetColumnSearchProps } from '../../../../Components/access/logic/searchColumn'
 
 import { useDispatch, useSelector } from 'react-redux'
 import { customAxiosApi } from '../../../../customAxiosApi'
@@ -25,7 +23,7 @@ import { openMessage } from '../../../../Components/openMessage'
 const TableContentTab = ({ data }) => {
   const dispatch = useDispatch()
   const [selectedRowKeys, setSelectedRowKeys] = useState([])
-  const isEdit = useSelector(state => state.comments.dataEdit.isEdit)
+  const isEdit = useSelector((state) => state.comments.dataEdit.isEdit)
 
   const onSelectChange = (index, item) => {
     setSelectedRowKeys(item)
@@ -41,55 +39,44 @@ const TableContentTab = ({ data }) => {
       dataIndex: 'updated',
       width: 100,
       sorter: {
-        compare: (a, b) => moment(a.updated).format('x') - moment(b.updated).format('x'),
+        compare: (a, b) =>
+          moment(a.updated).format('x') - moment(b.updated).format('x'),
       },
-      render: text => (
-        <div className="antd-link">
-          { date(text) }
-        </div>
-      )
+      render: (text) => <div className="antd-link">{date(text)}</div>,
     },
     {
       title: 'userName',
       dataIndex: 'userName',
       width: 170,
       ...useGetColumnSearchProps('userName'),
-      render: text => (
-        <div className="antd-link">
-          { text }
-        </div>
-      )
+      render: (text) => <div className="antd-link">{text}</div>,
     },
     {
       title: 'Products',
       dataIndex: 'nameProduct',
       width: '25%',
       ...useGetColumnSearchProps('nameProduct'),
-      render: text => (
+      render: (text) => (
         <div className="antd-link one-line" title={text}>
-          { text }
+          {text}
         </div>
-      )
+      ),
     },
     {
       title: 'Comment',
       dataIndex: 'title',
       width: '25%',
-      render: text => (
+      render: (text) => (
         <div className="antd-link one-line" title={text}>
-          { text }
+          {text}
         </div>
-      )
+      ),
     },
     {
       title: 'status',
       dataIndex: 'statusComments',
       width: 100,
-      render: text => (
-        <div className="antd-link">
-          { text }
-        </div>
-      )
+      render: (text) => <div className="antd-link">{text}</div>,
     },
     {
       title: 'Action',
@@ -100,12 +87,12 @@ const TableContentTab = ({ data }) => {
           <Button
             type="primary"
             danger
-            onClick={e => handleDelete(e, record.id)}
+            onClick={(e) => handleDelete(e, record.id)}
           >
             Delete
           </Button>
         </div>
-      )
+      ),
     },
   ]
 
@@ -137,10 +124,7 @@ const TableContentTab = ({ data }) => {
   return (
     <>
       <div className="table-pendding">
-        <BoxItemDele
-          items={selectedRowKeys}
-          onClick={handleDeleteSelect}
-        />
+        <BoxItemDele items={selectedRowKeys} onClick={handleDeleteSelect} />
 
         <Table
           rowKey="id"
@@ -148,11 +132,11 @@ const TableContentTab = ({ data }) => {
           columns={columns}
           dataSource={data}
           pagination={data.length > 10}
-          onRow={record => {
+          onRow={(record) => {
             return {
               onClick: () => {
                 dispatch(setDataComment(record))
-              }
+              },
             }
           }}
         />

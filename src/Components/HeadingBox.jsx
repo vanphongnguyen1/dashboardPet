@@ -1,27 +1,23 @@
 import PropTypes from 'prop-types'
 
 export const HeadingBox = ({ title }) => {
-  return (
-    <p className="heading">{title}</p>
-  )
+  return <p className="heading">{title}</p>
 }
 
 export const SubHeading = ({ title }) => {
-  return (
-    <p className="sub-heading">{title}</p>
-  )
+  return <p className="sub-heading">{title}</p>
 }
 
 HeadingBox.propTypes = {
-  title: PropTypes.string
+  title: PropTypes.string,
 }
 HeadingBox.defaultProps = {
-  title: ''
+  title: '',
 }
 
 SubHeading.propTypes = {
-  title: PropTypes.string
+  title: PropTypes.string,
 }
 SubHeading.defaultProps = {
-  title: ''
+  title: '',
 }

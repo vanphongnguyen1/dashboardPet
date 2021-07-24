@@ -1,9 +1,8 @@
-@import './Form/style.scss';
+@import "./Form/style.scss";
 
 .slider {
   &__image {
     height: 12rem;
-    // width: 100%;
     object-fit: cover;
     object-position: center;
   }

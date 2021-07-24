@@ -18,16 +18,18 @@ const Users = ({ match }) => {
   const history = useHistory()
 
   const [selectedRowKeys, setSelectedRowKeys] = useState([])
-  const dataUsers = useSelector(state => state.users)
-  const dataToken = useSelector(state => state.login.token)
-  const dataCarts = useSelector(state => state.carts.list)
-  const dataProductDetailOrder = useSelector(state => state.productDetailOrder.list)
-  const dataProductInCart = useSelector(state => state.productInCart.list)
+  const dataUsers = useSelector((state) => state.users)
+  const dataToken = useSelector((state) => state.login.token)
+  const dataCarts = useSelector((state) => state.carts.list)
+  const dataProductDetailOrder = useSelector(
+    (state) => state.productDetailOrder.list,
+  )
+  const dataProductInCart = useSelector((state) => state.productInCart.list)
   const idLogin = sessionStorage.getItem('id')
 
   useEffect(() => {
     if (!dataToken && !idLogin) {
-      history.replace("/")
+      history.replace('/')
     }
   }, [dataToken, history, idLogin])
 
@@ -40,7 +42,6 @@ const Users = ({ match }) => {
     setTimeout(() => {
       if (dataUsers.loading === 'success') {
         dispatch(hideLoading('sectionBar'))
-
       }
     }, 500)
   }, [dataUsers.loading, dispatch])
@@ -59,103 +60,84 @@ const Users = ({ match }) => {
       dataIndex: 'name',
       width: '12%',
       ...useGetColumnSearchProps('name'),
-      render: text => (
-        <p className="antd-link">
-          { text }
-        </p>
-      )
+      render: (text) => <p className="antd-link">{text}</p>,
     },
     {
       title: 'Email',
       dataIndex: 'email',
       width: '20%',
-      render: text => (
-        <p className="antd-link">
-          { text }
-        </p>
-      )
+      render: (text) => <p className="antd-link">{text}</p>,
     },
     {
       title: 'Phone',
       dataIndex: 'phone',
       width: '12%',
       ...useGetColumnSearchProps('phone'),
-      render: text => (
-        <p className="antd-link">
-          { text }
-        </p>
-      )
+      render: (text) => <p className="antd-link">{text}</p>,
     },
     {
       title: 'Address',
       dataIndex: 'address',
       width: '30%',
       ...useGetColumnSearchProps('address'),
-      render: text => (
-        <p className="antd-link">
-          { text }
-        </p>
-      )
+      render: (text) => <p className="antd-link">{text}</p>,
     },
     {
       title: 'Gender',
       dataIndex: 'genderID',
       width: '5%',
-      render: text => (
-        <p className="antd-link">
-          { text }
-        </p>
-      )
+      render: (text) => <p className="antd-link">{text}</p>,
     },
     {
       title: 'Role',
       dataIndex: 'role',
       width: '5%',
-      render: text => (
-        <p className="antd-link">
-          { text }
-        </p>
-      )
+      render: (text) => <p className="antd-link">{text}</p>,
     },
     {
       title: 'Action',
       dataIndex: 'action',
       width: '15%',
       render: (text, record) => (
-        <div
-          className="antd-link"
-        >
+        <div className="antd-link">
           <Link to={`/${url}/${record.id}/${EDIT.toLowerCase()}`}>
             <Button type="primary">Edit</Button>
-          </Link>&nbsp;
-
+          </Link>
+          &nbsp;
           <Button
             type="primary"
             danger
-            onClick={e => handleDelete(e, record.id)}
+            onClick={(e) => handleDelete(e, record.id)}
           >
             Delete
           </Button>
         </div>
-      )
+      ),
     },
   ]
 
   const handleDelete = async (e = null, id) => {
     dispatch(showLoading('sectionBar'))
 
-    const cart = dataCarts.find(item => item.usersID === id)
-    const newDataCart = dataProductInCart.filter(item => item.cartID === cart.id)
+    const cart = dataCarts.find((item) => item.usersID === id)
+    const newDataCart = dataProductInCart.filter(
+      (item) => item.cartID === cart.id,
+    )
     const { orders } = cart
 
     if (orders.length) {
       for (let order of orders) {
-        const findData = dataProductDetailOrder.find(item => item.detailOrderID === order.detailOrderID)
+        const findData = dataProductDetailOrder.find(
+          (item) => item.detailOrderID === order.detailOrderID,
+        )
 
-        await customAxiosApi.delete(`${API_NAME.PRODUCTDETAILORDER}/${findData.id}`)
-        .then((res) => {
-          customAxiosApi.delete(`${API_NAME.DETAILORDER}/${findData.detailOrderID}`)
-        })
+        await customAxiosApi
+          .delete(`${API_NAME.PRODUCTDETAILORDER}/${findData.id}`)
+          .then((res) => {
+            customAxiosApi.delete(
+              `${API_NAME.DETAILORDER}/${findData.detailOrderID}`,
+            )
+          })
         await customAxiosApi.delete(`${API_NAME.ORDERS}/${order.id}`)
       }
     }
@@ -166,17 +148,17 @@ const Users = ({ match }) => {
       }
     }
 
-    await customAxiosApi.delete(`${API_NAME.CARTS}/${cart.id}`)
-    .then(() => {
-      customAxiosApi.delete(`${API_NAME.USERS}/${id}`)
-      .then((res) => {
-        dispatch(fetchUsers())
-        openMessage('Delete Success!')
+    await customAxiosApi
+      .delete(`${API_NAME.CARTS}/${cart.id}`)
+      .then(() => {
+        customAxiosApi.delete(`${API_NAME.USERS}/${id}`).then((res) => {
+          dispatch(fetchUsers())
+          openMessage('Delete Success!')
+        })
       })
-    })
-    .catch(reject => {
-      messageError(reject.message)
-    })
+      .catch((reject) => {
+        messageError(reject.message)
+      })
 
     await dispatch(hideLoading('sectionBar'))
   }
@@ -185,7 +167,7 @@ const Users = ({ match }) => {
     dispatch(showLoading('sectionBar'))
 
     for (let item of selectedRowKeys) {
-      await handleDelete( null, item.id)
+      await handleDelete(null, item.id)
     }
 
     openMessage('Delete Success!')
@@ -198,25 +180,16 @@ const Users = ({ match }) => {
     <>
       <div className="users posi-relative">
         <div className="box-btn">
-          <Link
-            to={`/${url}/${CREAT.toLowerCase()}`}
-            className="box-btn--link"
-          >
-            <BtnCreatExport icon="fas fa-plus" title="Create"/>
+          <Link to={`/${url}/${CREAT.toLowerCase()}`} className="box-btn--link">
+            <BtnCreatExport icon="fas fa-plus" title="Create" />
           </Link>
 
           <div className="box-btn--link">
-            <BtnCreatExport
-              icon="fas fa-arrow-alt-to-bottom"
-              title="Export"
-            />
+            <BtnCreatExport icon="fas fa-arrow-alt-to-bottom" title="Export" />
           </div>
         </div>
 
-        <BoxItemDele
-          items={selectedRowKeys}
-          onClick={handleDeleteSelect}
-        />
+        <BoxItemDele items={selectedRowKeys} onClick={handleDeleteSelect} />
 
         <Table
           rowKey="id"
@@ -231,11 +204,11 @@ const Users = ({ match }) => {
 }
 
 Users.propTypes = {
-  url: PropTypes.string
+  url: PropTypes.string,
 }
 
 Users.defaultProps = {
-  url: ''
+  url: '',
 }
 
 export default Users

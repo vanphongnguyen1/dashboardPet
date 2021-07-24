@@ -19,7 +19,7 @@ const OrderMoth = ({ match }) => {
 
   useEffect(() => {
     if (!idLogin && !idLogin) {
-      history.replace("/")
+      history.replace('/')
     }
   }, [history, idLogin])
 
@@ -30,23 +30,28 @@ const OrderMoth = ({ match }) => {
     dispatch(fetchCarts())
   }, [dispatch])
 
-  const dataOrder = useSelector(state => state.orders)
-  const dataProductDetailOrder = useSelector(state => state.productDetailOrder)
-  const dataCarts = useSelector(state => state.carts)
+  const dataOrder = useSelector((state) => state.orders)
+  const dataProductDetailOrder = useSelector(
+    (state) => state.productDetailOrder,
+  )
+  const dataCarts = useSelector((state) => state.carts)
   const [listDataDelivered, setListDataDelivered] = useState([])
-
 
   useEffect(() => {
     const moth = moment().format('MM')
-    if (dataOrder.loading === 'success' && dataCarts.loading === 'success' && dataProductDetailOrder.loading === 'success') {
-      const [
-        ,
-        dataDelivered,
-
-      ] = sectionData(dataOrder.list, dataProductDetailOrder.list, dataCarts.list)
+    if (
+      dataOrder.loading === 'success' &&
+      dataCarts.loading === 'success' &&
+      dataProductDetailOrder.loading === 'success'
+    ) {
+      const [, dataDelivered] = sectionData(
+        dataOrder.list,
+        dataProductDetailOrder.list,
+        dataCarts.list,
+      )
       const newData = []
 
-      dataDelivered.forEach(item => {
+      dataDelivered.forEach((item) => {
         const dayOrder = moment(item.updated_at).format('MM')
 
         if (moth === dayOrder && item.status === 'delivered') {
@@ -63,18 +68,17 @@ const OrderMoth = ({ match }) => {
 
   return (
     <div className="orders posi-relative">
-
       <TableContentTab data={listDataDelivered} url={url} />
     </div>
   )
 }
 
 OrderMoth.propTypes = {
-  match: PropTypes.object
+  match: PropTypes.object,
 }
 
 OrderMoth.defaultProps = {
-  match: {}
+  match: {},
 }
 
 export default OrderMoth

@@ -10,38 +10,34 @@ const ShowComments = ({ data }) => {
     <>
       <div className="show-comments">
         <ul className="show-comments__list">
-          {
-            dataShow.map(item => {
-              return (
-                <ItemComment
-                  key={item.id}
-                  name={item.users.name}
-                  comment={item.title}
-                  avarta={item.users.avarta}
-                  item={item}
-                />
-              )
-            })
-          }
+          {dataShow.map((item) => {
+            return (
+              <ItemComment
+                key={item.id}
+                name={item.users.name}
+                comment={item.title}
+                avarta={item.users.avarta}
+                item={item}
+              />
+            )
+          })}
         </ul>
-        {
-          newData.length > 15 && (
-            <Link className="show-comments__all" to={TITLE_MENU.COMMENTS}>
-              Show All
-            </Link>
-          )
-        }
+        {newData.length > 15 && (
+          <Link className="show-comments__all" to={TITLE_MENU.COMMENTS}>
+            Show All
+          </Link>
+        )}
       </div>
     </>
   )
 }
 
 ShowComments.propTypes = {
-  data: PropTypes.array
+  data: PropTypes.array,
 }
 
 ShowComments.defaultProps = {
-  data: []
+  data: [],
 }
 
 export default ShowComments

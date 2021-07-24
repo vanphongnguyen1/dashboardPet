@@ -9,7 +9,7 @@ const EditCreat = ({ match }) => {
 
   useEffect(() => {
     if (!idLogin) {
-      history.replace("/")
+      history.replace('/')
     }
   }, [idLogin, history])
 

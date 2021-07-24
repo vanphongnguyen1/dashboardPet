@@ -1,15 +1,8 @@
 import PropTypes from 'prop-types'
 import { Lable } from './Lable'
 
-const InputRadio = props => {
-  const {
-    name,
-    id,
-    onChange,
-    checked,
-    value,
-    lable
-  } = props
+const InputRadio = (props) => {
+  const { name, id, onChange, checked, value, lable } = props
 
   return (
     <div className="box-radio">
@@ -23,11 +16,7 @@ const InputRadio = props => {
         checked={checked}
       />
 
-      <Lable
-        htmlFor={id}
-        text={lable}
-        className="group__radio--title"
-      />
+      <Lable htmlFor={id} text={lable} className="group__radio--title" />
     </div>
   )
 }
@@ -40,10 +29,7 @@ InputRadio.propTypes = {
   onChange: PropTypes.func,
   checked: PropTypes.bool,
 
-  value: PropTypes.oneOfType([
-    PropTypes.string,
-    PropTypes.number
-  ])
+  value: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
 }
 
 InputRadio.defaultProps = {
@@ -52,7 +38,7 @@ InputRadio.defaultProps = {
   lable: '',
   onChange: () => {},
   checked: false,
-  value: ''
+  value: '',
 }
 
 export default InputRadio

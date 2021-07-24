@@ -1,11 +1,13 @@
 import { Delete } from './Btn'
 import PropTypes from 'prop-types'
 
-const BoxItemDele = props => {
+const BoxItemDele = (props) => {
   const { items, onClick } = props
 
   return (
-    <div className={items.length>0 ? 'box-delete translateY-ux' : 'box-delete'}>
+    <div
+      className={items.length > 0 ? 'box-delete translateY-ux' : 'box-delete'}
+    >
       <div className="box-delete__title">
         <span className="box-delete__title--text">
           {items.length} Items selected

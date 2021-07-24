@@ -6,7 +6,7 @@
   margin: 0.3rem;
   overflow: hidden;
 
-  &__image{
+  &__image {
     width: 11rem;
     height: 12rem;
     object-fit: cover;
@@ -26,14 +26,14 @@
     left: 0;
     bottom: 0;
     right: 0;
-    background-color: rgba(#000000, .3);
+    background-color: rgba(#000000, 0.3);
 
     justify-content: center;
     align-items: center;
     display: flex;
 
     transform: translateY(60%);
-    transition: all .3s ease-in-out;
+    transition: all 0.3s ease-in-out;
     opacity: 0;
     visibility: hidden;
 
@@ -49,13 +49,13 @@
 
     &--eye {
       &:hover {
-        color: #4F3CC9;
+        color: #4f3cc9;
       }
     }
 
     &--delete {
       &:hover {
-        color: #F44336;
+        color: #f44336;
       }
     }
   }

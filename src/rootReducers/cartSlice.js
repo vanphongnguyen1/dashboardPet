@@ -2,16 +2,12 @@ import { createSlice, createAsyncThunk } from '@reduxjs/toolkit'
 import { customAxiosApi } from '../customAxiosApi'
 import { STATUS_FETCH, API_NAME } from '../dataDefault'
 
-export const fetchCarts = createAsyncThunk(
-  'cart/fetchCarts',
-  async () => {
-    return customAxiosApi.get(API_NAME.CARTS)
-      .then(response => {
-        const { data } = response.data
-        return data
-      })
-  }
-)
+export const fetchCarts = createAsyncThunk('cart/fetchCarts', async () => {
+  return customAxiosApi.get(API_NAME.CARTS).then((response) => {
+    const { data } = response.data
+    return data
+  })
+})
 
 export const cartSlice = createSlice({
   name: 'cart',
@@ -38,16 +34,9 @@ export const cartSlice = createSlice({
       // Add user to the state array
       state.loading = STATUS_FETCH.FAILED
     },
-  }
+  },
 })
 
 const { reducer } = cartSlice
-
-// export const {
-//   setDataComment,
-//   defaultState,
-//   defaultListComments,
-//   defaultDataComment
-// } = actions
 
 export default reducer

@@ -5,19 +5,18 @@ import { STATUS_FETCH, API_NAME } from '../dataDefault'
 export const fetchProductInCart = createAsyncThunk(
   'productDetailOrder/fetchProductInCart',
   async () => {
-    return customAxiosApi.get(API_NAME.PRODUCTINCART)
-      .then(response => {
-        const { data } = response.data
-        return data
-      })
-  }
+    return customAxiosApi.get(API_NAME.PRODUCTINCART).then((response) => {
+      const { data } = response.data
+      return data
+    })
+  },
 )
 
 export const productInCartSlice = createSlice({
   name: 'productInCartSlice',
   initialState: {
     list: [],
-    loading: 'idle'
+    loading: 'idle',
   },
 
   reducers: {
@@ -32,7 +31,7 @@ export const productInCartSlice = createSlice({
 
     defaultLoading: (state, action) => {
       state.loading = 'idle'
-    }
+    },
   },
 
   extraReducers: {
@@ -53,11 +52,11 @@ export const productInCartSlice = createSlice({
       // Add user to the state array
       state.loading = STATUS_FETCH.FAILED
     },
-  }
+  },
 })
 
 const { actions, reducer } = productInCartSlice
 
-export const { defaultLoading, defaultState, defaultList  } = actions
+export const { defaultLoading, defaultState, defaultList } = actions
 
 export default reducer
